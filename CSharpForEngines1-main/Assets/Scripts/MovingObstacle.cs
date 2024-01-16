@@ -22,6 +22,7 @@ public class MovingObstacle : MonoBehaviour
     void Update()
     {
         transform.position = Vector2.MoveTowards(transform.position, target.position, m_moveSpeed * Time.deltaTime);
+        
     }
  
   void ChangeTarget()
