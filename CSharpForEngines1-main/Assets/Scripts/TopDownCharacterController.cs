@@ -23,6 +23,10 @@ public class TopDownCharacterController : MonoBehaviour
     #endregion
 
 
+    [SerializeField] GameObject m_bulletPrefab;
+    [SerializeField] Transform m_firePoint;
+    [SerializeField] float m_projectileSpeed;
+
     /// <summary>
     /// When the script first initialises this gets called, use this for grabbing componenets
     /// </summary>
@@ -84,7 +88,27 @@ public class TopDownCharacterController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             //Shoot (well debug for now)
-            Debug.Log($"Shoot! {Time.time}", gameObject);
+            //Debug.Log($"Shoot! {Time.time}", gameObject);
+            Fire();
         }
     }
+
+  
+ 
+    void Fire()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0f;
+
+        Vector2 Direction = mousePos - transform.position;
+
+        GameObject bulletToSpawn = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity);
+
+        if (bulletToSpawn.GetComponent<Rigidbody2D>() != null)
+        {
+            bulletToSpawn.GetComponent<Rigidbody2D>().AddForce(Direction.normalized * m_projectileSpeed, ForceMode2D.Impulse);
+        }
+       
+    }
+
 }
