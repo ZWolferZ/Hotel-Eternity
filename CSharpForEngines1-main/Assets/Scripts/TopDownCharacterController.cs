@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TopDownCharacterController : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class TopDownCharacterController : MonoBehaviour
     [SerializeField] private float playerMaxSpeed = 100f;
     #endregion
 
+   
 
     [SerializeField] GameObject m_bulletPrefab;
     [SerializeField] Transform m_firePoint;
@@ -58,6 +60,7 @@ public class TopDownCharacterController : MonoBehaviour
     /// <summary>
     /// When the update loop is called, it runs every frame, ca run more or less frequently depending on performance. Used to catch changes in variables or input.
     /// </summary>
+    bool Left = false;
     private void Update()
     {
         // read input from WASD keys
@@ -69,21 +72,42 @@ public class TopDownCharacterController : MonoBehaviour
         {
             animator.SetFloat("Horizontal", playerDirection.x);
             animator.SetFloat("Vertical", playerDirection.y);
-            animator.SetFloat("Speed", playerDirection.magnitude);
+            animator.SetBool("IsWalking", true);
 
             //And set the speed to 1, so they move!
+            
             playerSpeed = 1f;
+            
         }
         else
         {
             //Was the input just cancelled (released)? If so, set
             //speed to 0
+            
             playerSpeed = 0f;
-
-            //Update the animator too, and return
-            animator.SetFloat("Speed", 0);
+            
+            
+            animator.SetBool("IsWalking", false);
         }
 
+
+
+        if (playerDirection.x < -0.01f)
+        {
+            Left = true;
+            ScaleX(-1);
+        }
+        else if (playerDirection.x > 0.01f)
+        {
+            Left = false;
+            ScaleX(1);
+        }
+
+        
+        if (animator.GetBool("IsWalking") == false)
+        {
+            ScaleX(Left ? -1 : 1);
+        }
         // Was the fire button pressed (mapped to Left mouse button or gamepad trigger)
         if (Input.GetButtonDown("Fire1"))
         {
@@ -93,8 +117,17 @@ public class TopDownCharacterController : MonoBehaviour
         }
     }
 
-  
- 
+    void ScaleX(float X)
+    {
+        // Get the current scale of the GameObject
+        Vector3 currentScale = transform.localScale;
+
+        // Set the new scale for the X-axis within the specified range
+        
+
+        // Update the scale of the GameObject
+        transform.localScale = new Vector3(X, currentScale.y, currentScale.z);
+    }
     void Fire()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
