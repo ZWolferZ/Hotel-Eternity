@@ -106,6 +106,32 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -845,7 +871,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationSheet_Character_35
+      name: Death 1
       rect:
         serializedVersion: 2
         x: 32
@@ -866,7 +892,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationSheet_Character_36
+      name: Death 2
       rect:
         serializedVersion: 2
         x: 64
@@ -887,7 +913,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationSheet_Character_37
+      name: Death 3
       rect:
         serializedVersion: 2
         x: 96
@@ -908,7 +934,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationSheet_Character_38
+      name: Death 4
       rect:
         serializedVersion: 2
         x: 128
@@ -929,7 +955,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationSheet_Character_39
+      name: Death 5
       rect:
         serializedVersion: 2
         x: 160
@@ -950,7 +976,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationSheet_Character_40
+      name: Death 6
       rect:
         serializedVersion: 2
         x: 192
@@ -971,7 +997,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AnimationSheet_Character_41
+      name: Death 7
       rect:
         serializedVersion: 2
         x: 224
@@ -1190,14 +1216,7 @@ TextureImporter:
       AnimationSheet_Character_32: 863988498
       AnimationSheet_Character_33: -1113119542
       AnimationSheet_Character_34: 39177223
-      AnimationSheet_Character_35: 407362869
-      AnimationSheet_Character_36: -1268183340
-      AnimationSheet_Character_37: 1435064397
-      AnimationSheet_Character_38: -1105333434
-      AnimationSheet_Character_39: -1168792241
       AnimationSheet_Character_4: 899604566
-      AnimationSheet_Character_40: -1105056592
-      AnimationSheet_Character_41: -101955987
       AnimationSheet_Character_42: -1610109383
       AnimationSheet_Character_43: 1129998713
       AnimationSheet_Character_44: -2013621199
@@ -1209,6 +1228,13 @@ TextureImporter:
       AnimationSheet_Character_5: 1562216980
       AnimationSheet_Character_6: -2046487882
       AnimationSheet_Character_7: -1268904608
+      Death 1: 407362869
+      Death 2: -1268183340
+      Death 3: 1435064397
+      Death 4: -1105333434
+      Death 5: -1168792241
+      Death 6: -1105056592
+      Death 7: -101955987
       Idle 0: 861460877
       Idle 1: 39268186
       Idle 2: -1893285916

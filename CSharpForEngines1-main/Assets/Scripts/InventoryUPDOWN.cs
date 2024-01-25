@@ -7,7 +7,7 @@ public class InventoryUPDOWN : MonoBehaviour
 {
 
     
-    private float transitionSpeed = 5f;
+    private float transitionSpeed = 10f;
     private bool isMoving = false;
     RectTransform rectTransform;
 
@@ -24,6 +24,7 @@ public class InventoryUPDOWN : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && isMoving == false)
         {
+
             StartCoroutine(MoveInventory(200));
 
         }
@@ -37,16 +38,16 @@ public class InventoryUPDOWN : MonoBehaviour
     void ClampPosition()
     {
         Vector3 currentPosition = rectTransform.anchoredPosition;
-        currentPosition.y = Mathf.Clamp(currentPosition.y, -200, 0);
+        currentPosition.y = Mathf.Clamp(currentPosition.y, 200, 300);
 
         rectTransform.anchoredPosition = currentPosition;
     }
     // I hate coroutines
-    IEnumerator MoveInventory(float yOffset)
+    IEnumerator MoveInventory(float Y)
     {
         isMoving = true;
         Vector3 startPos = transform.position;
-        Vector3 targetPos = new Vector3(startPos.x, startPos.y + yOffset, startPos.z);
+        Vector3 targetPos = new Vector3(startPos.x, startPos.y + Y, startPos.z);
         float elapsedTime = 0f;
        
 

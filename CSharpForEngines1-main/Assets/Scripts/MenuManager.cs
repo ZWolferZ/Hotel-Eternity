@@ -27,8 +27,18 @@ public class MenuManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void LoadLevel1()
+    public void LoadStartingLevel()
     {
            SceneManager.LoadScene("Starting Level");
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    public void ReloadLevel() 
+    {
+    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
