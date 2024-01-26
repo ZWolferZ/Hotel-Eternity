@@ -13,7 +13,7 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        health -= Time.deltaTime * 25;
+        
         healthbar.fillAmount = health / 100;
 
 
