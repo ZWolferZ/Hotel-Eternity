@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MovingObstacle
   - MovingObstacleWaypoint
+  - Bullet
   layers:
   - Default
   - TransparentFX

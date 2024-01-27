@@ -34,7 +34,7 @@ public class InventoryUPDOWN : MonoBehaviour
         }
         
     }
-    // Real men use functions
+    
     void ClampPosition()
     {
         Vector3 currentPosition = rectTransform.anchoredPosition;
@@ -42,7 +42,7 @@ public class InventoryUPDOWN : MonoBehaviour
 
         rectTransform.anchoredPosition = currentPosition;
     }
-    // I hate coroutines
+    
     IEnumerator MoveInventory(float Y)
     {
         isMoving = true;

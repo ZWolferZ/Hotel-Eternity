@@ -28,6 +28,9 @@ public class TopDownCharacterController : MonoBehaviour
     [SerializeField] GameObject m_bulletPrefab;
     [SerializeField] Transform m_firePoint;
     [SerializeField] float m_projectileSpeed;
+    [SerializeField] int m_startingBullets;
+    public TMPro.TextMeshProUGUI BulletText;
+    
     public Health Health;
     public GameObject GameOVER;
     bool dead = false;
@@ -36,7 +39,7 @@ public class TopDownCharacterController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        //Get the attached components so we can use them later
+        
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         
@@ -44,7 +47,7 @@ public class TopDownCharacterController : MonoBehaviour
 
     private void Start()
     {
-         
+        BulletText.text = "Bullets: " + m_startingBullets;
     }
 
     /// <summary>
@@ -129,10 +132,9 @@ public class TopDownCharacterController : MonoBehaviour
             ScaleX(Left ? -1 : 1);
         }
         // Was the fire button pressed (mapped to Left mouse button or gamepad trigger)
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && m_startingBullets > 0)
         {
-            //Shoot (well debug for now)
-            //Debug.Log($"Shoot! {Time.time}", gameObject);
+            
             Fire();
         }
     }
@@ -166,8 +168,9 @@ public class TopDownCharacterController : MonoBehaviour
          mousePos.z = 0f;
 
          Vector2 Direction = mousePos - transform.position;
-       
-        
+
+            m_startingBullets = m_startingBullets - 1;
+            BulletText.text = "Bullets: " + m_startingBullets;
             GameObject bulletToSpawn = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity);
             
             if (bulletToSpawn.GetComponent<Rigidbody2D>() != null)
