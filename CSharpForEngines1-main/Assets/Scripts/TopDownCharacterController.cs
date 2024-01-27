@@ -13,7 +13,7 @@ public class TopDownCharacterController : MonoBehaviour
     private Rigidbody2D rb;
 
     //The direction the player is moving in
-    private Vector2 playerDirection;
+    public Vector2 playerDirection;
 
     //The speed at which they're moving
     private float playerSpeed = 1f;
@@ -60,7 +60,7 @@ public class TopDownCharacterController : MonoBehaviour
     /// <summary>
     /// When the update loop is called, it runs every frame, ca run more or less frequently depending on performance. Used to catch changes in variables or input.
     /// </summary>
-    bool Left = false;
+  public  bool Left = false;
     private void Update()
     {
 

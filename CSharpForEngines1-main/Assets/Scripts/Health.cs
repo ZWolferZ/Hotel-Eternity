@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     public Image healthbar;
+    
 
-    public float health;
+    public float health = 100;
     
 
     // Update is called once per frame
@@ -15,6 +16,7 @@ public class Health : MonoBehaviour
     {
         
         healthbar.fillAmount = health / 100;
+
 
 
     }
