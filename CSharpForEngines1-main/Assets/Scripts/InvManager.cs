@@ -4,91 +4,106 @@ using UnityEngine;
 
 public class InvManager : MonoBehaviour
 {
-    public GameObject inventorySlot1;
-    public GameObject inventorySlot2;
-    public GameObject inventorySlot3;
-    public GameObject inventorySlot4;
-    public GameObject inventorySlot5;
-    public GameObject inventorySlot6;
+    public GameObject[] inventorySlots;
 
-    bool inventorySlot1Open = true;
-    bool inventorySlot2Open = true;
-    bool inventorySlot3Open = true;
-    bool inventorySlot4Open = true;
-    bool inventorySlot5Open = true;
-    bool inventorySlot6Open = true;
-   public bool inventoryFull = false;
-   
-    public string item1;
-    public string item2;
-    public string item3;
-    public string item4;
-    public string item5;
-    public string item6;
+    public bool[] inventorySlotOpen;
+    public string[] itemName;
+    public bool inventoryFull = false;
+    bool found = false;
 
-  
 
     public void AddItemToInventory(GameObject itemPrefab)
     {
         GameObject newItem = Instantiate(itemPrefab);
 
-        
 
-        if (inventorySlot1Open == true)
+
+        /*
+        for (int i = 0; i < inventorySlots.Length; i++)
         {
-            
-            newItem.transform.SetParent(inventorySlot1.transform);
-            
-            newItem.transform.localPosition = Vector3.zero; 
-            item1 = newItem.name;
-            inventorySlot1Open = false;
+            for (int j = 0; j < itemName.Length; j++)
+            {
+                while (found == false)
+                {
+                    if (inventorySlotOpen[i] == true)
+                    {
+
+                        newItem.transform.SetParent(inventorySlots[i].transform);
+
+                        newItem.transform.localPosition = Vector3.zero;
+                        itemName[j] = newItem.name;
+                        found = true;
+                        inventoryFull = false;
+                        inventorySlotOpen[i] = false;
+                    }
+                    if (inventorySlotOpen[i] == false)
+                    {
+                        inventoryFull = true;
+                    }
+                }
+            }
+
+          found = false;
         }
-        else if (inventorySlot2Open == true)
+    }
+}
+        */
+        
+        if (inventorySlotOpen[0] == true)
         {
-            
-            newItem.transform.SetParent(inventorySlot2.transform);
+
+            newItem.transform.SetParent(inventorySlots[0].transform);
             
             newItem.transform.localPosition = Vector3.zero;
-            item2 = newItem.name;
-            inventorySlot2Open = false;
+            itemName[0] = newItem.name;
+            inventorySlotOpen[0] = false;
         }
-        else if (inventorySlot3Open == true)
+      else if (inventorySlotOpen[1] == true)
         {
-            
-            newItem.transform.SetParent(inventorySlot3.transform);
-            
+
+            newItem.transform.SetParent(inventorySlots[1].transform);
+
             newItem.transform.localPosition = Vector3.zero;
-            item3 = newItem.name;
-            inventorySlot3Open = false;
+            itemName[1] = newItem.name;
+            inventorySlotOpen[1] = false;
         }
-        else if (inventorySlot4Open == true)
+        else if (inventorySlotOpen[2] == true)
         {
-            
-            newItem.transform.SetParent(inventorySlot4.transform);
-            
+
+            newItem.transform.SetParent(inventorySlots[2].transform);
+
             newItem.transform.localPosition = Vector3.zero;
-            item4 = newItem.name;
-            inventorySlot4Open = false;
+            itemName[2] = newItem.name;
+            inventorySlotOpen[2] = false;
         }
-        else if (inventorySlot5Open == true)
+        else if (inventorySlotOpen[3] == true)
         {
-            
-            newItem.transform.SetParent(inventorySlot5.transform);
-            
+
+            newItem.transform.SetParent(inventorySlots[3].transform);
+
             newItem.transform.localPosition = Vector3.zero;
-            item5 = newItem.name;
-            inventorySlot5Open = false;
+            itemName[3] = newItem.name;
+            inventorySlotOpen[3] = false;
         }
-        else if (inventorySlot6Open == true)
+        else if (inventorySlotOpen[4] == true)
         {
-            
-            newItem.transform.SetParent(inventorySlot6.transform);
-            item6 = newItem.name;
+
+            newItem.transform.SetParent(inventorySlots[4].transform);
+
             newItem.transform.localPosition = Vector3.zero;
-            
-            inventorySlot6Open = false;
+            itemName[4] = newItem.name;
+            inventorySlotOpen[4] = false;
         }
-        if (inventorySlot6Open == false)
+        else if (inventorySlotOpen[5] == true)
+        {
+
+            newItem.transform.SetParent(inventorySlots[5].transform);
+
+            newItem.transform.localPosition = Vector3.zero;
+            itemName[5] = newItem.name;
+            inventorySlotOpen[5] = false;
+        }
+        if (inventorySlotOpen[5] == false)
         {
             inventoryFull = true;
         }
@@ -99,30 +114,31 @@ public class InvManager : MonoBehaviour
     }
    void Update()
     {
-        if (inventorySlot1.transform.childCount == 0)
+        if (inventorySlots[0].transform.childCount == 0)
         {
-            inventorySlot1Open = true;
+            inventorySlotOpen[0] = true;
         }
-        if (inventorySlot2.transform.childCount == 0)
+        if (inventorySlots[1].transform.childCount == 0)
         {
-            inventorySlot2Open = true;
+            inventorySlotOpen[1] = true;
         }
-        if (inventorySlot3.transform.childCount == 0)
+        if (inventorySlots[2].transform.childCount == 0)
         {
-            inventorySlot3Open = true;
+            inventorySlotOpen[2] = true;
         }
-        if (inventorySlot4.transform.childCount == 0)
+        if (inventorySlots[3].transform.childCount == 0)
         {
-            inventorySlot4Open = true;
+            inventorySlotOpen[3] = true;
         }
-        if (inventorySlot5.transform.childCount == 0)
+        if (inventorySlots[4].transform.childCount == 0)
         {
-            inventorySlot5Open = true;
+            inventorySlotOpen[4] = true;
         }
-        if (inventorySlot6.transform.childCount == 0)
+        if (inventorySlots[5].transform.childCount == 0)
         {
-            inventorySlot6Open = true;
+            inventorySlotOpen[5] = true;
         }
     }
 
 }
+        

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using static Monsters;
 using UnityEngine.AI;
+using UnityEditor.AI;
 
 public class BoxTestEnemy : MonoBehaviour
 {
@@ -11,12 +12,14 @@ public class BoxTestEnemy : MonoBehaviour
     private bool Collider = false;
     private bool Stunned = false;
     public Transform playerTransform;
-   
+    NavMeshAgent m_Agent;
 
     void Start()
     {
         
         playerTransform = FindObjectOfType<TopDownCharacterController>().transform;
+        m_Agent = GetComponent<NavMeshAgent>();
+        m_Agent.speed = BoxTest.speed;
     }
 
     void Update()
@@ -25,7 +28,7 @@ public class BoxTestEnemy : MonoBehaviour
         {
             if (BoxTest.PlayerInRange == true)
             {
-                transform.position = Vector2.MoveTowards(transform.position, playerTransform.position, BoxTest.speed * Time.deltaTime);
+                m_Agent.SetDestination(playerTransform.position);
             }
             else
             {
