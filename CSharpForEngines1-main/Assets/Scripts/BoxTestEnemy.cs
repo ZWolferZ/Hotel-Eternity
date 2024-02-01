@@ -1,82 +1,104 @@
 using System.Collections;
 using UnityEngine;
 using static Monsters;
+using UnityEngine.AI;
 
-public class BoxTestEnemy : MonoBehaviour 
+public class BoxTestEnemy : MonoBehaviour
 {
     public Health Health;
     MonsterTypes.MonsterTEST BoxTest = new MonsterTypes.MonsterTEST();
     private bool cooldown = false;
-    private bool isinTrigger = false;
+    private bool Collider = false;
     private bool Stunned = false;
     public Transform playerTransform;
-    private Vector2 Target;
-    private Vector2 Current;
+   
 
     void Start()
     {
         
-        Target = new Vector2(playerTransform.position.x, playerTransform.position.y);
-        Current = new Vector2(transform.position.x, transform.position.y);
+        playerTransform = FindObjectOfType<TopDownCharacterController>().transform;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (Stunned == false)
         {
-            transform.position = Vector2.MoveTowards(Current, Target, BoxTest.speed * Time.deltaTime);
+            if (BoxTest.PlayerInRange == true)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, playerTransform.position, BoxTest.speed * Time.deltaTime);
+            }
+            else
+            {
+                // Nothing
+            }
+
         }
         else
         {
-
+            // Nothing
         }
-        
-        
-
-        
-        Current = new Vector2(transform.position.x, transform.position.y);
-        Target = new Vector2(playerTransform.position.x, playerTransform.position.y);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.CompareTag("Player") && cooldown == false)
+        if (collision.gameObject.CompareTag("Player") && cooldown == false)
         {
-            isinTrigger = true;
+            Collider = true;
             StartCoroutine(WaitAndDamage(1));
         }
-        if (other.CompareTag("Bullet"))
+        if (collision.gameObject.CompareTag("Bullet"))
         {
-            Destroy(other.gameObject);
+            Destroy(collision.gameObject);
             StartCoroutine(Stun(1));
-
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            isinTrigger = false;
+            Collider = false;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            BoxTest.PlayerInRange = true;
+        }
+        
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+          StartCoroutine(WaitAndBool(10));
+        }
+        
     }
 
     IEnumerator WaitAndDamage(float time)
     {
         cooldown = true;
-        yield return new WaitForSeconds(time);
         Health.health -= BoxTest.damage;
+        yield return new WaitForSeconds(time);
+        
 
         Debug.Log("Player damaged! Current Health: " + Health.health);
         cooldown = false;
 
-        if (isinTrigger == true)
+        if (Collider == true)
         {
-            
             StartCoroutine(WaitAndDamage(time));
         }
     }
 
+    IEnumerator WaitAndBool(float time)
+    {
+        yield return new WaitForSeconds(time);
+        BoxTest.PlayerInRange = false;
+    }
     IEnumerator Stun(float time)
     {
         Stunned = true;

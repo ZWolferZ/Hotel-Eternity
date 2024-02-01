@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -34,7 +35,9 @@ public class TopDownCharacterController : MonoBehaviour
     private SpriteRenderer sprite;
     PlayerWeight playerWeight;
     public bool quickupdate = false;
-    
+    public GameObject pauseMenuUI;
+    public bool Paused = false;
+
 
 
     public Health Health;
@@ -82,6 +85,7 @@ public class TopDownCharacterController : MonoBehaviour
             dead = true;
             playerSpeed = 0f;
             playerMaxSpeed = 0f;
+            
             if(dead == true)
             {
               StartCoroutine(Wait());
@@ -93,7 +97,10 @@ public class TopDownCharacterController : MonoBehaviour
             updateMaxSpeed();
             quickupdate = false;
         }
-
+        if (Input.GetKeyDown(KeyCode.Escape) && dead == false)
+        {
+            TogglePauseMenu();
+        }
 
         if (dead == false)
         {
@@ -150,13 +157,39 @@ public class TopDownCharacterController : MonoBehaviour
             {
                 // Nothing
             }
-        } 
-     IEnumerator Wait()
+        }
+
+    public void TogglePauseMenu()
+    {
+        if (Paused == false)
+        {
+            Paused = true;
+            Time.timeScale = 0f;
+            pauseMenuUI.SetActive(true);
+        }
+        else if (Paused == true)
+        {
+            Paused = false;
+            Time.timeScale = 1f;
+            pauseMenuUI.SetActive(false);
+        }
+    }
+    IEnumerator Wait()
      {
         yield return new WaitForSeconds(1.5f);
         GameOVER.SetActive(true);
-     }   
-
+        Time.timeScale = 0f;
+    }   
+    public void Back()
+    {
+        if (Paused == true)
+        {
+            Paused = false;
+            Time.timeScale = 1f;
+            pauseMenuUI.SetActive(false);
+        }
+       
+    }
     public void updateMaxSpeed()
     {
         playerMaxSpeed = 200f;

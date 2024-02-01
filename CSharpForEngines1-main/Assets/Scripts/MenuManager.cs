@@ -33,15 +33,18 @@ public class MenuManager : MonoBehaviour
     public void LoadStartingLevel()
     {
            SceneManager.LoadScene("Starting Level");
+        Time.timeScale = 1f;
     }
 
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("Main Menu");
+        Time.timeScale = 1f;
     }
 
     public void ReloadLevel() 
     {
     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1f;
     }
 }
