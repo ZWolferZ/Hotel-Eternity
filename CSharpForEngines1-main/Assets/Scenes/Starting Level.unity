@@ -2409,7 +2409,7 @@ MonoBehaviour:
   - {fileID: 1304877773}
   - {fileID: 1409442162}
   - {fileID: 1075058423}
-  inventorySlotOpen: 000000000000
+  inventorySlotOpen: 010101010101
   itemName:
   - 
   - 
@@ -2881,7 +2881,7 @@ GameObject:
   - component: {fileID: 1281981670}
   - component: {fileID: 1281981672}
   - component: {fileID: 1281981671}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Test Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3075,7 +3075,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3.48
+  m_Radius: 4
 --- !u!195 &1281981671
 NavMeshAgent:
   m_ObjectHideFlags: 0

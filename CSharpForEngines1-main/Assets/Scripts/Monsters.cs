@@ -14,6 +14,7 @@ public class Monsters : MonoBehaviour
             public int attackSpeed = 10;
             public float stoppingDistance = 1f;
            public bool PlayerInRange = false;
+            public float ForgetTimer = 10;
                    
         }
        public class Floor1Monsters
@@ -23,6 +24,7 @@ public class Monsters : MonoBehaviour
             public float speed = 2;
             public int attackSpeed = 10;
             public float stoppingDistance = 1f;
+            public float ForgetTimer = 10;
         }
 
        public  class Floor2Monsters
@@ -32,7 +34,9 @@ public class Monsters : MonoBehaviour
             public float speed = 3;
             public int attackSpeed = 12;
             public float stoppingDistance = 1f;
+            public float ForgetTimer = 15;
         }
+
     } 
    
 }

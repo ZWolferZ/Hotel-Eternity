@@ -5,60 +5,74 @@ using UnityEngine;
 public class InvManager : MonoBehaviour
 {
     public GameObject[] inventorySlots;
-
     public bool[] inventorySlotOpen;
     public string[] itemName;
     public bool inventoryFull = false;
-    bool found = false;
 
+    public void AddItemToInventory(GameObject itemPrefab)
+    {
+        GameObject newItem = Instantiate(itemPrefab);
+        
+        // New Inventory System (Brad told me to start thinking, instead of just doing)
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            if (inventorySlotOpen[i] == true && inventoryFull == false)
+            {
+                newItem.transform.SetParent(inventorySlots[i].transform);
+                newItem.transform.localPosition = Vector3.zero;
+                itemName[i] = newItem.name;
+                inventorySlotOpen[i] = false;
+                
+                break;
+            }
+            else if (inventoryFull == true)
+            {
+               Debug.Log("Inventory Full");
+                break;
+            }
+        }
 
+        if (inventorySlotOpen[5] == false)
+        {
+              inventoryFull = true;
+        }
+       
+        else if (inventorySlotOpen[5] == true)
+        {
+               inventoryFull = false;
+        }
+
+        
+    }
+
+    private void Update()
+    {
+        for (int j = 0; j < inventorySlots.Length; j++)
+        {
+            if (inventorySlots[j].transform.childCount == 0)
+            {
+                inventorySlotOpen[j] = true;
+            }
+        }
+    }
+    // Legacy code (For reference)
+    //Dont try create a brand new inventory system at 4am it ends up looking like this (It works but its not pretty)
+    /*
     public void AddItemToInventory(GameObject itemPrefab)
     {
         GameObject newItem = Instantiate(itemPrefab);
 
 
-
-        /*
-        for (int i = 0; i < inventorySlots.Length; i++)
-        {
-            for (int j = 0; j < itemName.Length; j++)
-            {
-                while (found == false)
-                {
-                    if (inventorySlotOpen[i] == true)
-                    {
-
-                        newItem.transform.SetParent(inventorySlots[i].transform);
-
-                        newItem.transform.localPosition = Vector3.zero;
-                        itemName[j] = newItem.name;
-                        found = true;
-                        inventoryFull = false;
-                        inventorySlotOpen[i] = false;
-                    }
-                    if (inventorySlotOpen[i] == false)
-                    {
-                        inventoryFull = true;
-                    }
-                }
-            }
-
-          found = false;
-        }
-    }
-}
-        */
-        
         if (inventorySlotOpen[0] == true)
         {
 
             newItem.transform.SetParent(inventorySlots[0].transform);
-            
+
             newItem.transform.localPosition = Vector3.zero;
             itemName[0] = newItem.name;
             inventorySlotOpen[0] = false;
         }
-      else if (inventorySlotOpen[1] == true)
+        else if (inventorySlotOpen[1] == true)
         {
 
             newItem.transform.SetParent(inventorySlots[1].transform);
@@ -112,7 +126,7 @@ public class InvManager : MonoBehaviour
             inventoryFull = false;
         }
     }
-   void Update()
+    void Update()
     {
         if (inventorySlots[0].transform.childCount == 0)
         {
@@ -141,4 +155,7 @@ public class InvManager : MonoBehaviour
     }
 
 }
-        
+    */
+
+
+}

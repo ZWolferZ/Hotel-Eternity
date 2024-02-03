@@ -14,6 +14,8 @@ public class BoxTestEnemy : MonoBehaviour
     public Transform playerTransform;
     NavMeshAgent m_Agent;
 
+     bool LineOfSight = false;
+
     void Start()
     {
         
@@ -21,24 +23,40 @@ public class BoxTestEnemy : MonoBehaviour
         m_Agent = GetComponent<NavMeshAgent>();
         m_Agent.speed = BoxTest.speed;
     }
+    private void FixedUpdate()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, playerTransform.transform.position - transform.position);
+        if(hit.collider != null)
+        {
+            LineOfSight = hit.collider.CompareTag("Player");    
+            if(LineOfSight == true)
+            {
+                Debug.DrawRay(transform.position, playerTransform.transform.position - transform.position, Color.green);
+            }
+            else if (LineOfSight == false)
+            {
+                Debug.DrawRay(transform.position, playerTransform.transform.position - transform.position, Color.red);
+            }
+        }
 
+    }
     void Update()
     {
         if (Stunned == false)
         {
-            if (BoxTest.PlayerInRange == true)
+            if (BoxTest.PlayerInRange == true && LineOfSight == true)
             {
                 m_Agent.SetDestination(playerTransform.position);
             }
-            else
+            else if (BoxTest.PlayerInRange == false)
             {
-                // Nothing
+                m_Agent.SetDestination(transform.position);
             }
 
         }
-        else
+        else if (Stunned == true)
         {
-            // Nothing
+            m_Agent.SetDestination(transform.position);
         }
     }
 
@@ -72,11 +90,23 @@ public class BoxTestEnemy : MonoBehaviour
         }
         
     }
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-          StartCoroutine(WaitAndBool(10));
+            BoxTest.PlayerInRange = true;
+        }
+    }
+    bool triggerCooldown = false;
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && triggerCooldown == false)
+        {
+          StartCoroutine(WaitAndBool(BoxTest.ForgetTimer));
+        }
+        if (collision.gameObject.CompareTag("Player") && LineOfSight == false)
+        {
+            BoxTest.PlayerInRange = false;
         }
         
     }
@@ -99,8 +129,10 @@ public class BoxTestEnemy : MonoBehaviour
 
     IEnumerator WaitAndBool(float time)
     {
+        triggerCooldown = true;
         yield return new WaitForSeconds(time);
         BoxTest.PlayerInRange = false;
+        triggerCooldown = false;
     }
     IEnumerator Stun(float time)
     {

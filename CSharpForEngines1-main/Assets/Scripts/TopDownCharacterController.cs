@@ -146,7 +146,7 @@ public class TopDownCharacterController : MonoBehaviour
 
                 m_startingBullets = m_startingBullets - 1;
                 BulletText.text = "Bullets: " + m_startingBullets;
-                GameObject bulletToSpawn = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity);
+                GameObject bulletToSpawn = Instantiate(m_bulletPrefab, m_firePoint.position, Quaternion.identity);
 
                 if (bulletToSpawn.GetComponent<Rigidbody2D>() != null)
                 {
