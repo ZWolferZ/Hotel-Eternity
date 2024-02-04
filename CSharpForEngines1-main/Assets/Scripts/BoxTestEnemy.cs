@@ -3,6 +3,8 @@ using UnityEngine;
 using static Monsters;
 using UnityEngine.AI;
 using UnityEditor.AI;
+using UnityEngine.UIElements;
+using UnityEngine.Rendering.Universal;
 
 public class BoxTestEnemy : MonoBehaviour
 {
@@ -15,13 +17,18 @@ public class BoxTestEnemy : MonoBehaviour
     NavMeshAgent m_Agent;
 
      bool LineOfSight = false;
-
+    [SerializeField] bool foundPlayer = false;
+    [SerializeField] bool Roaming = true;
+    bool moveCooldown = false;
+    public GameObject enemyLight;
+  
     void Start()
     {
         
         playerTransform = FindObjectOfType<TopDownCharacterController>().transform;
         m_Agent = GetComponent<NavMeshAgent>();
         m_Agent.speed = BoxTest.speed;
+        
     }
     private void FixedUpdate()
     {
@@ -46,19 +53,48 @@ public class BoxTestEnemy : MonoBehaviour
         {
             if (BoxTest.PlayerInRange == true && LineOfSight == true)
             {
-                m_Agent.SetDestination(playerTransform.position);
+
+                foundPlayer = true;
+                Roaming = false;
+               
             }
-            else if (BoxTest.PlayerInRange == false)
+            else if (LineOfSight == false)
             {
-                m_Agent.SetDestination(transform.position);
+                if (triggerCooldown == false)
+                {
+            StartCoroutine(WaitAndBool(BoxTest.ForgetTimer));
+
+                }
+
+                
+
+
+            }
+            if (Roaming == true && moveCooldown == false)
+            {
+                StartCoroutine(Roam());
+                    
             }
 
+            if (foundPlayer == true)
+            {
+                enemyLight.SetActive(true);
+                m_Agent.SetDestination(playerTransform.position);
+            }
+            if (foundPlayer == false)
+            {
+                enemyLight.SetActive(false);
+            }
         }
         else if (Stunned == true)
         {
             m_Agent.SetDestination(transform.position);
         }
+        
+        
     }
+
+    
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -90,6 +126,14 @@ public class BoxTestEnemy : MonoBehaviour
         }
         
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            BoxTest.PlayerInRange = false;
+        }
+    }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -98,18 +142,7 @@ public class BoxTestEnemy : MonoBehaviour
         }
     }
     bool triggerCooldown = false;
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player") && triggerCooldown == false)
-        {
-          StartCoroutine(WaitAndBool(BoxTest.ForgetTimer));
-        }
-        if (collision.gameObject.CompareTag("Player") && LineOfSight == false)
-        {
-            BoxTest.PlayerInRange = false;
-        }
-        
-    }
+   
 
     IEnumerator WaitAndDamage(float time)
     {
@@ -131,8 +164,10 @@ public class BoxTestEnemy : MonoBehaviour
     {
         triggerCooldown = true;
         yield return new WaitForSeconds(time);
-        BoxTest.PlayerInRange = false;
+        foundPlayer = false;
         triggerCooldown = false;
+        Roaming = true;
+        
     }
     IEnumerator Stun(float time)
     {
@@ -140,4 +175,32 @@ public class BoxTestEnemy : MonoBehaviour
         yield return new WaitForSeconds(time);
         Stunned = false;
     }
+    IEnumerator Roam()
+    {
+        moveCooldown = true;
+        
+        Vector2 randomPoint = randomLocation();
+
+        
+        m_Agent.SetDestination(randomPoint);
+
+        yield return new WaitForSeconds(2);
+        moveCooldown = false;
+    }
+
+    private Vector3 randomLocation()
+    {
+        
+        float roamingRadius = 10f;
+
+        Vector3 randomDirection = Random.insideUnitSphere * roamingRadius;
+        randomDirection += transform.position;
+
+        NavMeshHit navHit;
+        NavMesh.SamplePosition(randomDirection, out navHit, roamingRadius, NavMesh.AllAreas);
+       
+        return navHit.position;
+        
+    }
+
 }

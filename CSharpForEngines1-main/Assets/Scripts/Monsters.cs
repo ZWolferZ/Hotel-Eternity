@@ -10,11 +10,11 @@ public class Monsters : MonoBehaviour
         {         
             public int health = 100;
             public float damage = 25;
-            public float speed = 1;
+            public float speed = 2;
             public int attackSpeed = 10;
             public float stoppingDistance = 1f;
            public bool PlayerInRange = false;
-            public float ForgetTimer = 10;
+            public float ForgetTimer = 7f;
                    
         }
        public class Floor1Monsters
