@@ -22,6 +22,8 @@ public class BoxTestEnemy : MonoBehaviour
     bool moveCooldown = false;
     public GameObject enemyLight;
     public ParticleSystem Blood;
+    public GameObject BloodPanel;
+    public TopDownCharacterController Player;
 
     void Start()
     {
@@ -147,7 +149,9 @@ public class BoxTestEnemy : MonoBehaviour
      IEnumerator PlayHitParticles()
     {
         Blood.Play();
+        BloodPanel.SetActive(true);
         yield return new WaitForSeconds(2.5f);
+        BloodPanel.SetActive(false);
         Blood.Stop();
     }
 
@@ -156,8 +160,9 @@ public class BoxTestEnemy : MonoBehaviour
         cooldown = true;
         Health.health -= BoxTest.damage;
         StartCoroutine(PlayHitParticles());
-        yield return new WaitForSeconds(time);
         
+        yield return new WaitForSeconds(time);
+       
 
         Debug.Log("Player damaged! Current Health: " + Health.health);
         cooldown = false;

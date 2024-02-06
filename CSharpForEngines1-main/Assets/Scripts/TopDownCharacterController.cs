@@ -37,6 +37,7 @@ public class TopDownCharacterController : MonoBehaviour
     public bool quickupdate = false;
     public GameObject pauseMenuUI;
     public bool Paused = false;
+    
 
 
 
@@ -179,7 +180,8 @@ public class TopDownCharacterController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         GameOVER.SetActive(true);
         Time.timeScale = 0f;
-    }   
+    }
+    
     public void Back()
     {
         if (Paused == true)
