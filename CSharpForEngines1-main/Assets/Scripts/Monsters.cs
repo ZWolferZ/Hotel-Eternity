@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Monsters : MonoBehaviour
-{    
+{
+    
+
     public class MonsterTypes
     {
         public class MonsterTEST 
@@ -37,6 +39,7 @@ public class Monsters : MonoBehaviour
             public float ForgetTimer = 15;
         }
 
-    } 
-   
+    }
+
+
 }

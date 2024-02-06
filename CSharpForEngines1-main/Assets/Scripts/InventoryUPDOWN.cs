@@ -17,9 +17,12 @@ public class InventoryUPDOWN : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
     }
 
+
+    // You could probably get away with just clamping the position when the player presses E instead of every frame, but im not smart enough to figure that out
+
     private void Update()
     {
-        // You could probably get away with just clamping the position when the player presses E instead of every frame, but im not smart enough to figure that out
+
         ClampPosition();
 
         if (Input.GetKeyDown(KeyCode.E) && isMoving == false)
