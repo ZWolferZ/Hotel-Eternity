@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class PlayerWeight : MonoBehaviour
@@ -15,7 +15,8 @@ public class PlayerWeight : MonoBehaviour
 
     private void Update()
     {
-       
+        
+
         switch (weight)
         {
             case 0:

@@ -11,6 +11,7 @@ public class Loot : MonoBehaviour
            public int Value = 10;
             public int Weight = 1;
             public GameObject item;
+            public string Name;
 
         }
         public class Floor1Loot
@@ -18,6 +19,7 @@ public class Loot : MonoBehaviour
             public int Value = 10;
             public int Weight = 1;
             public GameObject item;
+            public string Name;
         }
 
        public  class Floor2Loot
@@ -25,6 +27,7 @@ public class Loot : MonoBehaviour
             public int Value = 15;
             public int Weight = 2;
             public GameObject item;
+            public string Name;
 
         }
     }

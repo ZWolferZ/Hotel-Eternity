@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
+
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -34,16 +34,24 @@ public class TopDownCharacterController : MonoBehaviour
     public TMPro.TextMeshProUGUI BulletText;
     private SpriteRenderer sprite;
     PlayerWeight playerWeight;
-    public bool quickupdate = false;
+    
     public GameObject pauseMenuUI;
     public bool Paused = false;
+    public HoverUI hoverUI1;
+    public HoverUI hoverUI2;
+    public HoverUI hoverUI3;
+    public HoverUI hoverUI4;
+    public HoverUI hoverUI5;
+    public HoverUI hoverUI6;
+    public ParticleSystem Blood;
+    private bool ParticleCooldown = false;
     
 
 
 
     public Health Health;
     public GameObject GameOVER;
-   private bool dead = false;
+   public bool dead = false;
     /// <summary>
     /// When the script first initialises this gets called, use this for grabbing componenets
     /// </summary>
@@ -53,8 +61,9 @@ public class TopDownCharacterController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        
     }
-
+    
     private void Start()
     {
         BulletText.text = "Bullets: " + m_startingBullets;
@@ -76,7 +85,9 @@ public class TopDownCharacterController : MonoBehaviour
   public  bool Left = false;
     private void Update()
     {
-// read input from WASD keys
+        updateMaxSpeed();
+
+        // read input from WASD keys
         playerDirection.x = Input.GetAxis("Horizontal");
         playerDirection.y = Input.GetAxis("Vertical");
         
@@ -93,11 +104,7 @@ public class TopDownCharacterController : MonoBehaviour
             }
             
         }
-        if (quickupdate == true)
-        {
-            updateMaxSpeed();
-            quickupdate = false;
-        }
+        
         if (Input.GetKeyDown(KeyCode.Escape) && dead == false)
         {
             TogglePauseMenu();
@@ -136,9 +143,20 @@ public class TopDownCharacterController : MonoBehaviour
         }
 
     }
-        void Fire()
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && ParticleCooldown == false)
         {
-            if (dead == false)
+             
+            StartCoroutine(PlayHitParticles());
+            StartCoroutine(HitFlash());
+        }
+        
+    }
+    
+    void Fire()
+        {
+            if (dead == false && hoverUI1.noFire == false && hoverUI2.noFire == false && hoverUI3.noFire == false && hoverUI4.noFire == false && hoverUI5.noFire == false && hoverUI6.noFire == false)
             {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 mousePos.z = 0f;
@@ -175,6 +193,44 @@ public class TopDownCharacterController : MonoBehaviour
             pauseMenuUI.SetActive(false);
         }
     }
+    IEnumerator PlayHitParticles()
+    {
+        ParticleCooldown = true;
+        Blood.Play();
+        
+        yield return new WaitForSeconds(2.5f);
+        
+        Blood.Stop();
+        ParticleCooldown = false;
+    }
+    IEnumerator HitFlash()
+    {
+        sprite.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.white;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.white;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.white;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.white;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.white;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.white;
+        yield return new WaitForSeconds(0.2f);
+    }
+   
     IEnumerator Wait()
      {
         yield return new WaitForSeconds(1.5f);

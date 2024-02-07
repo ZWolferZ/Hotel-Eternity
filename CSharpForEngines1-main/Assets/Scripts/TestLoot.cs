@@ -15,7 +15,7 @@ public class TestLoot : MonoBehaviour
             Loot.LootTypes.TestLoot Loot1 = new Loot.LootTypes.TestLoot();
             Loot1.item = LootPrefabTest;
             playerWeight.weight += Loot1.Weight;
-            topDownCharacterController.quickupdate = true;
+            
             invManager.AddItemToInventory(Loot1.item);
             playerWeight.CarryWeight.text = "Carry Weight: " + playerWeight.weight;
             Destroy(gameObject);

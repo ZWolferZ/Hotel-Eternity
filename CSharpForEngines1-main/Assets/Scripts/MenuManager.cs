@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+   public GameObject Player;
+   public GameObject Canvas;
     public GameObject m_Panel_SettingsAndControls;
     public GameObject m_MainMenu;
     bool SettingsAndControlsOpen = false;
@@ -45,6 +47,8 @@ public class MenuManager : MonoBehaviour
     public void ReloadLevel() 
     {
     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Destroy(Player);
+        Destroy(Canvas);
         Time.timeScale = 1f;
     }
 }
