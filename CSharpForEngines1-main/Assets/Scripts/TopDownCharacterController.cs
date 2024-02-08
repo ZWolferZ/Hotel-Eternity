@@ -44,8 +44,9 @@ public class TopDownCharacterController : MonoBehaviour
     public HoverUI hoverUI5;
     public HoverUI hoverUI6;
     public ParticleSystem Blood;
+    public ParticleSystem FireEffect;
     private bool ParticleCooldown = false;
-    
+   private bool FireParticleCooldown = false;
 
 
 
@@ -166,6 +167,10 @@ public class TopDownCharacterController : MonoBehaviour
                 m_startingBullets = m_startingBullets - 1;
                 BulletText.text = "Bullets: " + m_startingBullets;
                 GameObject bulletToSpawn = Instantiate(m_bulletPrefab, m_firePoint.position, Quaternion.identity);
+            if (FireParticleCooldown == false) 
+            {
+            StartCoroutine(PlayFireParticles());
+            }
 
                 if (bulletToSpawn.GetComponent<Rigidbody2D>() != null)
                 {
@@ -202,6 +207,17 @@ public class TopDownCharacterController : MonoBehaviour
         
         Blood.Stop();
         ParticleCooldown = false;
+    }
+
+    IEnumerator PlayFireParticles()
+    {
+        FireParticleCooldown = true;
+        FireEffect.Play();
+
+        yield return new WaitForSeconds(0.5f);
+
+        FireEffect.Stop();
+        FireParticleCooldown = false;
     }
     IEnumerator HitFlash()
     {
