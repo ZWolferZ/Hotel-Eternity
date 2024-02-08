@@ -11,13 +11,13 @@ public class InvManager : MonoBehaviour
     public bool inventoryFull = false;
     public PlayerWeight playerweight;
 
-    
 
+    // New Inventory System (Brad told me to start thinking, instead of just doing)
     public void AddItemToInventory(GameObject itemPrefab)
     {
         GameObject newItem = Instantiate(itemPrefab);
 
-        // New Inventory System (Brad told me to start thinking, instead of just doing)
+        
         for (int i = 0; i < inventorySlots.Length; i++)
         {
             if (inventorySlotOpen[i] == true && inventoryFull == false)
@@ -41,10 +41,6 @@ public class InvManager : MonoBehaviour
                 break;
             }
         }
-
-        
-        
-
     }
     public void DiscardInvSlot1()
     {
@@ -130,7 +126,7 @@ public class InvManager : MonoBehaviour
         {
             inventoryFull = false;
         }
-
+        
     }
     // Legacy code (For reference)
     //Dont try create a brand new inventory system at 4am it ends up looking like this (It works but its not pretty)
