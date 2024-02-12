@@ -10,6 +10,9 @@ public class InvManager : MonoBehaviour
     public int[] SlotWeight;
     public bool inventoryFull = false;
     public PlayerWeight playerweight;
+    public GameObject InvFullUI;
+
+   
 
 
     // New Inventory System (Brad told me to start thinking, instead of just doing)
@@ -22,6 +25,7 @@ public class InvManager : MonoBehaviour
         {
             if (inventorySlotOpen[i] == true && inventoryFull == false)
             {
+                
                 newItem.transform.SetParent(inventorySlots[i].transform);
                 newItem.transform.localPosition = Vector3.zero;
 
@@ -38,6 +42,9 @@ public class InvManager : MonoBehaviour
             else if (inventoryFull == true)
             {
                 Debug.Log("Inventory Full");
+                
+
+
                 break;
             }
         }
@@ -121,13 +128,17 @@ public class InvManager : MonoBehaviour
         if (inventorySlotOpen[0] == false && inventorySlotOpen[1] == false && inventorySlotOpen[2] == false && inventorySlotOpen[3] == false && inventorySlotOpen[4] == false && inventorySlotOpen[5] == false)
         {
             inventoryFull = true;
+            InvFullUI.SetActive(true);
         }
         if (inventorySlotOpen[0] == true || inventorySlotOpen[1] == true || inventorySlotOpen[2] == true || inventorySlotOpen[3] == true || inventorySlotOpen[4] == true || inventorySlotOpen[5] == true)
         {
             inventoryFull = false;
+            InvFullUI.SetActive(false);
         }
         
     }
+
+   
     // Legacy code (For reference)
     //Dont try create a brand new inventory system at 4am it ends up looking like this (It works but its not pretty)
     /*

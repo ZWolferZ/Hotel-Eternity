@@ -24,13 +24,17 @@ public class BoxTestEnemy : MonoBehaviour
     
     public TopDownCharacterController Player;
 
+
+
     void Start()
     {
         
         playerTransform = FindObjectOfType<TopDownCharacterController>().transform;
         m_Agent = GetComponent<NavMeshAgent>();
         m_Agent.speed = BoxTest.speed;
-        
+        Player = FindAnyObjectByType<TopDownCharacterController>();
+        Health = FindAnyObjectByType<Health>();
+
     }
     private void FixedUpdate()
     {

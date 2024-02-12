@@ -8,6 +8,13 @@ public class TestLoot : MonoBehaviour
     public TopDownCharacterController topDownCharacterController;
     public InvManager invManager;
 
+    private void Awake()
+    {
+        topDownCharacterController = FindAnyObjectByType<TopDownCharacterController>();
+        invManager = FindAnyObjectByType<InvManager>();
+        playerWeight = FindAnyObjectByType<PlayerWeight>();
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && invManager.inventoryFull == false)
