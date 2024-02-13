@@ -1,5 +1,9 @@
 using UnityEngine;
 
+// Made by brad for reference (DO NOT MARK)
+
+#region Bradloot for reference
+
 public class BradLoot : MonoBehaviour
 {
     protected int Value;
@@ -21,3 +25,5 @@ public class BradLoot : MonoBehaviour
             "Weight: " + Weight;
     }
 }
+
+#endregion

@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class PlayerWeight : MonoBehaviour
 {
-  public int weight = 0;
+    public int weight = 0;
     public float trueWeight = 0;
     public TMPro.TextMeshProUGUI CarryWeight;
+
     private void Start()
     {
         CarryWeight.text = "Carry Weight: " + weight;

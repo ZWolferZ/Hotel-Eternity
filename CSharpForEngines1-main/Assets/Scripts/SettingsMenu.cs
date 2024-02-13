@@ -12,6 +12,7 @@ public class SettingsMenu : MonoBehaviour
     Resolution[] resolutions;   
 
     public TMPro.TMP_Dropdown resolutionDropdown;
+
     //Rediculously hard to script Resolution Function because unity does not have a built in function for comparing resolutions.
     private void Start()
     {
