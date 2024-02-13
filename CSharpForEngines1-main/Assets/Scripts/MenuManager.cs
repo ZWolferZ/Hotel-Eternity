@@ -34,7 +34,7 @@ public class MenuManager : MonoBehaviour
 
     public void LoadStartingLevel()
     {
-           SceneManager.LoadScene("Test Scene 2");
+           SceneManager.LoadScene("StartingHotelLobby");
         Time.timeScale = 1f;
     }
 

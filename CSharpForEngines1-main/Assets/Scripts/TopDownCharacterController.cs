@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -47,8 +47,9 @@ public class TopDownCharacterController : MonoBehaviour
     public ParticleSystem FireEffect;
     private bool ParticleCooldown = false;
    private bool FireParticleCooldown = false;
-
-
+    public GameObject HealthBar;
+    public GameObject Canvas;
+    
 
     public Health Health;
     public GameObject GameOVER;
@@ -86,6 +87,17 @@ public class TopDownCharacterController : MonoBehaviour
   public  bool Left = false;
     private void Update()
     {
+        if(SceneManager.GetSceneByName("StartingHotelLobby").isLoaded)
+        {
+            HealthBar.SetActive(false);
+            Canvas.SetActive(false);
+        }
+        else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false)
+        {
+            HealthBar.SetActive(true);
+            Canvas.SetActive(true);
+        }
+
         updateMaxSpeed();
 
         // read input from WASD keys
@@ -138,7 +150,7 @@ public class TopDownCharacterController : MonoBehaviour
         }
 
         
-        if (Input.GetButtonDown("Fire1") && m_startingBullets > 0 && !dead)
+        if (Input.GetButtonDown("Fire1") && m_startingBullets > 0 && dead == false && SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false)
         {
             Fire();
         }
