@@ -4661,6 +4661,8 @@ MonoBehaviour:
   hoverUI6: {fileID: 5916966042612277480}
   Blood: {fileID: 3799997466513446256}
   FireEffect: {fileID: 478287939546947780}
+  HealthBar: {fileID: 6068057440949511994}
+  Canvas: {fileID: 2307872089576435682}
   Health: {fileID: 8868476319818868199}
   GameOVER: {fileID: 5361864700037060083}
   dead: 0
@@ -4881,8 +4883,7 @@ MonoBehaviour:
   SlotWeight: 000000000000000000000000000000000000000000000000
   inventoryFull: 0
   playerweight: {fileID: 5113716440434980168}
-  Cooldown: 0
-  InvFullUI: {fileID: 0}
+  InvFullUI: {fileID: 7186838127949127099}
 --- !u!1 &6486829405562883858
 GameObject:
   m_ObjectHideFlags: 0
