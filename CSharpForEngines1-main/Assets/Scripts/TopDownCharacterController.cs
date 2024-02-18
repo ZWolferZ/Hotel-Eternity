@@ -49,6 +49,8 @@ public class TopDownCharacterController : MonoBehaviour
    private bool FireParticleCooldown = false;
     public GameObject HealthBar;
     public GameObject Canvas;
+    public bool Floor2Unlocked = false;
+    public bool Floor3Unlocked = false;
     
 
     public Health Health;
