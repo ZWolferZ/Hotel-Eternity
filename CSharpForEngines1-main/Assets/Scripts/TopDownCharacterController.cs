@@ -32,7 +32,7 @@ public class TopDownCharacterController : MonoBehaviour
     [FormerlySerializedAs("m_projectileSpeed")] [SerializeField] float mProjectileSpeed;
     [FormerlySerializedAs("m_startingBullets")] [SerializeField] int mStartingBullets;
     [FormerlySerializedAs("BulletText")] public TMPro.TextMeshProUGUI bulletText;
-    private SpriteRenderer _sprite;
+    private static SpriteRenderer _sprite;
     PlayerWeight _playerWeight;
     
     public GameObject pauseMenuUI;
@@ -55,6 +55,7 @@ public class TopDownCharacterController : MonoBehaviour
 
     [FormerlySerializedAs("Health")] public Health health;
     [FormerlySerializedAs("GameOVER")] public GameObject gameOver;
+    
    public bool dead;
     /// <summary>
     /// When the script first initialises this gets called, use this for grabbing components
@@ -161,7 +162,7 @@ public class TopDownCharacterController : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Enemy") || _particleCooldown != false) return;
+        if (!collision.gameObject.CompareTag("Enemy") || _particleCooldown) return;
         StartCoroutine(PlayHitParticles());
         StartCoroutine(HitFlash());
 
@@ -221,6 +222,7 @@ public class TopDownCharacterController : MonoBehaviour
         _particleCooldown = true;
         blood.Play();
         
+        
         yield return new WaitForSeconds(2.5f);
         
         blood.Stop();
@@ -231,40 +233,42 @@ public class TopDownCharacterController : MonoBehaviour
     {
         _fireParticleCooldown = true;
         fireEffect.Play();
+        
 
         yield return new WaitForSeconds(0.5f);
 
         fireEffect.Stop();
         _fireParticleCooldown = false;
     }
-    IEnumerator HitFlash()
-    {
-        var color = _sprite.color;
 
-        color = Color.red;
+    private IEnumerator HitFlash()
+    {
+
+        
+        _sprite.color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        color = Color.white;
+        _sprite.color = Color.white;
         yield return new WaitForSeconds(0.2f);
-        color = Color.red;
+        _sprite.color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        color = Color.white;
+        _sprite.color = Color.white;
         yield return new WaitForSeconds(0.2f);
-        color = Color.red;
+        _sprite.color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        color = Color.white;
+        _sprite.color = Color.white;
         yield return new WaitForSeconds(0.2f);
-        color = Color.red;
+        _sprite.color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        color = Color.white;
+        _sprite.color = Color.white;
         yield return new WaitForSeconds(0.2f);
-        color = Color.red;
+        _sprite.color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        color = Color.white;
+        _sprite.color = Color.white;
         yield return new WaitForSeconds(0.2f);
-        color = Color.red;
+        _sprite.color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        color = Color.white;
-        _sprite.color = color;
+        _sprite.color = Color.white;
+        
         yield return new WaitForSeconds(0.2f);
     }
 

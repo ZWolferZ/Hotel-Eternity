@@ -9,7 +9,7 @@ public class MovingObstacle : MonoBehaviour
     [FormerlySerializedAs("m_endPoint")] [SerializeField]
     private Transform mEndPoint;
     [FormerlySerializedAs("m_moveSpeed")] [SerializeField]
-    private int mMoveSpeed = 0;
+    private int mMoveSpeed;
 
     private Transform _target;
 

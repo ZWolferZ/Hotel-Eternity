@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class InventoryUpdown : MonoBehaviour
 {
-
-    
-    private readonly float _transitionSpeed = 10f;
+    private const float TransitionSpeed = 10f;
     private bool _isMoving;
-    RectTransform _rectTransform;
+    private RectTransform _rectTransform;
 
     private void Awake()
     {
@@ -56,7 +54,7 @@ public class InventoryUpdown : MonoBehaviour
         while (elapsedTime < 1f)
         {
             transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime);
-            elapsedTime += Time.deltaTime * _transitionSpeed;
+            elapsedTime += Time.deltaTime * TransitionSpeed;
              yield return null;
         }
        

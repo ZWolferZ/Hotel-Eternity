@@ -12,7 +12,7 @@ public class HoverUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public InvManager invManager;
     public TMPro.TextMeshProUGUI uitext;
     public bool[] slots;
-    public bool noFire = false;
+    public bool noFire;
     
     private void Start()
     {
@@ -36,7 +36,7 @@ public class HoverUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             case true when slots[slotIndex]:
                 uitext.text = "EMPTY SLOT";
                 break;
-            case false when slots[slotIndex] == true:
+            case false when slots[slotIndex]:
             {
                 if (invManager.itemName[slotIndex] == "Empty")
                 {
