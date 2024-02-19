@@ -10,7 +10,7 @@ public class BoxTestEnemy : MonoBehaviour
 {
     #region Varibles
 
-    // List of varibles needed (You probably don't need half of these)
+    // List of variables needed (You probably don't need half of these)
     public Health Health;
     MonsterTypes.MonsterTEST BoxTest = new MonsterTypes.MonsterTEST();
     private bool cooldown = false;
@@ -32,7 +32,7 @@ public class BoxTestEnemy : MonoBehaviour
 
     void Start()
     {
-        // Assigning Starting Varibles
+        // Assigning Starting Variables
         playerTransform = FindObjectOfType<TopDownCharacterController>().transform;
         m_Agent = GetComponent<NavMeshAgent>();
         m_Agent.speed = BoxTest.speed;
@@ -72,7 +72,7 @@ public class BoxTestEnemy : MonoBehaviour
     {
         if (Stunned == false)
         {
-            // Set bools if player is in thetrigger and and the enemy has a line of sight
+            // Set booleans if player is in the trigger and and the enemy has a line of sight
             if (BoxTest.PlayerInRange == true && LineOfSight == true)
             {
 
@@ -100,14 +100,14 @@ public class BoxTestEnemy : MonoBehaviour
 
             if (foundPlayer == true)
             {
-                // If player is found turn on the enemys detection light
+                // If player is found turn on the enemy's detection light
                 enemyLight.SetActive(true);
                 // Move towards the player
                 m_Agent.SetDestination(playerTransform.position);
             }
             if (foundPlayer == false)
             {
-                // If player is not found turn off the enemys detection light
+                // If player is not found turn off the enemy's detection light
                 enemyLight.SetActive(false);
             }
         }
