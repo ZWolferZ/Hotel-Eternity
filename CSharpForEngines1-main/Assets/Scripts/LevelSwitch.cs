@@ -1,63 +1,47 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor.Audio;
 using UnityEngine.UI;
-using UnityEngine.Animations;
+
 
 public class LevelSwitch : MonoBehaviour
 {
     
-  public  GameObject LiftUI;
-    bool started = false;
-    private TopDownCharacterController Player;
-    public bool Floor2Unlocked = false;
-    public bool Floor3Unlocked = false;
-    public bool Floor1Unlocked = true;
-    public GameObject LiftDoorClose1;
-   public GameObject LiftDoorClose2;
-   public GameObject LiftDoorOpen1;
-   public GameObject LiftDoorOpen2;
-    public AudioSource LiftClosing;
-    public AudioSource ErrorNoise;
-    public Image Floor2Button;
-    public Image Floor3Button;
-    public Image Floor1Button;
+    public  GameObject liftUI;
+    readonly bool _started = false;
+    private TopDownCharacterController _player;
+    public bool floor2Unlocked;
+    public bool floor3Unlocked;
+    public bool floor1Unlocked = true;
+    public GameObject liftDoorClose1;
+    public GameObject liftDoorClose2;
+    public GameObject liftDoorOpen1;
+    public GameObject liftDoorOpen2;
+    public AudioSource liftClosing;
+    public AudioSource errorNoise;
+    public Image floor2Button;
+    public Image floor3Button;
+    public Image floor1Button;
     public Animator animator;
     public string triggerName;
-    public GameObject Fade;
+    public GameObject fade;
 
     private void Awake()
     {
-        Player = FindAnyObjectByType<TopDownCharacterController>();
-        Floor2Unlocked = Player.Floor2Unlocked;
-        Floor3Unlocked = Player.Floor3Unlocked;
+        _player = FindAnyObjectByType<TopDownCharacterController>();
+        floor2Unlocked = _player.floor2Unlocked;
+        floor3Unlocked = _player.floor3Unlocked;
     }
 
     private void FixedUpdate()
     {
-        if (Floor2Unlocked == true)
-        {
-            Floor2Button.color = Color.green;
-        }
-        else
-        {
-            Floor2Button.color = Color.red;
-        }
+        floor2Button.color = floor2Unlocked ? Color.green : Color.red;
 
-        if (Floor3Unlocked == true)
-        {
-            Floor3Button.color = Color.green;
-        }
-        else
-        {
-            Floor3Button.color = Color.red;
-        }
+        floor3Button.color = floor3Unlocked ? Color.green : Color.red;
 
-        if (Floor1Unlocked == true)
+        if (floor1Unlocked)
         {
-            Floor1Button.color = Color.green;
+            floor1Button.color = Color.green;
         }
     }
 
@@ -67,7 +51,7 @@ public class LevelSwitch : MonoBehaviour
         if (other.CompareTag("Player"))
         {
 
-            LiftUI.SetActive(true);
+            liftUI.SetActive(true);
 
         }
     }
@@ -78,85 +62,83 @@ public class LevelSwitch : MonoBehaviour
         if (other.CompareTag("Player"))
         {
 
-            LiftUI.SetActive(false);
+            liftUI.SetActive(false);
 
         }
     }
 
-    public void floor1()
+    public void Floor1()
     {
-        if (started == false)
-        {
-            Destroy(LiftUI);
-            StartCoroutine(Floor1(5));
-        }
-        
+        if (_started) return;
+        Destroy(liftUI);
+        StartCoroutine(Floor1(5));
+
     }
 
-    IEnumerator Floor1(float Time)
+    private IEnumerator Floor1(float time)
     {
-        LiftDoorOpen1.SetActive(false);
-        LiftDoorOpen2.SetActive(false);
-        LiftDoorClose1.SetActive(true);
-        LiftDoorClose2.SetActive(true);
-        Fade.SetActive(true);
-        LiftClosing.Play();
+        liftDoorOpen1.SetActive(false);
+        liftDoorOpen2.SetActive(false);
+        liftDoorClose1.SetActive(true);
+        liftDoorClose2.SetActive(true);
+        fade.SetActive(true);
+        liftClosing.Play();
         animator.SetTrigger(triggerName);
-        yield return new WaitForSeconds(Time);
+        yield return new WaitForSeconds(time);
         SceneManager.LoadScene("Test Scene 2");
     }
 
-    public void floor2()
+    public void Floor2()
     {
-        if (started == false && Floor2Unlocked == true)
+        if (_started == false && floor2Unlocked)
         {
-            Destroy(LiftUI);
+            Destroy(liftUI);
             StartCoroutine(Floor2(5));
         }
-        else if (Floor2Unlocked == false)
+        else if (floor2Unlocked == false)
         {
-            ErrorNoise.Play();
+            errorNoise.Play();
         }
 
     }
 
-    IEnumerator Floor2(float Time)
+    private IEnumerator Floor2(float time)
     {
-        LiftDoorOpen1.SetActive(false);
-        LiftDoorOpen2.SetActive(false);
-        LiftDoorClose1.SetActive(true);
-        LiftDoorClose2.SetActive(true);
-        Fade.SetActive(true);
-        LiftClosing.Play();
+        liftDoorOpen1.SetActive(false);
+        liftDoorOpen2.SetActive(false);
+        liftDoorClose1.SetActive(true);
+        liftDoorClose2.SetActive(true);
+        fade.SetActive(true);
+        liftClosing.Play();
         animator.SetTrigger(triggerName);
-        yield return new WaitForSeconds(Time);
+        yield return new WaitForSeconds(time);
         SceneManager.LoadScene("Floor 2");
     }
 
-    public void floor3()
+    public void Floor3()
     {
-        if (started == false && Floor3Unlocked == true)
+        if (_started == false && floor3Unlocked)
         {
-            Destroy(LiftUI);
+            Destroy(liftUI);
             StartCoroutine(Floor3(5));
         }
-        else if (Floor3Unlocked == false)
+        else if (floor3Unlocked == false)
         {
-            ErrorNoise.Play();
+            errorNoise.Play();
         }
 
     }
 
-    IEnumerator Floor3(float Time)
+    IEnumerator Floor3(float time)
     {
-        LiftDoorOpen1.SetActive(false);
-        LiftDoorOpen2.SetActive(false);
-        LiftDoorClose1.SetActive(true);
-        LiftDoorClose2.SetActive(true);
-        Fade.SetActive(true);
-        LiftClosing.Play();
+        liftDoorOpen1.SetActive(false);
+        liftDoorOpen2.SetActive(false);
+        liftDoorClose1.SetActive(true);
+        liftDoorClose2.SetActive(true);
+        fade.SetActive(true);
+        liftClosing.Play();
         animator.SetTrigger(triggerName);
-        yield return new WaitForSeconds(Time);
+        yield return new WaitForSeconds(time);
         SceneManager.LoadScene("Floor 3");
     }
 }

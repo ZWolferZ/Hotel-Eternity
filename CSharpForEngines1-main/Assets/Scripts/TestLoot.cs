@@ -1,9 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Serialization;
+
 
 public class TestLoot : MonoBehaviour
 {
-    public GameObject LootPrefabTest; 
+    [FormerlySerializedAs("LootPrefabTest")] public GameObject lootPrefabTest; 
     public PlayerWeight playerWeight;
     public TopDownCharacterController topDownCharacterController;
     public InvManager invManager;
@@ -19,12 +20,14 @@ public class TestLoot : MonoBehaviour
     {
         if (other.CompareTag("Player") && invManager.inventoryFull == false)
         {
-            Loot.LootTypes.TestLoot Loot1 = new Loot.LootTypes.TestLoot();
-            Loot1.item = LootPrefabTest;
-            playerWeight.weight += Loot1.Weight;
+            var loot1 = new Loot.LootTypes.TestLoot
+            {
+                Item = lootPrefabTest
+            };
+            playerWeight.weight += Loot.LootTypes.TestLoot.Weight;
             
-            invManager.AddItemToInventory(Loot1.item);
-            playerWeight.CarryWeight.text = "Carry Weight: " + playerWeight.weight;
+            invManager.AddItemToInventory(loot1.Item);
+            playerWeight.carryWeight.text = "Carry Weight: " + playerWeight.weight;
             Destroy(gameObject);
         }
         else if (other.CompareTag("Player"))

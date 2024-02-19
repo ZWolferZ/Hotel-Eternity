@@ -1,87 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerWeight : MonoBehaviour
 {
-    public int weight = 0;
-    public float trueWeight = 0;
-    public TMPro.TextMeshProUGUI CarryWeight;
+    public int weight;
+    public float trueWeight;
+    [FormerlySerializedAs("CarryWeight")] public TMPro.TextMeshProUGUI carryWeight;
 
     private void Start()
     {
-        CarryWeight.text = "Carry Weight: " + weight;
+        carryWeight.text = "Carry Weight: " + weight;
     }
 
     private void Update()
     {
-        
-
-        switch (weight)
+        trueWeight = weight switch
         {
-            case 0:
-                trueWeight = 10;
-                break;
-            case 1:
-                trueWeight = 20;
-                break;
-            case 2:
-                trueWeight = 30;
-                break;
-            case 3:
-                trueWeight = 40;
-                break;
-            case 4:
-                trueWeight = 50;
-                break;
-            case 5:
-                trueWeight = 60;
-                break;
-            case 6:
-                trueWeight = 70;
-                break;
-            case 7:
-                    trueWeight = 80;
-                break;
-            case 8:
-                    trueWeight = 90;
-                break;
-            case 9:
-                    trueWeight = 100;
-                break;
-            case 10:
-                    trueWeight = 110;
-                break;
-            case 11:
-                    trueWeight = 120;
-                break;
-            case 12:
-                    trueWeight = 130;
-                break;
-            case 13:
-                    trueWeight = 140;
-                break;
-            case 14:
-                    trueWeight = 150;
-                break;
-            case 15:
-                    trueWeight = 160;
-                break;
-            case 16:
-                    trueWeight = 170;
-                break;
-            case 17:
-                    trueWeight = 180;
-                break;
-            case 18:
-                    trueWeight = 190;
-                break;
-            case 19:
-                    trueWeight = 200;
-                break;
-        }
-      
+            0 => 10,
+            1 => 20,
+            2 => 30,
+            3 => 40,
+            4 => 50,
+            5 => 60,
+            6 => 70,
+            7 => 80,
+            8 => 90,
+            9 => 100,
+            10 => 110,
+            11 => 120,
+            12 => 130,
+            13 => 140,
+            14 => 150,
+            15 => 160,
+            16 => 170,
+            17 => 180,
+            18 => 190,
+            19 => 200,
+            _ => trueWeight
+        };
     }
 
 }

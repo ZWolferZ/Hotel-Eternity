@@ -1922,8 +1922,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 335dde99d160b4941a34d4bf00a629b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Panel_SettingsAndControls: {fileID: 1894460140}
-  m_MainMenu: {fileID: 287194493}
+  player: {fileID: 0}
+  canvas: {fileID: 0}
+  mPanelSettingsAndControls: {fileID: 1894460140}
+  mMainMenu: {fileID: 287194493}
 --- !u!4 &749891608
 Transform:
   m_ObjectHideFlags: 0

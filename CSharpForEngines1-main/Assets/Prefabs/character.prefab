@@ -1228,10 +1228,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 335dde99d160b4941a34d4bf00a629b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 6200877513339337802}
-  Canvas: {fileID: 2307872089576435682}
-  m_Panel_SettingsAndControls: {fileID: 0}
-  m_MainMenu: {fileID: 0}
+  player: {fileID: 6200877513339337802}
+  canvas: {fileID: 2307872089576435682}
+  mPanelSettingsAndControls: {fileID: 0}
+  mMainMenu: {fileID: 0}
 --- !u!1 &2307872089576435682
 GameObject:
   m_ObjectHideFlags: 0
@@ -2580,11 +2580,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82dc91556d14043aeadb53e3dacde662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InvSlotDetail: {fileID: 5153904004392840730}
-  DiscardButton: {fileID: 7043716288860579872}
-  InvManager: {fileID: 8543744151666345689}
-  UITEXT: {fileID: 9175943190608409539}
-  Slots: 000100000000
+  invSlotDetail: {fileID: 5153904004392840730}
+  discardButton: {fileID: 7043716288860579872}
+  invManager: {fileID: 8543744151666345689}
+  uitext: {fileID: 9175943190608409539}
+  slots: 000100000000
   noFire: 0
 --- !u!1 &3903990557678639924
 GameObject:
@@ -3469,11 +3469,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82dc91556d14043aeadb53e3dacde662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InvSlotDetail: {fileID: 8628864745195016284}
-  DiscardButton: {fileID: 1916689219783578030}
-  InvManager: {fileID: 8543744151666345689}
-  UITEXT: {fileID: 1339123568350041989}
-  Slots: 010000000000
+  invSlotDetail: {fileID: 8628864745195016284}
+  discardButton: {fileID: 1916689219783578030}
+  invManager: {fileID: 8543744151666345689}
+  uitext: {fileID: 1339123568350041989}
+  slots: 010000000000
   noFire: 0
 --- !u!1 &4771545443735814846
 GameObject:
@@ -4663,6 +4663,8 @@ MonoBehaviour:
   FireEffect: {fileID: 478287939546947780}
   HealthBar: {fileID: 6068057440949511994}
   Canvas: {fileID: 2307872089576435682}
+  Floor2Unlocked: 0
+  Floor3Unlocked: 0
   Health: {fileID: 8868476319818868199}
   GameOVER: {fileID: 5361864700037060083}
   dead: 0
@@ -4880,10 +4882,10 @@ MonoBehaviour:
   - 
   - 
   - 
-  SlotWeight: 000000000000000000000000000000000000000000000000
+  slotWeight: 000000000000000000000000000000000000000000000000
   inventoryFull: 0
   playerweight: {fileID: 5113716440434980168}
-  InvFullUI: {fileID: 7186838127949127099}
+  invFullUI: {fileID: 7186838127949127099}
 --- !u!1 &6486829405562883858
 GameObject:
   m_ObjectHideFlags: 0
@@ -10347,11 +10349,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82dc91556d14043aeadb53e3dacde662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InvSlotDetail: {fileID: 675240174988753249}
-  DiscardButton: {fileID: 2664901511727358228}
-  InvManager: {fileID: 8543744151666345689}
-  UITEXT: {fileID: 3601805166819693316}
-  Slots: 000001000000
+  invSlotDetail: {fileID: 675240174988753249}
+  discardButton: {fileID: 2664901511727358228}
+  invManager: {fileID: 8543744151666345689}
+  uitext: {fileID: 3601805166819693316}
+  slots: 000001000000
   noFire: 0
 --- !u!1 &7186838127949127099
 GameObject:
@@ -12014,11 +12016,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82dc91556d14043aeadb53e3dacde662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InvSlotDetail: {fileID: 5510716017814082183}
-  DiscardButton: {fileID: 2383385717337184646}
-  InvManager: {fileID: 8543744151666345689}
-  UITEXT: {fileID: 593427157466398588}
-  Slots: 000000000001
+  invSlotDetail: {fileID: 5510716017814082183}
+  discardButton: {fileID: 2383385717337184646}
+  invManager: {fileID: 8543744151666345689}
+  uitext: {fileID: 593427157466398588}
+  slots: 000000000001
   noFire: 0
 --- !u!1 &8796557144185242235
 GameObject:
@@ -17174,11 +17176,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82dc91556d14043aeadb53e3dacde662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InvSlotDetail: {fileID: 2781273268148472432}
-  DiscardButton: {fileID: 5540575768295449647}
-  InvManager: {fileID: 8543744151666345689}
-  UITEXT: {fileID: 3662225893407699880}
-  Slots: 000000000100
+  invSlotDetail: {fileID: 2781273268148472432}
+  discardButton: {fileID: 5540575768295449647}
+  invManager: {fileID: 8543744151666345689}
+  uitext: {fileID: 3662225893407699880}
+  slots: 000000000100
   noFire: 0
 --- !u!1 &8910304819278200660
 GameObject:
@@ -17312,11 +17314,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82dc91556d14043aeadb53e3dacde662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InvSlotDetail: {fileID: 284766436878572087}
-  DiscardButton: {fileID: 3903990557678639924}
-  InvManager: {fileID: 8543744151666345689}
-  UITEXT: {fileID: 1877301181293675740}
-  Slots: 000000010000
+  invSlotDetail: {fileID: 284766436878572087}
+  discardButton: {fileID: 3903990557678639924}
+  invManager: {fileID: 8543744151666345689}
+  uitext: {fileID: 1877301181293675740}
+  slots: 000000010000
   noFire: 0
 --- !u!1 &8924639046759185315
 GameObject:

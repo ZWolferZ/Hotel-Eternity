@@ -1,22 +1,22 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static Loot;
-using static Loot.LootTypes;
+
 
 public class HoverUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
-{
-    public GameObject InvSlotDetail;
-    public GameObject DiscardButton;
+{ 
+    public GameObject invSlotDetail;
+    public GameObject discardButton;
     
 
-    public InvManager InvManager;
-    public TMPro.TextMeshProUGUI UITEXT;
-    public bool[] Slots;
+    public InvManager invManager;
+    public TMPro.TextMeshProUGUI uitext;
+    public bool[] slots;
     public bool noFire = false;
     
     private void Start()
     {
-        UITEXT.text = "EMPTY SLOT";
+        uitext.text = "EMPTY SLOT";
     }
 
     private void FixedUpdate()
@@ -31,58 +31,64 @@ public class HoverUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void UpdateSlot(int slotIndex)
     {
-        if (InvManager.inventorySlotOpen[slotIndex] && Slots[slotIndex])
+        switch (invManager.inventorySlotOpen[slotIndex])
         {
-            UITEXT.text = "EMPTY SLOT";
-        }
-        else if (InvManager.inventorySlotOpen[slotIndex] == false && Slots[slotIndex] == true)
-        {
-            if (InvManager.itemName[slotIndex] == "Empty")
+            case true when slots[slotIndex]:
+                uitext.text = "EMPTY SLOT";
+                break;
+            case false when slots[slotIndex] == true:
             {
-                UITEXT.text = "EMPTY SLOT";
-            }
-            if (InvManager.itemName[slotIndex] == "TestLoot")
-            {
-                Loot.LootTypes.TestLoot TestLoot = new LootTypes.TestLoot();
-                TestLoot.Name = InvManager.itemName[slotIndex];
-                InvManager.SlotWeight[slotIndex] = TestLoot.Weight;
-                UITEXT.text = TestLoot.Name + "\n" + "\n" + "Weight: " + TestLoot.Weight + "\n" + "\n" + "Value: " + TestLoot.Value;
-            }
-            if (InvManager.itemName[slotIndex] == "Floor1Loot")
-            {
-                Loot.LootTypes.Floor1Loot Floor1Loot = new LootTypes.Floor1Loot();
-                Floor1Loot.Name = InvManager.itemName[slotIndex];
-                InvManager.SlotWeight[slotIndex] = Floor1Loot.Weight;
-                UITEXT.text = Floor1Loot.Name + "\n" + "\n" + "Weight: " + Floor1Loot.Weight + "\n" + "\n" + "Value: " + Floor1Loot.Value;
-            }
-            if (InvManager.itemName[slotIndex] == "Floor2Loot")
-            {
-                Loot.LootTypes.Floor2Loot Floor2Loot = new LootTypes.Floor2Loot();
-                Floor2Loot.Name = InvManager.itemName[slotIndex];
-                InvManager.SlotWeight[slotIndex] = Floor2Loot.Weight;
-                UITEXT.text = Floor2Loot.Name + "\n" + "\n" + "Weight: " + Floor2Loot.Weight + "\n" + "\n" + "Value: " + Floor2Loot.Value;
+                if (invManager.itemName[slotIndex] == "Empty")
+                {
+                    uitext.text = "EMPTY SLOT";
+                }
+                if (invManager.itemName[slotIndex] == "TestLoot")
+                {
+                    var testLoot = new LootTypes.TestLoot
+                    {
+                        Name = invManager.itemName[slotIndex]
+                    };
+                    invManager.slotWeight[slotIndex] = LootTypes.TestLoot.Weight;
+                    uitext.text = testLoot.Name + "\n" + "\n" + "Weight: " + LootTypes.TestLoot.Weight + "\n" + "\n" + "Value: " + LootTypes.TestLoot.Value;
+                }
+                if (invManager.itemName[slotIndex] == "Floor1Loot")
+                {
+                    var floor1Loot = new LootTypes.Floor1Loot
+                    {
+                        Name = invManager.itemName[slotIndex]
+                    };
+                    invManager.slotWeight[slotIndex] = LootTypes.Floor1Loot.Weight;
+                    uitext.text = floor1Loot.Name + "\n" + "\n" + "Weight: " + LootTypes.Floor1Loot.Weight + "\n" + "\n" + "Value: " + LootTypes.Floor1Loot.Value;
+                }
+                if (invManager.itemName[slotIndex] == "Floor2Loot")
+                {
+                    var floor2Loot = new LootTypes.Floor2Loot
+                    {
+                        Name = invManager.itemName[slotIndex]
+                    };
+                    invManager.slotWeight[slotIndex] = LootTypes.Floor2Loot.Weight;
+                    uitext.text = floor2Loot.Name + "\n" + "\n" + "Weight: " + LootTypes.Floor2Loot.Weight + "\n" + "\n" + "Value: " + LootTypes.Floor2Loot.Value;
+                }
+
+                break;
             }
         }
     }
 
-    public void OnPointerEnter(PointerEventData Mouse)
+    public void OnPointerEnter(PointerEventData mouse)
     {
-        if (InvSlotDetail != null)
-        {
-            noFire = true;
-            DiscardButton.SetActive(true);
-            InvSlotDetail.SetActive(true);
-        }
+        if (invSlotDetail == null) return;
+        noFire = true;
+        discardButton.SetActive(true);
+        invSlotDetail.SetActive(true);
     }
 
 
-    public void OnPointerExit(PointerEventData Mouse)
+    public void OnPointerExit(PointerEventData mouse)
     {
-        if (InvSlotDetail != null)
-        {
-            noFire = false;
-            DiscardButton.SetActive(false);
-            InvSlotDetail.SetActive(false);
-        }
+        if (invSlotDetail == null) return;
+        noFire = false;
+        discardButton.SetActive(false);
+        invSlotDetail.SetActive(false);
     }
 }

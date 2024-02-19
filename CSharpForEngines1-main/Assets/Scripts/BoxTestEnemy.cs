@@ -3,41 +3,40 @@ using UnityEngine;
 using static Monsters;
 using UnityEngine.AI;
 
-using UnityEngine.UIElements;
-using UnityEngine.Rendering.Universal;
+
 
 public class BoxTestEnemy : MonoBehaviour
 {
     #region Varibles
 
     // List of variables needed (You probably don't need half of these)
-    public Health Health;
-    MonsterTypes.MonsterTEST BoxTest = new MonsterTypes.MonsterTEST();
-    private bool cooldown = false;
-    private bool Collider = false;
-    private bool Stunned = false;
+    public Health health;
+    private readonly MonsterTypes.MonsterTest _boxTest = new MonsterTypes.MonsterTest();
+    private bool _cooldown;
+    private bool _collider;
+    private bool _stunned;
     public Transform playerTransform;
-    NavMeshAgent m_Agent;
-    private bool LineOfSight = false;
-    [SerializeField] bool foundPlayer = false;
-    [SerializeField] bool Roaming = true;
-    bool moveCooldown = false;
+    private NavMeshAgent _mAgent;
+    private bool _lineOfSight;
+    [SerializeField] private bool foundPlayer;
+    [SerializeField] private bool roaming = true;
+    private bool _moveCooldown;
     public GameObject enemyLight;
-    private bool triggerCooldown = false;
-    public TopDownCharacterController Player;
+    private bool _triggerCooldown;
+    public TopDownCharacterController player;
     #endregion
 
 
     #region Assigning Varibles
 
-    void Start()
+    private void Start()
     {
         // Assigning Starting Variables
         playerTransform = FindObjectOfType<TopDownCharacterController>().transform;
-        m_Agent = GetComponent<NavMeshAgent>();
-        m_Agent.speed = BoxTest.speed;
-        Player = FindAnyObjectByType<TopDownCharacterController>();
-        Health = FindAnyObjectByType<Health>();
+        _mAgent = GetComponent<NavMeshAgent>();
+        _mAgent.speed = MonsterTypes.MonsterTest.Speed;
+        player = FindAnyObjectByType<TopDownCharacterController>();
+        health = FindAnyObjectByType<Health>();
 
     }
 
@@ -46,21 +45,25 @@ public class BoxTestEnemy : MonoBehaviour
     #region Raycast Detection
     private void FixedUpdate()
     {
+        var enemyPosition = transform.position;
         // Enemy RayCast Detection
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, playerTransform.transform.position - transform.position);
-        if(hit.collider != null)
+        RaycastHit2D hit = Physics2D.Raycast(enemyPosition, playerTransform.transform.position - enemyPosition);
+        if(hit.collider == null) return;
         {
-            LineOfSight = hit.collider.CompareTag("Player");    
-            if(LineOfSight == true)
+            _lineOfSight = hit.collider.CompareTag("Player");    
+            
+            switch (_lineOfSight)
             {
-                // If line of sight = true the line will draw as green
-                Debug.DrawRay(transform.position, playerTransform.transform.position - transform.position, Color.green);
+                case true:
+                    // If line of sight = true the line will draw as green
+                    Debug.DrawRay(transform.position, playerTransform.transform.position - enemyPosition, Color.green);
+                    break;
+                case false:
+                    // If line of sight != true the line will draw as red
+                    Debug.DrawRay(transform.position, playerTransform.transform.position - enemyPosition, Color.red);
+                    break;
             }
-            else if (LineOfSight == false)
-            {
-                // If line of sight != true the line will draw as red
-                Debug.DrawRay(transform.position, playerTransform.transform.position - transform.position, Color.red);
-            }
+
         }
 
     }
@@ -68,56 +71,60 @@ public class BoxTestEnemy : MonoBehaviour
 
     #region Update Enemy Detection and Movement
 
-    void Update()
+    private void Update()
     {
-        if (Stunned == false)
+        switch (_stunned)
         {
-            // Set booleans if player is in the trigger and and the enemy has a line of sight
-            if (BoxTest.PlayerInRange == true && LineOfSight == true)
+            case false:
             {
-
-                foundPlayer = true;
-                Roaming = false;
-               
-            }
-            else if (LineOfSight == false)
-            {
-                if (triggerCooldown == false)
+                // Set booleans if player is in the trigger and and the enemy has a line of sight
+                if (_boxTest.PlayerInRange && _lineOfSight)
                 {
-                    // If line of sight is lost, start the forget timer
-                   StartCoroutine(WaitAndBool(BoxTest.ForgetTimer));
+
+                    foundPlayer = true;
+                    roaming = false;
+               
+                }
+                else if (_lineOfSight == false)
+                {
+                    if (_triggerCooldown == false)
+                    {
+                        // If line of sight is lost, start the forget timer
+                        StartCoroutine(WaitAndBool(MonsterTypes.MonsterTest.ForgetTimer));
+
+                    }
+
 
                 }
-
-
-            }
-            if (Roaming == true && moveCooldown == false)
-            {
-                // If roaming = true, the enemy will start to move randomly
-                StartCoroutine(Roam());
+                if (roaming && _moveCooldown == false)
+                {
+                    // If roaming = true, the enemy will start to move randomly
+                    StartCoroutine(Roam());
                     
-            }
+                }
 
-            if (foundPlayer == true)
-            {
-                // If player is found turn on the enemy's detection light
-                enemyLight.SetActive(true);
-                // Move towards the player
-                m_Agent.SetDestination(playerTransform.position);
+                switch (foundPlayer)
+                {
+                    case true:
+                        // If player is found turn on the enemy's detection light
+                        enemyLight.SetActive(true);
+                        // Move towards the player
+                        _mAgent.SetDestination(playerTransform.position);
+                        break;
+                
+                    case false:
+                        // If player is not found turn off the enemy's detection light
+                        enemyLight.SetActive(false);
+                        break;
+                }
+
+                break;
             }
-            if (foundPlayer == false)
-            {
-                // If player is not found turn off the enemy's detection light
-                enemyLight.SetActive(false);
-            }
+            case true:
+                // If the enemy is stunned do not move
+                _mAgent.SetDestination(transform.position);
+                break;
         }
-        else if (Stunned == true)
-        {
-            // If the enemy is stunned do not move
-            m_Agent.SetDestination(transform.position);
-        }
-        
-        
     }
 
     #endregion 
@@ -126,13 +133,13 @@ public class BoxTestEnemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && cooldown == false)
+        if (collision.gameObject.CompareTag("Player") && _cooldown == false)
         {
-            Collider = true;
+            _collider = true;
             // If the player is collided with,start the damage coroutine
             StartCoroutine(WaitAndDamage(1));
         }
-        if (collision.gameObject.CompareTag("Bullet"))
+        if (!collision.gameObject.CompareTag("Bullet")) return;
         {
             // If hit with a bullet, Destroy the bullet and start the stun coroutine
             Destroy(collision.gameObject);
@@ -145,7 +152,7 @@ public class BoxTestEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Collider = false;
+            _collider = false;
         }
     }
 
@@ -153,7 +160,7 @@ public class BoxTestEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            BoxTest.PlayerInRange = true;
+            _boxTest.PlayerInRange = true;
         }
         
     }
@@ -162,14 +169,14 @@ public class BoxTestEnemy : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            BoxTest.PlayerInRange = false;
+            _boxTest.PlayerInRange = false;
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            BoxTest.PlayerInRange = true;
+            _boxTest.PlayerInRange = true;
         }
     }
 
@@ -179,69 +186,68 @@ public class BoxTestEnemy : MonoBehaviour
     #region Coroutines
 
     // Wait and damage the player after a delay
-    IEnumerator WaitAndDamage(float time)
+    private IEnumerator WaitAndDamage(float time)
     {
-        cooldown = true;
-        Health.health -= BoxTest.damage;
+        _cooldown = true;
+        health.health -= MonsterTypes.MonsterTest.Damage;
         
         
         yield return new WaitForSeconds(time);
        
 
-        Debug.Log("Player damaged! Current Health: " + Health.health);
-        cooldown = false;
+        Debug.Log("Player damaged! Current Health: " + health.health);
+        _cooldown = false;
 
-        if (Collider == true)
+        if (_collider)
         {
             StartCoroutine(WaitAndDamage(time));
         }
     }
 
     // Start the forget timer
-    IEnumerator WaitAndBool(float time)
+    private IEnumerator WaitAndBool(float time)
     {
-        triggerCooldown = true;
+        _triggerCooldown = true;
         yield return new WaitForSeconds(time);
         foundPlayer = false;
-        triggerCooldown = false;
-        Roaming = true;
+        _triggerCooldown = false;
+        roaming = true;
         
     }
     // Wait for "time" and trigger the stunned boolean
-    IEnumerator Stun(float time)
+    private IEnumerator Stun(float time)
     {
-        Stunned = true;
+        _stunned = true;
         yield return new WaitForSeconds(time);
-        Stunned = false;
+        _stunned = false;
     }
     // Make the enemy randomly move 
-    IEnumerator Roam()
+    private IEnumerator Roam()
     {
-        moveCooldown = true;
+        _moveCooldown = true;
 
         // Call the random location function and get a random point on the navmesh
-        Vector2 randomPoint = randomLocation();
+        Vector2 randomPoint = RandomLocation();
 
         // Go to the random point on the navmesh
-        m_Agent.SetDestination(randomPoint);
+        _mAgent.SetDestination(randomPoint);
 
         yield return new WaitForSeconds(2);
-        moveCooldown = false;
+        _moveCooldown = false;
     }
     #endregion 
 
     #region Vector3 Function
     // Get a random location on the navmesh
-    private Vector3 randomLocation()
+    private Vector3 RandomLocation()
     {
         
-        float roamingRadius = 10f;
+        const float roamingRadius = 10f;
 
-        Vector3 randomDirection = Random.insideUnitSphere * roamingRadius;
+        var randomDirection = Random.insideUnitSphere * roamingRadius;
         randomDirection += transform.position;
 
-        NavMeshHit navHit;
-        NavMesh.SamplePosition(randomDirection, out navHit, roamingRadius, NavMesh.AllAreas);
+        NavMesh.SamplePosition(randomDirection, out var navHit, roamingRadius, NavMesh.AllAreas);
        
         return navHit.position;
         

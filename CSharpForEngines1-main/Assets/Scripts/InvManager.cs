@@ -1,16 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class InvManager : MonoBehaviour
 {
     public GameObject[] inventorySlots;
     public bool[] inventorySlotOpen;
     public string[] itemName;
-    public int[] SlotWeight;
-    public bool inventoryFull = false;
+    public int[] slotWeight;
+    public bool inventoryFull;
     public PlayerWeight playerweight;
-    public GameObject InvFullUI;
+    public GameObject invFullUI;
 
    
 
@@ -18,12 +17,12 @@ public class InvManager : MonoBehaviour
     // New Inventory System (Brad told me to start thinking, instead of just doing)
     public void AddItemToInventory(GameObject itemPrefab)
     {
-        GameObject newItem = Instantiate(itemPrefab);
+        var newItem = Instantiate(itemPrefab);
 
         
-        for (int i = 0; i < inventorySlots.Length; i++)
+        for (var i = 0; i < inventorySlots.Length; i++)
         {
-            if (inventorySlotOpen[i] == true && inventoryFull == false)
+            if (inventorySlotOpen[i] && inventoryFull == false)
             {
                 
                 newItem.transform.SetParent(inventorySlots[i].transform);
@@ -39,7 +38,7 @@ public class InvManager : MonoBehaviour
 
                 break;
             }
-            else if (inventoryFull == true)
+            else if (inventoryFull)
             {
                 Debug.Log("Inventory Full");
                 
@@ -51,73 +50,73 @@ public class InvManager : MonoBehaviour
     }
     public void DiscardInvSlot1()
     {
-        GameObject Child = inventorySlots[0].transform.GetChild(1).gameObject;
-        playerweight.weight = playerweight.weight - SlotWeight[0];
-        playerweight.CarryWeight.text = "Carry Weight: " + playerweight.weight;
-        SlotWeight[0] = 0;
+        var child = inventorySlots[0].transform.GetChild(1).gameObject;
+        playerweight.weight = playerweight.weight - slotWeight[0];
+        playerweight.carryWeight.text = "Carry Weight: " + playerweight.weight;
+        slotWeight[0] = 0;
         inventorySlotOpen[0] = true;
         itemName[0] = "Empty";
 
-        Destroy(Child);
+        Destroy(child);
     }
     public void DiscardInvSlot2()
     {
-        GameObject Child = inventorySlots[1].transform.GetChild(1).gameObject;
+        var child = inventorySlots[1].transform.GetChild(1).gameObject;
 
         inventorySlotOpen[1] = true;
-        playerweight.weight = playerweight.weight - SlotWeight[1];
-        playerweight.CarryWeight.text = "Carry Weight: " + playerweight.weight;
-        SlotWeight[1] = 0;
+        playerweight.weight = playerweight.weight - slotWeight[1];
+        playerweight.carryWeight.text = "Carry Weight: " + playerweight.weight;
+        slotWeight[1] = 0;
         itemName[1] = "Empty";
-        Destroy(Child);
+        Destroy(child);
     }
     public void DiscardInvSlot3()
     {
-        GameObject Child = inventorySlots[2].transform.GetChild(1).gameObject;
+        var child = inventorySlots[2].transform.GetChild(1).gameObject;
 
         inventorySlotOpen[2] = true;
-        playerweight.weight = playerweight.weight - SlotWeight[2];
-        playerweight.CarryWeight.text = "Carry Weight: " + playerweight.weight;
-        SlotWeight[2] = 0;
+        playerweight.weight = playerweight.weight - slotWeight[2];
+        playerweight.carryWeight.text = "Carry Weight: " + playerweight.weight;
+        slotWeight[2] = 0;
         itemName[2] = "Empty";
-        Destroy(Child);
+        Destroy(child);
     }
     public void DiscardInvSlot4()
     {
-        GameObject Child = inventorySlots[3].transform.GetChild(1).gameObject;
+        var child = inventorySlots[3].transform.GetChild(1).gameObject;
 
         inventorySlotOpen[3] = true;
-        playerweight.weight = playerweight.weight - SlotWeight[3];
-        playerweight.CarryWeight.text = "Carry Weight: " + playerweight.weight;
-        SlotWeight[3] = 0;
+        playerweight.weight = playerweight.weight - slotWeight[3];
+        playerweight.carryWeight.text = "Carry Weight: " + playerweight.weight;
+        slotWeight[3] = 0;
         itemName[3] = "Empty";
-        Destroy(Child);
+        Destroy(child);
     }
     public void DiscardInvSlot5()
     {
-        GameObject Child = inventorySlots[4].transform.GetChild(1).gameObject;
+        var child = inventorySlots[4].transform.GetChild(1).gameObject;
 
         inventorySlotOpen[4] = true;
-        playerweight.weight = playerweight.weight - SlotWeight[4];
-        playerweight.CarryWeight.text = "Carry Weight: " + playerweight.weight;
-        SlotWeight[4] = 0;
+        playerweight.weight = playerweight.weight - slotWeight[4];
+        playerweight.carryWeight.text = "Carry Weight: " + playerweight.weight;
+        slotWeight[4] = 0;
         itemName[4] = "Empty";
-        Destroy(Child);
+        Destroy(child);
     }
     public void DiscardInvSlot6()
     {
-        GameObject Child = inventorySlots[5].transform.GetChild(1).gameObject;
+        var child = inventorySlots[5].transform.GetChild(1).gameObject;
 
         inventorySlotOpen[5] = true;
-        playerweight.weight = playerweight.weight - SlotWeight[5];
-        playerweight.CarryWeight.text = "Carry Weight: " + playerweight.weight;
-        SlotWeight[5] = 0;
+        playerweight.weight = playerweight.weight - slotWeight[5];
+        playerweight.carryWeight.text = "Carry Weight: " + playerweight.weight;
+        slotWeight[5] = 0;
         itemName[5] = "Empty";
-        Destroy(Child);
+        Destroy(child);
     }
     private void Update()
     {
-        for (int j = 0; j < inventorySlots.Length; j++)
+        for (var j = 0; j < inventorySlots.Length; j++)
         {
             if (inventorySlots[j].transform.childCount == 0)
             {
@@ -128,12 +127,12 @@ public class InvManager : MonoBehaviour
         if (inventorySlotOpen[0] == false && inventorySlotOpen[1] == false && inventorySlotOpen[2] == false && inventorySlotOpen[3] == false && inventorySlotOpen[4] == false && inventorySlotOpen[5] == false)
         {
             inventoryFull = true;
-            InvFullUI.SetActive(true);
+            invFullUI.SetActive(true);
         }
-        if (inventorySlotOpen[0] == true || inventorySlotOpen[1] == true || inventorySlotOpen[2] == true || inventorySlotOpen[3] == true || inventorySlotOpen[4] == true || inventorySlotOpen[5] == true)
+        if (inventorySlotOpen[0] || inventorySlotOpen[1] || inventorySlotOpen[2] || inventorySlotOpen[3] || inventorySlotOpen[4] || inventorySlotOpen[5])
         {
             inventoryFull = false;
-            InvFullUI.SetActive(false);
+            invFullUI.SetActive(false);
         }
         
     }

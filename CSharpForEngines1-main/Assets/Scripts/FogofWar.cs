@@ -1,24 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class FogofWar : MonoBehaviour
 {
-    bool inHouse;
+    private bool _inSquare;
     public SpriteRenderer sprite;
     private void OnTriggerStay2D(Collider2D collision)
     {
         if(collision.CompareTag("Player"))
         {
-            inHouse = true;
+            _inSquare = true;
         }
     }
 
     private void Update()
     {
-        if (inHouse)
+        if (!_inSquare) return;
         {
-            Color color = sprite.color;
+            var color = sprite.color;
 
             color.a -= 1f * Time.deltaTime;
 

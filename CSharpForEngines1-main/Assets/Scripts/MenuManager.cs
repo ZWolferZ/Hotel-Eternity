@@ -1,29 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class MenuManager : MonoBehaviour
 {
-   public GameObject Player;
-   public GameObject Canvas;
-    public GameObject m_Panel_SettingsAndControls;
-    public GameObject m_MainMenu;
-    bool SettingsAndControlsOpen = false;
+    public GameObject player;
+    public GameObject canvas;
+    public GameObject mPanelSettingsAndControls;
+    public GameObject mMainMenu;
+    private bool _settingsAndControlsOpen;
 
     public void OpenSettingsAndControls()
     {
-        if (SettingsAndControlsOpen == false)
+        if (_settingsAndControlsOpen == false)
         {
-            m_Panel_SettingsAndControls.SetActive(true);
-            m_MainMenu.SetActive(false);
-            SettingsAndControlsOpen = true;
+            mPanelSettingsAndControls.SetActive(true);
+            mMainMenu.SetActive(false);
+            _settingsAndControlsOpen = true;
         }
         else
         {
-            m_Panel_SettingsAndControls.SetActive(false);
-            m_MainMenu.SetActive(true);
-            SettingsAndControlsOpen = false;
+            mPanelSettingsAndControls.SetActive(false);
+            mMainMenu.SetActive(true);
+            _settingsAndControlsOpen = false;
         }
     }
 
@@ -33,24 +32,24 @@ public class MenuManager : MonoBehaviour
     }
 
     public void LoadStartingLevel()
-    {
-           SceneManager.LoadScene("StartingHotelLobby");
+    {  
+        SceneManager.LoadScene("StartingHotelLobby");
         Time.timeScale = 1f;
     }
 
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("Main Menu");
-        Destroy(Player);
-        Destroy(Canvas);
+        Destroy(player);
+        Destroy(canvas);
         Time.timeScale = 1f;
     }
 
     public void ReloadLevel() 
     {
     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Destroy(Player);
-        Destroy(Canvas);
+        Destroy(player);
+        Destroy(canvas);
         Time.timeScale = 1f;
     }
 }

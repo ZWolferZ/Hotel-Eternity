@@ -9,27 +9,27 @@ public class SettingsMenu : MonoBehaviour
 
     public AudioMixer audioMixer;
 
-    Resolution[] resolutions;   
+    private Resolution[] _resolutions;   
 
     public TMPro.TMP_Dropdown resolutionDropdown;
 
-    //Rediculously hard to script Resolution Function because unity does not have a built in function for comparing resolutions.
+    //Ridiculously hard to script Resolution Function because unity does not have a built in function for comparing resolutions.
     private void Start()
     {
-        resolutions = Screen.resolutions;
+        _resolutions = Screen.resolutions;
 
         resolutionDropdown.ClearOptions();
 
-        List<string> options = new List<string>();
+        var options = new List<string>();
 
-        int currentResolutionsIndex = 0;
+        var currentResolutionsIndex = 0;
 
-        for (int i=0; i < resolutions.Length; i++)
+        for (var i=0; i < _resolutions.Length; i++)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
+            var option = _resolutions[i].width + " x " + _resolutions[i].height;
             options.Add(option);
 
-            if (resolutions[i].width==Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            if (_resolutions[i].width==Screen.currentResolution.width && _resolutions[i].height == Screen.currentResolution.height)
             {
                 currentResolutionsIndex = i;
             }
@@ -42,7 +42,7 @@ public class SettingsMenu : MonoBehaviour
     //Finally setting the resolution (I love unity (I dont) )
     public void SetResolution (int resolutionIndex)
     {
-        Resolution resolution = resolutions[resolutionIndex];
+        var resolution = _resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width,resolution.height,Screen.fullScreen);
     }   
     //Set Volume Function

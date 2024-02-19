@@ -1,23 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.Serialization;
+
 
 public class TopDownCharacterController : MonoBehaviour
 {
     #region Framework Stuff
     //Reference to attached animator
-    private Animator animator;
+    private Animator _animator;
 
-    //Reference to attached rigidbody 2D
-    private Rigidbody2D rb;
+    //Reference to attached rigid body 2D
+    private Rigidbody2D _rb;
 
     //The direction the player is moving in
     public Vector2 playerDirection;
 
     //The speed at which they're moving
-    private float playerSpeed = 1f;
+    private float _playerSpeed = 1f;
 
     [Header("Movement parameters")]
     //The maximum speed the player can move
@@ -27,93 +27,97 @@ public class TopDownCharacterController : MonoBehaviour
     
    
 
-    [SerializeField] GameObject m_bulletPrefab;
-    [SerializeField] Transform m_firePoint;
-    [SerializeField] float m_projectileSpeed;
-    [SerializeField] int m_startingBullets;
-    public TMPro.TextMeshProUGUI BulletText;
-    private SpriteRenderer sprite;
-    PlayerWeight playerWeight;
+    [FormerlySerializedAs("m_bulletPrefab")] [SerializeField] GameObject mBulletPrefab;
+    [FormerlySerializedAs("m_firePoint")] [SerializeField] Transform mFirePoint;
+    [FormerlySerializedAs("m_projectileSpeed")] [SerializeField] float mProjectileSpeed;
+    [FormerlySerializedAs("m_startingBullets")] [SerializeField] int mStartingBullets;
+    [FormerlySerializedAs("BulletText")] public TMPro.TextMeshProUGUI bulletText;
+    private SpriteRenderer _sprite;
+    PlayerWeight _playerWeight;
     
     public GameObject pauseMenuUI;
-    public bool Paused = false;
+    [FormerlySerializedAs("Paused")] public bool paused;
     public HoverUI hoverUI1;
     public HoverUI hoverUI2;
     public HoverUI hoverUI3;
     public HoverUI hoverUI4;
     public HoverUI hoverUI5;
     public HoverUI hoverUI6;
-    public ParticleSystem Blood;
-    public ParticleSystem FireEffect;
-    private bool ParticleCooldown = false;
-   private bool FireParticleCooldown = false;
-    public GameObject HealthBar;
-    public GameObject Canvas;
-    public bool Floor2Unlocked = false;
-    public bool Floor3Unlocked = false;
+    [FormerlySerializedAs("Blood")] public ParticleSystem blood;
+    [FormerlySerializedAs("FireEffect")] public ParticleSystem fireEffect;
+    private bool _particleCooldown;
+   private bool _fireParticleCooldown;
+    [FormerlySerializedAs("HealthBar")] public GameObject healthBar;
+    [FormerlySerializedAs("Canvas")] public GameObject canvas;
+    [FormerlySerializedAs("Floor2Unlocked")] public bool floor2Unlocked;
+    [FormerlySerializedAs("Floor3Unlocked")] public bool floor3Unlocked;
     
 
-    public Health Health;
-    public GameObject GameOVER;
-   public bool dead = false;
+    [FormerlySerializedAs("Health")] public Health health;
+    [FormerlySerializedAs("GameOVER")] public GameObject gameOver;
+   public bool dead;
     /// <summary>
-    /// When the script first initialises this gets called, use this for grabbing componenets
+    /// When the script first initialises this gets called, use this for grabbing components
     /// </summary>
     private void Awake()
     {
-        playerWeight = GetComponent<PlayerWeight>();
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        sprite = GetComponent<SpriteRenderer>();
+        _playerWeight = GetComponent<PlayerWeight>();
+        _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+        _sprite = GetComponent<SpriteRenderer>();
         
     }
     
     private void Start()
     {
-        BulletText.text = "Bullets: " + m_startingBullets;
+        bulletText.text = "Bullets: " + mStartingBullets;
     }
 
     /// <summary>
-    /// When a fixed update loop is called, it runs at a constant rate, regardless of pc perfornamce so physics can be calculated properly
+    /// When a fixed update loop is called, it runs at a constant rate, regardless of pc performance so physics can be calculated properly
     /// </summary>
     private void FixedUpdate()
     {
         //Set the velocity to the direction they're moving in, multiplied
         //by the speed they're moving
-        rb.velocity = playerDirection * (playerSpeed * playerMaxSpeed) * Time.fixedDeltaTime;
+        _rb.velocity = playerDirection * (_playerSpeed * playerMaxSpeed * Time.fixedDeltaTime);
     }
 
-    /// <summary>
     /// When the update loop is called, it runs every frame, ca run more or less frequently depending on performance. Used to catch changes in variables or input.
-    /// <summary>
-  public  bool Left = false;
+    [FormerlySerializedAs("Left")] public  bool left;
+
+    private static readonly int Dead = Animator.StringToHash("Dead");
+    private static readonly int Horizontal = Animator.StringToHash("Horizontal");
+    private static readonly int Vertical = Animator.StringToHash("Vertical");
+    private static readonly int IsWalking = Animator.StringToHash("IsWalking");
+
     private void Update()
     {
         if(SceneManager.GetSceneByName("StartingHotelLobby").isLoaded)
         {
-            HealthBar.SetActive(false);
-            Canvas.SetActive(false);
+            healthBar.SetActive(false);
+            canvas.SetActive(false);
         }
         else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false)
         {
-            HealthBar.SetActive(true);
-            Canvas.SetActive(true);
+            healthBar.SetActive(true);
+            canvas.SetActive(true);
         }
 
-        updateMaxSpeed();
+        UpdateMaxSpeed();
 
         // read input from WASD keys
         playerDirection.x = Input.GetAxis("Horizontal");
         playerDirection.y = Input.GetAxis("Vertical");
         
-        if (Health.health <= 0)
+        if (health.health <= 0)
         {
-            animator.SetBool("Dead", true);
+            _animator.SetBool(Dead, true);
             dead = true;
-            playerSpeed = 0f;
+            _playerSpeed = 0f;
             playerMaxSpeed = 0f;
             
-            if(dead == true)
+            if(dead)
             {
               StartCoroutine(Wait());
             }
@@ -127,32 +131,29 @@ public class TopDownCharacterController : MonoBehaviour
 
         if (dead == false)
         {
-            if (playerDirection.x < -0.01f)
+            _sprite.flipX = playerDirection.x switch
             {
-                sprite.flipX = true;
-            }
-            else if (playerDirection.x > 0.01f)
-            {
-                sprite.flipX = false;
-            }
+                < -0.01f => true,
+                > 0.01f => false,
+                _ => _sprite.flipX
+            };
 
-            
             if (playerDirection.magnitude != 0)
             {
-                animator.SetFloat("Horizontal", playerDirection.x);
-                animator.SetFloat("Vertical", playerDirection.y);
-                animator.SetBool("IsWalking", true);
-                playerSpeed = 1f;
+                _animator.SetFloat(Horizontal, playerDirection.x);
+                _animator.SetFloat(Vertical, playerDirection.y);
+                _animator.SetBool(IsWalking, true);
+                _playerSpeed = 1f;
             }
             else
             {
-                playerSpeed = 0f;
-                animator.SetBool("IsWalking", false);
+                _playerSpeed = 0f;
+                _animator.SetBool(IsWalking, false);
             }
         }
 
         
-        if (Input.GetButtonDown("Fire1") && m_startingBullets > 0 && dead == false && SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false)
+        if (Input.GetButtonDown("Fire1") && mStartingBullets > 0 && dead == false && SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false)
         {
             Fire();
         }
@@ -160,127 +161,132 @@ public class TopDownCharacterController : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && ParticleCooldown == false)
-        {
-             
-            StartCoroutine(PlayHitParticles());
-            StartCoroutine(HitFlash());
-        }
-        
+        if (!collision.gameObject.CompareTag("Enemy") || _particleCooldown != false) return;
+        StartCoroutine(PlayHitParticles());
+        StartCoroutine(HitFlash());
+
     }
-    
-    void Fire()
+
+    private void Fire()
+    {
+        switch (dead)
         {
-            if (dead == false && Paused == false && hoverUI1.noFire == false && hoverUI2.noFire == false && hoverUI3.noFire == false && hoverUI4.noFire == false && hoverUI5.noFire == false && hoverUI6.noFire == false)
+            case false when paused == false && hoverUI1.noFire == false && hoverUI2.noFire == false && hoverUI3.noFire == false && hoverUI4.noFire == false && hoverUI5.noFire == false && hoverUI6.noFire == false:
             {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 mousePos.z = 0f;
 
-                Vector2 Direction = mousePos - transform.position;
+                Vector2 direction = mousePos - transform.position;
 
-                m_startingBullets = m_startingBullets - 1;
-                BulletText.text = "Bullets: " + m_startingBullets;
-                GameObject bulletToSpawn = Instantiate(m_bulletPrefab, m_firePoint.position, Quaternion.identity);
-            if (FireParticleCooldown == false) 
-            {
-            StartCoroutine(PlayFireParticles());
-            }
+                mStartingBullets = mStartingBullets - 1;
+                bulletText.text = "Bullets: " + mStartingBullets;
+                var bulletToSpawn = Instantiate(mBulletPrefab, mFirePoint.position, Quaternion.identity);
+                if (_fireParticleCooldown == false) 
+                {
+                    StartCoroutine(PlayFireParticles());
+                }
 
                 if (bulletToSpawn.GetComponent<Rigidbody2D>() != null)
                 {
-                    bulletToSpawn.GetComponent<Rigidbody2D>().AddForce(Direction.normalized * m_projectileSpeed, ForceMode2D.Impulse);
+                    bulletToSpawn.GetComponent<Rigidbody2D>().AddForce(direction.normalized * mProjectileSpeed, ForceMode2D.Impulse);
                 }
-            }
-            else if (dead == true)
-            {
-                // Nothing
-            }
-        }
 
-    public void TogglePauseMenu()
-    {
-        if (Paused == false)
-        {
-            Paused = true;
-            Time.timeScale = 0f;
-            pauseMenuUI.SetActive(true);
-        }
-        else if (Paused == true)
-        {
-            Paused = false;
-            Time.timeScale = 1f;
-            pauseMenuUI.SetActive(false);
+                break;
+            }
+            case true:
+                // Nothing
+                break;
         }
     }
-    IEnumerator PlayHitParticles()
+
+    private void TogglePauseMenu()
     {
-        ParticleCooldown = true;
-        Blood.Play();
+        switch (paused)
+        {
+            case false:
+                paused = true;
+                Time.timeScale = 0f;
+                pauseMenuUI.SetActive(true);
+                break;
+            case true:
+                paused = false;
+                Time.timeScale = 1f;
+                pauseMenuUI.SetActive(false);
+                break;
+        }
+    }
+
+    private IEnumerator PlayHitParticles()
+    {
+        _particleCooldown = true;
+        blood.Play();
         
         yield return new WaitForSeconds(2.5f);
         
-        Blood.Stop();
-        ParticleCooldown = false;
+        blood.Stop();
+        _particleCooldown = false;
     }
 
-    IEnumerator PlayFireParticles()
+    private IEnumerator PlayFireParticles()
     {
-        FireParticleCooldown = true;
-        FireEffect.Play();
+        _fireParticleCooldown = true;
+        fireEffect.Play();
 
         yield return new WaitForSeconds(0.5f);
 
-        FireEffect.Stop();
-        FireParticleCooldown = false;
+        fireEffect.Stop();
+        _fireParticleCooldown = false;
     }
     IEnumerator HitFlash()
     {
-        sprite.color = Color.red;
+        var color = _sprite.color;
+
+        color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.white;
+        color = Color.white;
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.red;
+        color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.white;
+        color = Color.white;
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.red;
+        color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.white;
+        color = Color.white;
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.red;
+        color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.white;
+        color = Color.white;
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.red;
+        color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.white;
+        color = Color.white;
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.red;
+        color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        sprite.color = Color.white;
+        color = Color.white;
+        _sprite.color = color;
         yield return new WaitForSeconds(0.2f);
     }
-   
-    IEnumerator Wait()
+
+    private IEnumerator Wait()
      {
         yield return new WaitForSeconds(1.5f);
-        GameOVER.SetActive(true);
+        gameOver.SetActive(true);
         Time.timeScale = 0f;
     }
     
     public void Back()
     {
-        if (Paused == true)
-        {
-            Paused = false;
-            Time.timeScale = 1f;
-            pauseMenuUI.SetActive(false);
-        }
-       
+        if (!paused) return;
+        paused = false;
+        Time.timeScale = 1f;
+        pauseMenuUI.SetActive(false);
+
     }
-    public void updateMaxSpeed()
+
+    private void UpdateMaxSpeed()
     {
         playerMaxSpeed = 200f;
-        playerMaxSpeed = playerMaxSpeed - playerWeight.trueWeight;
+        playerMaxSpeed = playerMaxSpeed - _playerWeight.trueWeight;
     }
 }

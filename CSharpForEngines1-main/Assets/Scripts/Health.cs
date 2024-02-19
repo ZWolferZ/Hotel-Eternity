@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,19 +6,12 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     public Image healthbar;
-    
-
     public float health = 100;
     
-
-    
-    void Update()
+    private void Update()
     {
         // Fill the healthbar according to the players HP
         healthbar.fillAmount = health / 100;
-
-
-
     }
 }
 

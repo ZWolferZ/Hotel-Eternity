@@ -1,40 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MovingObstacle : MonoBehaviour
 {
 
-    [SerializeField] Transform m_startPoint;
-    [SerializeField] Transform m_endPoint;
-    [SerializeField] int m_moveSpeed = 0;
+    [FormerlySerializedAs("m_startPoint")] [SerializeField]
+    private Transform mStartPoint;
+    [FormerlySerializedAs("m_endPoint")] [SerializeField]
+    private Transform mEndPoint;
+    [FormerlySerializedAs("m_moveSpeed")] [SerializeField]
+    private int mMoveSpeed = 0;
 
-    Transform target;
+    private Transform _target;
 
     // Start is called before the first frame update
     void Start()
     {
-        target = m_endPoint;
+        _target = mEndPoint;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, target.position, m_moveSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, _target.position, mMoveSpeed * Time.deltaTime);
         
     }
- 
-  void ChangeTarget()
+
+    private void ChangeTarget()
     {
-        if (target == m_startPoint)
-        {
-            target = m_endPoint;
-        }
-        else 
-        {
-            target = m_startPoint;
-        }
+        _target = _target == mStartPoint ? mEndPoint : mStartPoint;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

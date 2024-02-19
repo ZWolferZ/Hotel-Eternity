@@ -1,41 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Monsters : MonoBehaviour
+public abstract class Monsters : MonoBehaviour
 {
     
 
-    public class MonsterTypes
+    public abstract class MonsterTypes
     {
-        public class MonsterTEST 
+        public class MonsterTest 
         {         
-            public int health = 100;
-            public float damage = 25;
-            public float speed = 2;
-            public int attackSpeed = 10;
-            public float stoppingDistance = 1f;
+            public int Health = 100;
+            public const float Damage = 25;
+            public const float Speed = 2;
+            public int AttackSpeed = 10;
+            public float StoppingDistance = 1f;
            public bool PlayerInRange = false;
-            public float ForgetTimer = 7f;
-                   
+           public const float ForgetTimer = 7f;
         }
        public class Floor1Monsters
         {
-            public int health = 100;
-            public int damage = 45;
-            public float speed = 2;
-            public int attackSpeed = 10;
-            public float stoppingDistance = 1f;
+            public int Health = 100;
+            public int Damage = 45;
+            public float Speed = 2;
+            public int AttackSpeed = 10;
+            public float StoppingDistance = 1f;
             public float ForgetTimer = 10;
         }
 
        public  class Floor2Monsters
         {
-            public int health = 150;
-            public int damage = 50;
-            public float speed = 3;
-            public int attackSpeed = 12;
-            public float stoppingDistance = 1f;
+            public int Health = 150;
+            public int Damage = 50;
+            public float Speed = 3;
+            public int AttackSpeed = 12;
+            public float StoppingDistance = 1f;
             public float ForgetTimer = 15;
         }
 

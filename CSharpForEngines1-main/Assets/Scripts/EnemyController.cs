@@ -1,32 +1,32 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
 
 #region Starter Reference Enemy Script (Not Used)
 
 public class EnemyController : MonoBehaviour
 {
-    // Varibles
-    public Transform m_Player;
-    NavMeshAgent m_Agent;
-    public bool m_sighted = false;
+    // Variables
+    public Transform mPlayer;
+    private NavMeshAgent _mAgent;
+    public bool mSighted;
 
-    
-    void Start()
+
+    private void Start()
     {
-        // Inisilise Varibles 
-        m_Player = FindAnyObjectByType<TopDownCharacterController>().transform;
-        m_Agent = GetComponent<NavMeshAgent>();
+        // Initialise Variables 
+        mPlayer = FindAnyObjectByType<TopDownCharacterController>().transform;
+        _mAgent = GetComponent<NavMeshAgent>();
     }
 
-    
-    void Update()
+
+    private void Update()
     {
         // If the player is sighted, move towards the player
-        if ( m_sighted == true)
+        if (mSighted)
         {
-            m_Agent.SetDestination(m_Player.position);
+            _mAgent.SetDestination(mPlayer.position);
         }
         
     }
@@ -36,7 +36,7 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            m_sighted = true;
+            mSighted = true;
         }
     }
 
@@ -48,10 +48,10 @@ public class EnemyController : MonoBehaviour
         }
     }
     // Forget Timer Coroutine
-     IEnumerator WaitandBool (float time)
+    private IEnumerator WaitandBool (float time)
     {
         yield return new WaitForSeconds(time);
-        m_sighted = false;
+        mSighted = false;
     }
 }
 
