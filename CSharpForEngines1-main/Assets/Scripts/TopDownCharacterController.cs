@@ -51,11 +51,9 @@ public class TopDownCharacterController : MonoBehaviour
     [FormerlySerializedAs("Canvas")] public GameObject canvas;
     [FormerlySerializedAs("Floor2Unlocked")] public bool floor2Unlocked;
     [FormerlySerializedAs("Floor3Unlocked")] public bool floor3Unlocked;
-    
-
     [FormerlySerializedAs("Health")] public Health health;
     [FormerlySerializedAs("GameOVER")] public GameObject gameOver;
-    
+ 
    public bool dead;
     /// <summary>
     /// When the script first initialises this gets called, use this for grabbing components
@@ -94,6 +92,8 @@ public class TopDownCharacterController : MonoBehaviour
 
     private void Update()
     {
+        
+        
         if(SceneManager.GetSceneByName("StartingHotelLobby").isLoaded)
         {
             healthBar.SetActive(false);

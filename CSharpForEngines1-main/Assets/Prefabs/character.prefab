@@ -4646,29 +4646,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDirection: {x: 0, y: 0}
   playerMaxSpeed: 200
-  m_bulletPrefab: {fileID: 5556606116219685655, guid: 6df77febc19094b479cd9d220cdb4fbd, type: 3}
-  m_firePoint: {fileID: 3119484957574588944}
-  m_projectileSpeed: 5
-  m_startingBullets: 99
-  BulletText: {fileID: 4483611658753226909}
+  mBulletPrefab: {fileID: 5556606116219685655, guid: 6df77febc19094b479cd9d220cdb4fbd, type: 3}
+  mFirePoint: {fileID: 3119484957574588944}
+  mProjectileSpeed: 5
+  mStartingBullets: 99
+  bulletText: {fileID: 4483611658753226909}
   pauseMenuUI: {fileID: 7401145788078875292}
-  Paused: 0
+  paused: 0
   hoverUI1: {fileID: 1085978826052672919}
   hoverUI2: {fileID: 8413891413583556789}
   hoverUI3: {fileID: 8759767870306573514}
   hoverUI4: {fileID: 7232530063551028744}
   hoverUI5: {fileID: 3796315194704555225}
   hoverUI6: {fileID: 5916966042612277480}
-  Blood: {fileID: 3799997466513446256}
-  FireEffect: {fileID: 478287939546947780}
-  HealthBar: {fileID: 6068057440949511994}
-  Canvas: {fileID: 2307872089576435682}
-  Floor2Unlocked: 0
-  Floor3Unlocked: 0
-  Health: {fileID: 8868476319818868199}
-  GameOVER: {fileID: 5361864700037060083}
+  blood: {fileID: 3799997466513446256}
+  fireEffect: {fileID: 478287939546947780}
+  healthBar: {fileID: 6068057440949511994}
+  canvas: {fileID: 2307872089576435682}
+  floor2Unlocked: 0
+  floor3Unlocked: 0
+  health: {fileID: 8868476319818868199}
+  gameOver: {fileID: 5361864700037060083}
+  walkingOnGrass: {fileID: 0}
+  walkingOnHotel: {fileID: 0}
+  onGrass: 0
+  onHotel: 1
   dead: 0
-  Left: 0
+  left: 0
 --- !u!114 &8868476319818868199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4697,7 +4701,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weight: 0
   trueWeight: 0
-  CarryWeight: {fileID: 3337632819784001965}
+  carryWeight: {fileID: 3337632819784001965}
 --- !u!50 &8454834238528299650
 Rigidbody2D:
   serializedVersion: 4
