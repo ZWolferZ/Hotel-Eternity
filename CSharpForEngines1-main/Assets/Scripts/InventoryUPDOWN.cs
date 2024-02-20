@@ -42,8 +42,8 @@ public class InventoryUpdown : MonoBehaviour
 
         _rectTransform.anchoredPosition = currentPosition;
     }
-    
-    IEnumerator MoveInventory(float y)
+
+    private IEnumerator MoveInventory(float y)
     {
         _isMoving = true;
         Vector3 startPos = transform.position;
