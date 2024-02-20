@@ -180,9 +180,8 @@ public class BoxTestEnemy : MonoBehaviour
         }
     }
 
-    #endregion 
-
-
+    #endregion
+    
     #region Coroutines
 
     // Wait and damage the player after a delay

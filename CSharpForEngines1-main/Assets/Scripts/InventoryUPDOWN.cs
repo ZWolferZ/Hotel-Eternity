@@ -46,9 +46,9 @@ public class InventoryUpdown : MonoBehaviour
     private IEnumerator MoveInventory(float y)
     {
         _isMoving = true;
-        Vector3 startPos = transform.position;
-        Vector3 targetPos = new Vector3(startPos.x, startPos.y + y, startPos.z);
-        float elapsedTime = 0f;
+        var startPos = transform.position;
+        var targetPos = new Vector3(startPos.x, startPos.y + y, startPos.z);
+        var elapsedTime = 0f;
        
 
         while (elapsedTime < 1f)
