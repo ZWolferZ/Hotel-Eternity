@@ -53,7 +53,7 @@ public class TopDownCharacterController : MonoBehaviour
     [FormerlySerializedAs("Floor3Unlocked")] public bool floor3Unlocked;
     [FormerlySerializedAs("Health")] public Health health;
     [FormerlySerializedAs("GameOVER")] public GameObject gameOver;
- 
+    
    public bool dead;
     /// <summary>
     /// When the script first initialises this gets called, use this for grabbing components
@@ -65,6 +65,7 @@ public class TopDownCharacterController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _sprite = GetComponent<SpriteRenderer>();
         
+
     }
     
     private void Start()
@@ -98,11 +99,13 @@ public class TopDownCharacterController : MonoBehaviour
         {
             healthBar.SetActive(false);
             canvas.SetActive(false);
+            
         }
         else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false)
         {
             healthBar.SetActive(true);
             canvas.SetActive(true);
+            
         }
 
         UpdateMaxSpeed();
