@@ -1,15 +1,13 @@
-
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine;
+
 
 public class DoorTrigger : MonoBehaviour
 {
     public GameObject door;
     private TopDownCharacterController _topDownCharacterController;
     public Animator animator;
+    public AudioSource doorShutSound;
     
     
     private bool _speed = true;
@@ -29,6 +27,7 @@ public class DoorTrigger : MonoBehaviour
         _speed = false;
         door.SetActive(true);
         animator.SetTrigger(On);
+        doorShutSound.Play();
         StartCoroutine(Wait());
     }
 

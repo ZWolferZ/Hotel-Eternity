@@ -53,6 +53,8 @@ public class TopDownCharacterController : MonoBehaviour
     [FormerlySerializedAs("Floor3Unlocked")] public bool floor3Unlocked;
     [FormerlySerializedAs("Health")] public Health health;
     [FormerlySerializedAs("GameOVER")] public GameObject gameOver;
+    [FormerlySerializedAs("_light2D")] public GameObject light2D;
+    
     
    public bool dead;
     /// <summary>
@@ -65,6 +67,8 @@ public class TopDownCharacterController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _sprite = GetComponent<SpriteRenderer>();
         
+
+
 
     }
     
@@ -99,12 +103,14 @@ public class TopDownCharacterController : MonoBehaviour
         {
             healthBar.SetActive(false);
             canvas.SetActive(false);
-            
+            light2D.SetActive(false);
+
         }
         else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false)
         {
             healthBar.SetActive(true);
             canvas.SetActive(true);
+            light2D.SetActive(true);
             
         }
 
@@ -295,5 +301,6 @@ public class TopDownCharacterController : MonoBehaviour
     {
         playerMaxSpeed = 200f;
         playerMaxSpeed = playerMaxSpeed - _playerWeight.trueWeight;
+        
     }
 }

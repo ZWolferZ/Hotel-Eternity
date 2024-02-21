@@ -18,6 +18,7 @@ public class LevelSwitch : MonoBehaviour
     public GameObject liftDoorOpen1;
     public GameObject liftDoorOpen2;
     public AudioSource liftClosing;
+    public AudioSource liftOpening;
     public AudioSource errorNoise;
     public Image floor2Button;
     public Image floor3Button;
