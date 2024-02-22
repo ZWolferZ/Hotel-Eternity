@@ -24,27 +24,37 @@ public class LevelSwitch : MonoBehaviour
     public Animator animator;
     public string triggerName;
     public GameObject fade;
+    private Upgrades _upgrades;
+    private LiftValid _liftValid;
+    
 
     private void Awake()
     {
         _player = FindAnyObjectByType<TopDownCharacterController>();
+        _upgrades = FindObjectOfType<Upgrades>();
+        _liftValid = FindObjectOfType<LiftValid>();
     }
 
     private void FixedUpdate()
     {
-        floor2Button.color = _player.floor2Unlocked ? Color.green : Color.red;
+        floor2Button.color = _upgrades.floor2Unlocked ? Color.green : Color.red;
 
-        floor3Button.color = _player.floor3Unlocked ? Color.green : Color.red;
+        floor3Button.color = _upgrades.floor3Unlocked ? Color.green : Color.red;
 
-        floor1Button.color = _player.floor1Unlocked ? Color.green : Color.red;
+        floor1Button.color = _upgrades.floor1Unlocked ? Color.green : Color.red;
 
-        yourFloor.color = _player.yourFloorUnlocked ? Color.green : Color.red;
+        yourFloor.color = _upgrades.yourFloorUnlocked ? Color.green : Color.red;
+
+        if (_liftValid._steppedOut)
+        {
+            _player.returning = false;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") &&  _player.returning == false)
         {
 
             liftUI.SetActive(true);
@@ -85,12 +95,12 @@ public class LevelSwitch : MonoBehaviour
     }
     public void YourFloorButton()
     {
-        if (_started == false && _player.yourFloorUnlocked)
+        if (_started == false && _upgrades.yourFloorUnlocked)
         {
             Destroy(liftUI);
             StartCoroutine(Floor2(5));
         }
-        else if (_player.yourFloorUnlocked == false)
+        else if (_upgrades.yourFloorUnlocked == false)
         {
             errorNoise.Play();
         }
@@ -110,12 +120,12 @@ public class LevelSwitch : MonoBehaviour
     }
     public void Floor2()
     {
-        if (_started == false && _player.floor2Unlocked)
+        if (_started == false && _upgrades.floor2Unlocked)
         {
             Destroy(liftUI);
             StartCoroutine(Floor2(5));
         }
-        else if (_player.floor2Unlocked == false)
+        else if (_upgrades.floor2Unlocked == false)
         {
             errorNoise.Play();
         }
@@ -137,12 +147,12 @@ public class LevelSwitch : MonoBehaviour
 
     public void Floor3()
     {
-        if (_started == false && _player.floor3Unlocked)
+        if (_started == false && _upgrades.floor3Unlocked)
         {
             Destroy(liftUI);
             StartCoroutine(Floor3(5));
         }
-        else if (_player.floor3Unlocked == false)
+        else if (_upgrades.floor3Unlocked == false)
         {
             errorNoise.Play();
         }
@@ -161,4 +171,6 @@ public class LevelSwitch : MonoBehaviour
         yield return new WaitForSeconds(time);
         SceneManager.LoadScene("Floor 3");
     }
+
+    
 }

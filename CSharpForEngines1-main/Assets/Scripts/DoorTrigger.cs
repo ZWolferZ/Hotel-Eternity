@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 
 public class DoorTrigger : MonoBehaviour
 {
     public GameObject door;
     private TopDownCharacterController _topDownCharacterController;
-    public Animator animator;
+    private Animator animator;
     public AudioSource doorShutSound;
     
     
@@ -18,6 +19,8 @@ public class DoorTrigger : MonoBehaviour
     private void Awake()
     {
         _topDownCharacterController = FindObjectOfType<TopDownCharacterController>();
+        animator = FindObjectOfType<Camera>().GetComponent<Animator>();
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -6,6 +6,7 @@ public class MenuManager : MonoBehaviour
 {
     public GameObject player;
     public GameObject canvas;
+    public GameObject Upgrades;
     public GameObject mPanelSettingsAndControls;
     public GameObject mMainMenu;
     private bool _settingsAndControlsOpen;
@@ -42,12 +43,13 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
         Destroy(player);
         Destroy(canvas);
+        Destroy(Upgrades);
         Time.timeScale = 1f;
     }
 
     public void ReloadLevel() 
     {
-    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("Hotel Lobby Death");
         Destroy(player);
         Destroy(canvas);
         Time.timeScale = 1f;

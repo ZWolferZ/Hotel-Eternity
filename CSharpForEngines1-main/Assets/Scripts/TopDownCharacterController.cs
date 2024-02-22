@@ -55,13 +55,9 @@ public class TopDownCharacterController : MonoBehaviour
     [FormerlySerializedAs("GameOVER")] public GameObject gameOver;
     [FormerlySerializedAs("_light2D")] public GameObject light2D;
     private ShadowCaster2D _shadowCaster2D;
-    public bool tutorialtrigger;
-    
-   // Upgrades stored on player
-    public bool floor2Unlocked;
-    public bool floor3Unlocked;
-    public bool floor1Unlocked = true;
-    public bool yourFloorUnlocked;
+    public bool nofire;
+    public bool returning;
+   
     
    public bool dead;
     /// <summary>
@@ -106,14 +102,14 @@ public class TopDownCharacterController : MonoBehaviour
     {
         
         
-        if(SceneManager.GetSceneByName("StartingHotelLobby").isLoaded)
+        if(SceneManager.GetSceneByName("StartingHotelLobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded)
         {
             healthBar.SetActive(false);
             canvas.SetActive(false);
             light2D.SetActive(false);
             _shadowCaster2D.castsShadows = true;
         }
-        else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false)
+        else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false || SceneManager.GetSceneByName("Hotel Lobby").isLoaded == false || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded == false)
         {
             healthBar.SetActive(true);
             canvas.SetActive(true);
@@ -172,7 +168,7 @@ public class TopDownCharacterController : MonoBehaviour
         }
 
         
-        if (Input.GetButtonDown("Fire1") && mStartingBullets > 0 && dead == false && SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false)
+        if (Input.GetButtonDown("Fire1") && mStartingBullets > 0 && nofire ==false &&dead == false && SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false && SceneManager.GetSceneByName("Hotel Lobby").isLoaded == false && SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded == false)
         {
             Fire();
         }
@@ -190,7 +186,7 @@ public class TopDownCharacterController : MonoBehaviour
     {
         switch (dead)
         {
-            case false when paused == false && hoverUI1.noFire == false && hoverUI2.noFire == false && hoverUI3.noFire == false && hoverUI4.noFire == false && hoverUI5.noFire == false && hoverUI6.noFire == false:
+            case false when paused == false  && hoverUI1.noFire == false && hoverUI2.noFire == false && hoverUI3.noFire == false && hoverUI4.noFire == false && hoverUI5.noFire == false && hoverUI6.noFire == false:
             {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 mousePos.z = 0f;

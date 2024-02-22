@@ -23,7 +23,9 @@ public class FloorOneEnemy : MonoBehaviour
     private bool _moveCooldown;
     public GameObject enemyLight;
     private bool _triggerCooldown;
-    private TopDownCharacterController player;
+    private SpriteRenderer _sprite;
+    private Vector3 previousPosition;
+    
     #endregion
 
 
@@ -35,8 +37,9 @@ public class FloorOneEnemy : MonoBehaviour
         playerTransform = FindObjectOfType<TopDownCharacterController>().transform;
         _mAgent = GetComponent<NavMeshAgent>();
         _mAgent.speed = MonsterTypes.Floor1Monsters.Speed;
-        player = FindAnyObjectByType<TopDownCharacterController>();
         health = FindAnyObjectByType<Health>();
+        _sprite = GetComponent<SpriteRenderer>();
+        
 
     }
 
@@ -45,9 +48,10 @@ public class FloorOneEnemy : MonoBehaviour
     #region Raycast Detection
     private void FixedUpdate()
     {
-        var enemyPosition = transform.position;
+        var position = transform.position;
+        previousPosition = position;
         // Enemy RayCast Detection
-        RaycastHit2D hit = Physics2D.Raycast(enemyPosition, playerTransform.transform.position - enemyPosition);
+        RaycastHit2D hit = Physics2D.Raycast(position, playerTransform.transform.position - position);
         if(hit.collider == null) return;
         {
             _lineOfSight = hit.collider.CompareTag("Player");    
@@ -56,11 +60,11 @@ public class FloorOneEnemy : MonoBehaviour
             {
                 case true:
                     // If line of sight = true the line will draw as green
-                    Debug.DrawRay(transform.position, playerTransform.transform.position - enemyPosition, Color.green);
+                    Debug.DrawRay(transform.position, playerTransform.transform.position - position, Color.green);
                     break;
                 case false:
                     // If line of sight != true the line will draw as red
-                    Debug.DrawRay(transform.position, playerTransform.transform.position - enemyPosition, Color.red);
+                    Debug.DrawRay(transform.position, playerTransform.transform.position - position, Color.red);
                     break;
             }
 
@@ -73,10 +77,19 @@ public class FloorOneEnemy : MonoBehaviour
 
     private void Update()
     {
+        var direction = transform.position - previousPosition;
+        
         switch (_stunned)
         {
             case false:
             {
+                _sprite.flipX = direction.x switch
+                {
+                    < 0 => false,
+                    > 0 => true,
+                    _ => _sprite.flipX
+                };
+
                 // Set booleans if player is in the trigger and and the enemy has a line of sight
                 if (Type1.PlayerInRange && _lineOfSight)
                 {

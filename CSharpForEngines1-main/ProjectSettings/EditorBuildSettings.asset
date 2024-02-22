@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Floor 1.unity
     guid: 8e8de9a4bcb464c41962ddb7606f2ed4
+  - enabled: 1
+    path: Assets/Scenes/Hotel Lobby.unity
+    guid: ede5019b779af4340bffadc6fb46e47b
+  - enabled: 1
+    path: Assets/Scenes/Hotel Lobby Death.unity
+    guid: 0d0f8826fe5344cf8b6287ed405862a5
   m_configObjects: {}
