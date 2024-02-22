@@ -16,6 +16,7 @@ public class DeskTrigger : MonoBehaviour
     [FormerlySerializedAs("_Dialougebox")] public GameObject dialougebox;
     [FormerlySerializedAs("_text")] public GameObject[] text;
     private LevelSwitch _levelSwitch;
+    public AudioSource textBlip;
     private static readonly int Up = Animator.StringToHash("Up");
     private static readonly int Down = Animator.StringToHash("Down");
     private static readonly int Appear = Animator.StringToHash("Appear");
@@ -101,15 +102,15 @@ public class DeskTrigger : MonoBehaviour
     {
         const float waittime = 4f;
         dialougebox.SetActive(true);
-        text[0].SetActive(true);
-        yield return new WaitForSeconds(waittime);
-        text[0].SetActive(false);
-        text[1].SetActive(true);
-        yield return new WaitForSeconds(waittime);
-        text[1].SetActive(false);
-        text[2].SetActive(true);
-        yield return new WaitForSeconds(waittime);
-        text[2].SetActive(false);
+
+        foreach (var t in text)
+        {
+            textBlip.Play();
+            t.SetActive(true);
+            yield return new WaitForSeconds(waittime);
+            t.SetActive(false);
+        }
+        
         dialougebox.SetActive(false);
         _endconvo = true;
         

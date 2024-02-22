@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 
 
@@ -49,12 +50,17 @@ public class TopDownCharacterController : MonoBehaviour
    private bool _fireParticleCooldown;
     [FormerlySerializedAs("HealthBar")] public GameObject healthBar;
     [FormerlySerializedAs("Canvas")] public GameObject canvas;
-    [FormerlySerializedAs("Floor2Unlocked")] public bool floor2Unlocked;
-    [FormerlySerializedAs("Floor3Unlocked")] public bool floor3Unlocked;
+   
     [FormerlySerializedAs("Health")] public Health health;
     [FormerlySerializedAs("GameOVER")] public GameObject gameOver;
     [FormerlySerializedAs("_light2D")] public GameObject light2D;
+    private ShadowCaster2D _shadowCaster2D;
     
+   // Upgrades stored on player
+    public bool floor2Unlocked;
+    public bool floor3Unlocked;
+    public bool floor1Unlocked = true;
+    public bool yourFloorUnlocked;
     
    public bool dead;
     /// <summary>
@@ -66,7 +72,7 @@ public class TopDownCharacterController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _sprite = GetComponent<SpriteRenderer>();
-        
+        _shadowCaster2D = GetComponent<ShadowCaster2D>();
 
 
 
@@ -104,15 +110,17 @@ public class TopDownCharacterController : MonoBehaviour
             healthBar.SetActive(false);
             canvas.SetActive(false);
             light2D.SetActive(false);
-
+            _shadowCaster2D.castsShadows = true;
         }
         else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false)
         {
             healthBar.SetActive(true);
             canvas.SetActive(true);
             light2D.SetActive(true);
-            
+            _shadowCaster2D.castsShadows = false;
+
         }
+        
 
         UpdateMaxSpeed();
 

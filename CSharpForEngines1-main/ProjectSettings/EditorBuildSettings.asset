@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/StartingHotelLobby.unity
     guid: 6ffb929d96cdd61439e43f8ad7514188
   - enabled: 1
-    path: Assets/Scenes/Test Scene 2.unity
-    guid: 389d0dda590bd7b43bd8e51e88343a03
-  - enabled: 1
-    path: Assets/Scenes/Test Scene.unity
-    guid: 1c171270023f9154eb9cc30a2b9bf588
+    path: Assets/Scenes/Floor 1.unity
+    guid: 8e8de9a4bcb464c41962ddb7606f2ed4
   m_configObjects: {}
