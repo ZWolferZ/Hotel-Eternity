@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LiftOpen : MonoBehaviour
@@ -17,7 +16,6 @@ public class LiftOpen : MonoBehaviour
    private void FixedUpdate()
    {
        if (_liftopen) return;
-       fade.SetActive(true);
        animator.SetTrigger(triggerName);
        StartCoroutine(Wait(5));
        _liftopen = true;
@@ -32,6 +30,7 @@ public class LiftOpen : MonoBehaviour
        liftDoorClose1.SetActive(false);
        liftDoorClose2.SetActive(false);
        liftOpening.Play();
+       fade.SetActive(false);
 
    }   
 }

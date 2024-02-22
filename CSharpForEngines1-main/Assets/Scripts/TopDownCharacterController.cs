@@ -55,6 +55,7 @@ public class TopDownCharacterController : MonoBehaviour
     [FormerlySerializedAs("GameOVER")] public GameObject gameOver;
     [FormerlySerializedAs("_light2D")] public GameObject light2D;
     private ShadowCaster2D _shadowCaster2D;
+    public bool tutorialtrigger;
     
    // Upgrades stored on player
     public bool floor2Unlocked;
