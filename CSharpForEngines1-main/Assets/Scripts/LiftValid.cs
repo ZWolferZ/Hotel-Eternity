@@ -1,13 +1,14 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LiftValid : MonoBehaviour
 {
-    public bool _steppedOut;
+    [FormerlySerializedAs("_steppedOut")] public bool steppedOut;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            _steppedOut = true;
+            steppedOut = true;
         }
     }
 }

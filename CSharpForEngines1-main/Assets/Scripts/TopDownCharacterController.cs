@@ -49,7 +49,8 @@ public class TopDownCharacterController : MonoBehaviour
     private bool _particleCooldown;
    private bool _fireParticleCooldown;
     [FormerlySerializedAs("HealthBar")] public GameObject healthBar;
-    [FormerlySerializedAs("Canvas")] public GameObject canvas;
+    public GameObject bulletTextHolder;
+    public GameObject weightTextHolder;
    
     [FormerlySerializedAs("Health")] public Health health;
     [FormerlySerializedAs("GameOVER")] public GameObject gameOver;
@@ -57,6 +58,8 @@ public class TopDownCharacterController : MonoBehaviour
     private ShadowCaster2D _shadowCaster2D;
     public bool nofire;
     public bool returning;
+    public GameObject moneyUIHolder;
+    public TMPro.TextMeshProUGUI moneyLabel; 
    
     
    public bool dead;
@@ -105,19 +108,35 @@ public class TopDownCharacterController : MonoBehaviour
         if(SceneManager.GetSceneByName("StartingHotelLobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded)
         {
             healthBar.SetActive(false);
-            canvas.SetActive(false);
+            bulletTextHolder.SetActive(false);
+            weightTextHolder.SetActive(false);
             light2D.SetActive(false);
+            health.health = 100;
+            
+            
             _shadowCaster2D.castsShadows = true;
         }
+        
         else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false || SceneManager.GetSceneByName("Hotel Lobby").isLoaded == false || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded == false)
         {
             healthBar.SetActive(true);
-            canvas.SetActive(true);
+            bulletTextHolder.SetActive(true);
+            weightTextHolder.SetActive(true);
             light2D.SetActive(true);
+            
             _shadowCaster2D.castsShadows = false;
 
         }
-        
+
+        if (SceneManager.GetSceneByName("Hotel Lobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded)
+        {
+            moneyUIHolder.SetActive(true);
+            
+        }
+        else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby").isLoaded == false || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded == false)
+        {
+            moneyUIHolder.SetActive(false);
+        }
 
         UpdateMaxSpeed();
 

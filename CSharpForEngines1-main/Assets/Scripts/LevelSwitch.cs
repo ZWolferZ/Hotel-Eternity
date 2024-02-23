@@ -45,7 +45,7 @@ public class LevelSwitch : MonoBehaviour
 
         yourFloor.color = _upgrades.yourFloorUnlocked ? Color.green : Color.red;
 
-        if (_liftValid._steppedOut)
+        if (_liftValid.steppedOut)
         {
             _player.returning = false;
         }
@@ -98,7 +98,7 @@ public class LevelSwitch : MonoBehaviour
         if (_started == false && _upgrades.yourFloorUnlocked)
         {
             Destroy(liftUI);
-            StartCoroutine(Floor2(5));
+            StartCoroutine(YourFloorEnumerator(5));
         }
         else if (_upgrades.yourFloorUnlocked == false)
         {

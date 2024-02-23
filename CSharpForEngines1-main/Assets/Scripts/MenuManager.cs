@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 
 public class MenuManager : MonoBehaviour
 {
     public GameObject player;
     public GameObject canvas;
-    public GameObject Upgrades;
+    [FormerlySerializedAs("Upgrades")] public GameObject upgrades;
     public GameObject mPanelSettingsAndControls;
     public GameObject mMainMenu;
     private bool _settingsAndControlsOpen;
@@ -43,7 +44,7 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
         Destroy(player);
         Destroy(canvas);
-        Destroy(Upgrades);
+        Destroy(upgrades);
         Time.timeScale = 1f;
     }
 

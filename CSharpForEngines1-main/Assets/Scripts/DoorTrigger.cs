@@ -7,7 +7,7 @@ public class DoorTrigger : MonoBehaviour
 {
     public GameObject door;
     private TopDownCharacterController _topDownCharacterController;
-    private Animator animator;
+    private Animator _animator;
     public AudioSource doorShutSound;
     
     
@@ -19,7 +19,7 @@ public class DoorTrigger : MonoBehaviour
     private void Awake()
     {
         _topDownCharacterController = FindObjectOfType<TopDownCharacterController>();
-        animator = FindObjectOfType<Camera>().GetComponent<Animator>();
+        _animator = FindObjectOfType<Camera>().GetComponent<Animator>();
 
     }
 
@@ -29,7 +29,7 @@ public class DoorTrigger : MonoBehaviour
         _once = true;
         _speed = false;
         door.SetActive(true);
-        animator.SetTrigger(On);
+        _animator.SetTrigger(On);
         doorShutSound.Play();
         StartCoroutine(Wait());
     }

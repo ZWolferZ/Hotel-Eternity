@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
+
 
 public class LiftReturn : MonoBehaviour
 {
@@ -25,7 +24,7 @@ public class LiftReturn : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && _liftValid._steppedOut)
+        if (collision.CompareTag("Player") && _liftValid.steppedOut)
         {
             _player.nofire = true;
             liftUI.SetActive(true);
@@ -33,7 +32,7 @@ public class LiftReturn : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && _liftValid._steppedOut)
+        if (collision.CompareTag("Player") && _liftValid.steppedOut)
         {
             _player.nofire = false;
             liftUI.SetActive(false);

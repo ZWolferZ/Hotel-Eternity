@@ -10,12 +10,12 @@ public class FloorOneEnemy : MonoBehaviour
     #region Varibles
 
     // List of variables needed (You probably don't need half of these)
-    private Health health;
-    private readonly MonsterTypes.Floor1Monsters Type1 = new MonsterTypes.Floor1Monsters();
+    private Health _health;
+    private readonly MonsterTypes.Floor1Monsters _type1 = new MonsterTypes.Floor1Monsters();
     private bool _cooldown;
     private bool _collider;
     private bool _stunned;
-    private Transform playerTransform;
+    private Transform _playerTransform;
     private NavMeshAgent _mAgent;
     private bool _lineOfSight;
     [SerializeField] private bool foundPlayer;
@@ -24,7 +24,7 @@ public class FloorOneEnemy : MonoBehaviour
     public GameObject enemyLight;
     private bool _triggerCooldown;
     private SpriteRenderer _sprite;
-    private Vector3 previousPosition;
+    private Vector3 _previousPosition;
     
     #endregion
 
@@ -34,10 +34,10 @@ public class FloorOneEnemy : MonoBehaviour
     private void Start()
     {
         // Assigning Starting Variables
-        playerTransform = FindObjectOfType<TopDownCharacterController>().transform;
+        _playerTransform = FindObjectOfType<TopDownCharacterController>().transform;
         _mAgent = GetComponent<NavMeshAgent>();
         _mAgent.speed = MonsterTypes.Floor1Monsters.Speed;
-        health = FindAnyObjectByType<Health>();
+        _health = FindAnyObjectByType<Health>();
         _sprite = GetComponent<SpriteRenderer>();
         
 
@@ -49,9 +49,9 @@ public class FloorOneEnemy : MonoBehaviour
     private void FixedUpdate()
     {
         var position = transform.position;
-        previousPosition = position;
+        _previousPosition = position;
         // Enemy RayCast Detection
-        RaycastHit2D hit = Physics2D.Raycast(position, playerTransform.transform.position - position);
+        RaycastHit2D hit = Physics2D.Raycast(position, _playerTransform.transform.position - position);
         if(hit.collider == null) return;
         {
             _lineOfSight = hit.collider.CompareTag("Player");    
@@ -60,11 +60,11 @@ public class FloorOneEnemy : MonoBehaviour
             {
                 case true:
                     // If line of sight = true the line will draw as green
-                    Debug.DrawRay(transform.position, playerTransform.transform.position - position, Color.green);
+                    Debug.DrawRay(transform.position, _playerTransform.transform.position - position, Color.green);
                     break;
                 case false:
                     // If line of sight != true the line will draw as red
-                    Debug.DrawRay(transform.position, playerTransform.transform.position - position, Color.red);
+                    Debug.DrawRay(transform.position, _playerTransform.transform.position - position, Color.red);
                     break;
             }
 
@@ -77,7 +77,7 @@ public class FloorOneEnemy : MonoBehaviour
 
     private void Update()
     {
-        var direction = transform.position - previousPosition;
+        var direction = transform.position - _previousPosition;
         
         switch (_stunned)
         {
@@ -91,7 +91,7 @@ public class FloorOneEnemy : MonoBehaviour
                 };
 
                 // Set booleans if player is in the trigger and and the enemy has a line of sight
-                if (Type1.PlayerInRange && _lineOfSight)
+                if (_type1.PlayerInRange && _lineOfSight)
                 {
 
                     foundPlayer = true;
@@ -122,7 +122,7 @@ public class FloorOneEnemy : MonoBehaviour
                         // If player is found turn on the enemy's detection light
                         enemyLight.SetActive(true);
                         // Move towards the player
-                        _mAgent.SetDestination(playerTransform.position);
+                        _mAgent.SetDestination(_playerTransform.position);
                         break;
                 
                     case false:
@@ -173,7 +173,7 @@ public class FloorOneEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Type1.PlayerInRange = true;
+            _type1.PlayerInRange = true;
         }
         
     }
@@ -182,14 +182,14 @@ public class FloorOneEnemy : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            Type1.PlayerInRange = false;
+            _type1.PlayerInRange = false;
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Type1.PlayerInRange = true;
+            _type1.PlayerInRange = true;
         }
     }
 
@@ -201,13 +201,13 @@ public class FloorOneEnemy : MonoBehaviour
     private IEnumerator WaitAndDamage(float time)
     {
         _cooldown = true;
-        health.health -= MonsterTypes.MonsterTest.Damage;
+        _health.health -= MonsterTypes.MonsterTest.Damage;
         
         
         yield return new WaitForSeconds(time);
        
 
-        Debug.Log("Player damaged! Current Health: " + health.health);
+        Debug.Log("Player damaged! Current Health: " + _health.health);
         _cooldown = false;
 
         if (_collider)
