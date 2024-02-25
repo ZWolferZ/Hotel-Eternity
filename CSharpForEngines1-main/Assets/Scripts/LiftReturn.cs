@@ -24,19 +24,15 @@ public class LiftReturn : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && _liftValid.steppedOut)
-        {
-            _player.nofire = true;
-            liftUI.SetActive(true);
-        }
+        if (!collision.CompareTag("Player") || !_liftValid.steppedOut) return;
+        _player.nofire = true;
+        liftUI.SetActive(true);
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && _liftValid.steppedOut)
-        {
-            _player.nofire = false;
-            liftUI.SetActive(false);
-        }
+        if (!collision.CompareTag("Player") || !_liftValid.steppedOut) return;
+        _player.nofire = false;
+        liftUI.SetActive(false);
     }
     
     public void LobbyButton()

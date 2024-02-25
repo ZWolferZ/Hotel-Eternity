@@ -34,8 +34,8 @@ public class InventoryUpdown : MonoBehaviour
         }
         
     }
-    
-    void ClampPosition()
+
+    private void ClampPosition()
     {
         Vector3 currentPosition = _rectTransform.anchoredPosition;
         currentPosition.y = Mathf.Clamp(currentPosition.y, 200, 300);

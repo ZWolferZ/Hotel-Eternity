@@ -37,12 +37,10 @@ public class DeskTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-        {
-            _intrigger = false;
-             animator.SetTrigger(Down);
-        }
-       
+        if (!collision.CompareTag("Player")) return;
+        _intrigger = false;
+        animator.SetTrigger(Down);
+
     }
 
     private void Update()
