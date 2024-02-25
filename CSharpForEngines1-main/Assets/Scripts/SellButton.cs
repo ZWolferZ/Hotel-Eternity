@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SellButton : MonoBehaviour
 {
     private InvManager _invManager;
     private Upgrades _upgrades;
+    [SerializeField] private AudioSource sellSound;
     
     // Start is called before the first frame update
     private void Start()
@@ -17,6 +19,7 @@ public class SellButton : MonoBehaviour
     {
 
         var items = _invManager.itemName;
+        sellSound.Play();
 
         foreach (var t in items)
         {
@@ -32,5 +35,6 @@ public class SellButton : MonoBehaviour
         _invManager.DiscardInvSlot4();
         _invManager.DiscardInvSlot5();
         _invManager.DiscardInvSlot6();
+        
     }
 }

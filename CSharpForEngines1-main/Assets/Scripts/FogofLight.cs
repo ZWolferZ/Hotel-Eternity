@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -9,16 +11,30 @@ public class FogofLight : MonoBehaviour
     public bool hotelLight;
     public Light2D light2D;
     private double _tolerance;
+    private Upgrades _upgrades;
 
+    private void Awake()
+    {
+        StartCoroutine(Begin(0.1f));
+    }
+    
+    
 
-private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
 {
     if (!collision.CompareTag("Player")) return;
     _inSquare = true;
 }
 
+    private void FixedUpdate()
+    {
+        hotelLight = _upgrades.lobbyLights;
+    }
+
     private void Update()
     {
+        
+        
         if (_inSquare != true || hotelLight != true) return;
         var intensity = light2D.intensity;
          
@@ -37,4 +53,13 @@ private void OnTriggerStay2D(Collider2D collision)
 
 
     }
+    
+    private IEnumerator Begin(float time)
+    {
+        
+        yield return new WaitForSeconds(time);
+        _upgrades = FindObjectOfType<Upgrades>();
+        
+
+    }  
  }
