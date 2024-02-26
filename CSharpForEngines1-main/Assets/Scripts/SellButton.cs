@@ -21,11 +21,22 @@ public class SellButton : MonoBehaviour
         var items = _invManager.itemName;
         sellSound.Play();
 
-        foreach (var t in items)
+        foreach (var loot in items)
         {
-            if (t == "TestLoot")
+            switch (loot)
             {
-                _upgrades.money += Loot.LootTypes.TestLoot.Value;
+                case "TestLoot":
+                    _upgrades.money += Loot.LootTypes.TestLoot.Value;
+                    break;
+                case "Floor1Loot":
+                    _upgrades.money += Loot.LootTypes.Floor1Loot.Value;
+                    break;
+                case "Floor2Loot":
+                    _upgrades.money += Loot.LootTypes.Floor2Loot.Value;
+                    break;
+                case "Floor3Loot":
+                    _upgrades.money += Loot.LootTypes.Floor3Loot.Value;
+                    break;
             }
         }
 

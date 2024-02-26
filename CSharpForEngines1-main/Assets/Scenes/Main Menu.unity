@@ -1925,6 +1925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   canvas: {fileID: 0}
+  upgrades: {fileID: 0}
   mPanelSettingsAndControls: {fileID: 1894460140}
   mMainMenu: {fileID: 287194493}
 --- !u!4 &749891608

@@ -10,7 +10,7 @@ public class InvManager : MonoBehaviour
     public bool inventoryFull;
     public PlayerWeight playerweight;
     public GameObject invFullUI;
-
+    [SerializeField] private AudioSource lootgetSource;
    
 
 
@@ -22,30 +22,68 @@ public class InvManager : MonoBehaviour
         
         for (var i = 0; i < inventorySlots.Length; i++)
         {
-            if (inventorySlotOpen[i] && inventoryFull == false)
+            if (!inventorySlotOpen[i] || inventoryFull) continue;
+            newItem.transform.SetParent(inventorySlots[i].transform);
+            lootgetSource.Play();
+            newItem.transform.localPosition = Vector3.zero;
+
+            if (newItem.name == "Test Loot Sprite(Clone)")
             {
-                
-                newItem.transform.SetParent(inventorySlots[i].transform);
-                newItem.transform.localPosition = Vector3.zero;
-
-                if (newItem.name == "Test Loot Sprite(Clone)")
-                {
-                    newItem.name = "TestLoot";
-                }
-                
-                itemName[i] = newItem.name;
-                inventorySlotOpen[i] = false;
-
-                break;
+                newItem.name = "TestLoot";
             }
-            else if (inventoryFull)
+
+            if (newItem.name == "Loot Item 1 Sprite(Clone)")
             {
-                Debug.Log("Inventory Full");
-                
-
-
-                break;
+                newItem.name = "Floor1Loot";
             }
+            
+            if (newItem.name == "Loot Item 2 Sprite(Clone)")
+            {
+                newItem.name = "Floor1Loot";
+            }
+            
+            if (newItem.name == "Loot Item 3 Sprite(Clone)")
+            {
+                newItem.name = "Floor1Loot";
+            }
+            
+            if (newItem.name == "Loot Item 4 Sprite(Clone)")
+            {
+                newItem.name = "Floor1Loot";
+            }
+            
+            if (newItem.name == "Loot Item 5 Sprite(Clone)")
+            {
+                newItem.name = "Floor1Loot";
+            }
+            
+            if (newItem.name == "Loot Item 6 Sprite(Clone)")
+            {
+                newItem.name = "Floor2Loot";
+            }
+            
+            if (newItem.name == "Loot Item 7 Sprite(Clone)")
+            {
+                newItem.name = "Floor2Loot";
+            }
+            if (newItem.name == "Loot Item 8 Sprite(Clone)")
+            {
+                newItem.name = "Floor2Loot";
+            }
+            if (newItem.name == "Loot Item 9 Sprite(Clone)")
+            {
+                newItem.name = "Floor3Loot";
+            }
+            if (newItem.name == "Loot Item 10 Sprite(Clone)")
+            {
+                newItem.name = "Floor3Loot";
+            }
+
+            itemName[i] = newItem.name;
+            inventorySlotOpen[i] = false;
+
+            break;
+
         }
     }
     public void DiscardInvSlot1()

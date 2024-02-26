@@ -11,6 +11,9 @@ public class Upgrades : MonoBehaviour
     public bool lobbyLights;
     public int money;
     private TopDownCharacterController _player;
+    public bool projectileSize1;
+    public bool biglight;
+    
 
    
 
@@ -29,6 +32,7 @@ public class Upgrades : MonoBehaviour
         {
             money = 0;
         }
+        
 
         
     }

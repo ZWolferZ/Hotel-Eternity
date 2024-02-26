@@ -25,6 +25,7 @@ public class FloorOneEnemy : MonoBehaviour
     private bool _triggerCooldown;
     private SpriteRenderer _sprite;
     private Vector3 _previousPosition;
+    [SerializeField] private AudioSource hitAudioSource;
     
     #endregion
 
@@ -202,10 +203,10 @@ public class FloorOneEnemy : MonoBehaviour
     {
         _cooldown = true;
         _health.health -= MonsterTypes.MonsterTest.Damage;
-        
-        
+        _stunned = true;
+        hitAudioSource.Play();
         yield return new WaitForSeconds(time);
-       
+        _stunned = false;
 
         Debug.Log("Player damaged! Current Health: " + _health.health);
         _cooldown = false;

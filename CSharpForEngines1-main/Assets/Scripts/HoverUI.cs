@@ -69,7 +69,15 @@ public class HoverUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     invManager.slotWeight[slotIndex] = LootTypes.Floor2Loot.Weight;
                     uitext.text = floor2Loot.Name + "\n" + "\n" + "Weight: " + LootTypes.Floor2Loot.Weight + "\n" + "\n" + "Value: " + LootTypes.Floor2Loot.Value;
                 }
-
+                if (invManager.itemName[slotIndex] == "Floor3Loot")
+                {
+                    var floor3Loot = new LootTypes.Floor3Loot
+                    {
+                        Name = invManager.itemName[slotIndex]
+                    };
+                    invManager.slotWeight[slotIndex] = LootTypes.Floor3Loot.Weight;
+                    uitext.text = floor3Loot.Name + "\n" + "\n" + "Weight: " + LootTypes.Floor3Loot.Weight + "\n" + "\n" + "Value: " + LootTypes.Floor3Loot.Value;
+                }
                 break;
             }
         }

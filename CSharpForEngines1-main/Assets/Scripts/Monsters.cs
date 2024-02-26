@@ -26,15 +26,21 @@ public abstract class Monsters : MonoBehaviour
 
        public  class Floor2Monsters
         {
-            public int Health = 150;
-            public const float Damage = 50;
-            public float Speed = 3;
-            public int AttackSpeed = 12;
-            public float StoppingDistance = 1f;
-            public float ForgetTimer = 15;
+            public const float Damage = 40;
+            public const float Speed = 2.5f;
+            public bool PlayerInRange = false;
+            public const float ForgetTimer = 7f;
         }
-
+       public  class Floor3Monsters
+    {
+        public const float Damage = 50;
+        public const float Speed = 3f;
+        public bool PlayerInRange = false;
+        public const float ForgetTimer = 7f;
     }
-
+    }
+    
 
 }
+
+

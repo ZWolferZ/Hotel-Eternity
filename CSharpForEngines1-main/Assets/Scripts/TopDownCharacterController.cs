@@ -28,13 +28,18 @@ public class TopDownCharacterController : MonoBehaviour
     
    
 
-    [FormerlySerializedAs("m_bulletPrefab")] [SerializeField] GameObject mBulletPrefab;
-    [FormerlySerializedAs("m_firePoint")] [SerializeField] Transform mFirePoint;
-    [FormerlySerializedAs("m_projectileSpeed")] [SerializeField] float mProjectileSpeed;
-    [FormerlySerializedAs("m_startingBullets")] [SerializeField] int mStartingBullets;
+    [FormerlySerializedAs("m_bulletPrefab")] [SerializeField]
+    private GameObject mBulletPrefab;
+    [FormerlySerializedAs("m_firePoint")] [SerializeField]
+    private Transform mFirePoint;
+    [FormerlySerializedAs("m_projectileSpeed")] [SerializeField]
+    private float mProjectileSpeed;
+    [FormerlySerializedAs("m_startingBullets")] 
+    public int mStartingBullets;
+    [SerializeField] private GameObject Size1BulletPrefab;
     [FormerlySerializedAs("BulletText")] public TMPro.TextMeshProUGUI bulletText;
     private static SpriteRenderer _sprite;
-    PlayerWeight _playerWeight;
+    private PlayerWeight _playerWeight;
     
     public GameObject pauseMenuUI;
     [FormerlySerializedAs("Paused")] public bool paused;
@@ -55,13 +60,15 @@ public class TopDownCharacterController : MonoBehaviour
     [FormerlySerializedAs("Health")] public Health health;
     [FormerlySerializedAs("GameOVER")] public GameObject gameOver;
     [FormerlySerializedAs("_light2D")] public GameObject light2D;
+    public GameObject biglight2D;
     private ShadowCaster2D _shadowCaster2D;
     public bool nofire;
     public bool returning;
     public GameObject moneyUIHolder;
-    public TMPro.TextMeshProUGUI moneyLabel; 
-   
-    
+    public TMPro.TextMeshProUGUI moneyLabel;
+    private Upgrades _upgrades;
+    [SerializeField] private AudioSource fireAudioSource;
+    public bool end;
    public bool dead;
     /// <summary>
     /// When the script first initialises this gets called, use this for grabbing components
@@ -73,6 +80,7 @@ public class TopDownCharacterController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _sprite = GetComponent<SpriteRenderer>();
         _shadowCaster2D = GetComponent<ShadowCaster2D>();
+        StartCoroutine(Begin(0.1f));
 
 
 
@@ -80,7 +88,7 @@ public class TopDownCharacterController : MonoBehaviour
     
     private void Start()
     {
-        bulletText.text = "Bullets: " + mStartingBullets;
+        bulletText.text = "Projectiles: " + mStartingBullets;
     }
 
     /// <summary>
@@ -91,6 +99,12 @@ public class TopDownCharacterController : MonoBehaviour
         //Set the velocity to the direction they're moving in, multiplied
         //by the speed they're moving
         _rb.velocity = playerDirection * (_playerSpeed * playerMaxSpeed * Time.fixedDeltaTime);
+
+        bulletText.text = "Projectiles: " + mStartingBullets;
+        if (mStartingBullets > 5)
+        {
+            mStartingBullets = 5;
+        }
     }
 
     /// When the update loop is called, it runs every frame, ca run more or less frequently depending on performance. Used to catch changes in variables or input.
@@ -111,6 +125,7 @@ public class TopDownCharacterController : MonoBehaviour
             bulletTextHolder.SetActive(false);
             weightTextHolder.SetActive(false);
             light2D.SetActive(false);
+            biglight2D.SetActive(false);
             health.health = 100;
             
             
@@ -122,7 +137,17 @@ public class TopDownCharacterController : MonoBehaviour
             healthBar.SetActive(true);
             bulletTextHolder.SetActive(true);
             weightTextHolder.SetActive(true);
-            light2D.SetActive(true);
+           
+            if (_upgrades.biglight)
+            {
+                biglight2D.SetActive(true);
+                light2D.SetActive(false);
+            }
+            else
+            {
+                biglight2D.SetActive(false);
+                light2D.SetActive(true);
+            }
             
             _shadowCaster2D.castsShadows = false;
 
@@ -137,8 +162,17 @@ public class TopDownCharacterController : MonoBehaviour
         {
             moneyUIHolder.SetActive(false);
         }
-
-        UpdateMaxSpeed();
+        
+        if (!end)
+        {  
+         UpdateMaxSpeed();
+        }
+        else 
+        {
+          NoSpeed();
+          _animator.SetTrigger("End");
+        }
+        
 
         // read input from WASD keys
         playerDirection.x = Input.GetAxis("Horizontal");
@@ -186,10 +220,19 @@ public class TopDownCharacterController : MonoBehaviour
             }
         }
 
-        
-        if (Input.GetButtonDown("Fire1") && mStartingBullets > 0 && nofire ==false &&dead == false && SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false && SceneManager.GetSceneByName("Hotel Lobby").isLoaded == false && SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded == false)
+
+        if (!Input.GetButtonDown("Fire1") || mStartingBullets <= 0 || nofire  || dead ||
+            SceneManager.GetSceneByName("StartingHotelLobby").isLoaded  ||
+            SceneManager.GetSceneByName("Hotel Lobby").isLoaded  ||
+            SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded ) return;
+        if (_upgrades.projectileSize1)
         {
-            Fire();
+            FireSize1();
+        }
+
+        if (!_upgrades.projectileSize1)
+        {
+            Fire();  
         }
 
     }
@@ -207,14 +250,47 @@ public class TopDownCharacterController : MonoBehaviour
         {
             case false when paused == false  && hoverUI1.noFire == false && hoverUI2.noFire == false && hoverUI3.noFire == false && hoverUI4.noFire == false && hoverUI5.noFire == false && hoverUI6.noFire == false:
             {
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                var mousePos = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
                 mousePos.z = 0f;
 
                 Vector2 direction = mousePos - transform.position;
 
                 mStartingBullets = mStartingBullets - 1;
-                bulletText.text = "Bullets: " + mStartingBullets;
+                bulletText.text = "Projectiles: " + mStartingBullets;
+                fireAudioSource.Play();
                 var bulletToSpawn = Instantiate(mBulletPrefab, mFirePoint.position, Quaternion.identity);
+                if (_fireParticleCooldown == false) 
+                {
+                    StartCoroutine(PlayFireParticles());
+                }
+
+                if (bulletToSpawn.GetComponent<Rigidbody2D>() != null)
+                {
+                    bulletToSpawn.GetComponent<Rigidbody2D>().AddForce(direction.normalized * mProjectileSpeed, ForceMode2D.Impulse);
+                }
+
+                break;
+            }
+            case true:
+                // Nothing
+                break;
+        }
+    }
+    private void FireSize1()
+    {
+        switch (dead)
+        {
+            case false when paused == false  && hoverUI1.noFire == false && hoverUI2.noFire == false && hoverUI3.noFire == false && hoverUI4.noFire == false && hoverUI5.noFire == false && hoverUI6.noFire == false:
+            {
+                var mousePos = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
+                mousePos.z = 0f;
+
+                Vector2 direction = mousePos - transform.position;
+
+                mStartingBullets = mStartingBullets - 1;
+                bulletText.text = "Projectiles: " + mStartingBullets;
+                fireAudioSource.Play();
+                var bulletToSpawn = Instantiate(Size1BulletPrefab, mFirePoint.position, Quaternion.identity);
                 if (_fireParticleCooldown == false) 
                 {
                     StartCoroutine(PlayFireParticles());
@@ -327,4 +403,18 @@ public class TopDownCharacterController : MonoBehaviour
         playerMaxSpeed = playerMaxSpeed - _playerWeight.trueWeight;
         
     }
+    private void NoSpeed()
+    {
+            playerMaxSpeed = 0f;
+            
+            
+        }
+    private IEnumerator Begin(float time)
+    {
+        
+        yield return new WaitForSeconds(time);
+        _upgrades = FindObjectOfType<Upgrades>();
+        
+
+    }  
 }

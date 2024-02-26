@@ -22,8 +22,17 @@ public abstract class Loot : MonoBehaviour
 
        public  class Floor2Loot
         {
-            public const int Value = 15;
+            public const int Value = 30;
             public const int Weight = 2;
+            public GameObject Item;
+            public string Name;
+
+        }
+       
+        public  class Floor3Loot
+        {
+            public const int Value = 50;
+            public const int Weight = 3;
             public GameObject Item;
             public string Name;
 
