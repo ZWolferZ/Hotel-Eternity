@@ -35,7 +35,10 @@ public class DoorTrigger : MonoBehaviour
 
     private void Update()
     {
-        _topDownCharacterController.playerMaxSpeed = !_speed ? 0 : 190;
+        if (!_speed)
+        {
+            _topDownCharacterController.playerMaxSpeed = 0;
+        }
     }
 
 

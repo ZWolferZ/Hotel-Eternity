@@ -67,8 +67,9 @@ public class TopDownCharacterController : MonoBehaviour
     public GameObject moneyUIHolder;
     public TMPro.TextMeshProUGUI moneyLabel;
     private Upgrades _upgrades;
+    public bool End;
     [SerializeField] private AudioSource fireAudioSource;
-    public bool end;
+    
    public bool dead;
     /// <summary>
     /// When the script first initialises this gets called, use this for grabbing components
@@ -117,6 +118,15 @@ public class TopDownCharacterController : MonoBehaviour
 
     private void Update()
     {
+        switch (End)
+        {
+            case true:
+                NoSpeed();
+                break;
+            default:
+                UpdateMaxSpeed();
+                break;
+        }
         
         
         if(SceneManager.GetSceneByName("StartingHotelLobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded)
@@ -163,15 +173,6 @@ public class TopDownCharacterController : MonoBehaviour
             moneyUIHolder.SetActive(false);
         }
         
-        if (!end)
-        {  
-         UpdateMaxSpeed();
-        }
-        else 
-        {
-          NoSpeed();
-          _animator.SetTrigger("End");
-        }
         
 
         // read input from WASD keys
