@@ -1,6 +1,5 @@
 
 using System.Collections;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
