@@ -15,6 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Floor 1.unity
     guid: 8e8de9a4bcb464c41962ddb7606f2ed4
   - enabled: 1
+    path: Assets/Scenes/Floor 2.unity
+    guid: 3fd05cbd619e5427da2cb9749055b5fb
+  - enabled: 1
+    path: Assets/Scenes/Floor 3.unity
+    guid: dcd788656aa91408d90c3430431a45a3
+  - enabled: 1
     path: Assets/Scenes/Hotel Lobby.unity
     guid: ede5019b779af4340bffadc6fb46e47b
   - enabled: 1

@@ -41,13 +41,13 @@ public class UpgradeUI : MonoBehaviour
             upgradePopup.SetActive(false);
         }
 
-        lobbyLightsButton.color = _upgrades.money >= 30 ? Color.green : Color.red;
+        lobbyLightsButton.color = _upgrades.money >= 50 ? Color.green : Color.red;
         floor2Button.color = _upgrades.money >= 50 ? Color.green : Color.red;
-        floor3Button.color = _upgrades.money >= 100 ? Color.green : Color.red;
-        yourfloorButton.color = _upgrades.money >= 1000 ? Color.green : Color.red;
-        projectileSize1.color = _upgrades.money >= 70 ? Color.green : Color.red;
+        floor3Button.color = _upgrades.money >= 200 ? Color.green : Color.red;
+        yourfloorButton.color = _upgrades.money >= 700 ? Color.green : Color.red;
+        projectileSize1.color = _upgrades.money >= 150 ? Color.green : Color.red;
         projectileRefill.color = _upgrades.money >= 20 ? Color.green : Color.red;
-        playerlightupgradeButton.color = _upgrades.money >= 50 ? Color.green : Color.red;
+        playerlightupgradeButton.color = _upgrades.money >= 200 ? Color.green : Color.red;
         
         if (_upgrades.lobbyLights)
         {
@@ -95,9 +95,9 @@ public class UpgradeUI : MonoBehaviour
     
     public void LobbyLights()
     {
-        if (_upgrades.money >= 30 && !_upgrades.lobbyLights)
+        if (_upgrades.money >= 50 && !_upgrades.lobbyLights)
         {
-            _upgrades.money -= 30;
+            _upgrades.money -= 50;
             boughtAudioSource.Play();
             _upgrades.lobbyLights = true;
         }
@@ -136,9 +136,9 @@ public class UpgradeUI : MonoBehaviour
     }
     public void Floor3()
     {
-        if (_upgrades.money >= 100 && !_upgrades.floor3Unlocked)
+        if (_upgrades.money >= 200 && !_upgrades.floor3Unlocked)
         {
-            _upgrades.money -= 100;
+            _upgrades.money -= 200;
             boughtAudioSource.Play();
             _upgrades.floor3Unlocked = true;
         }
@@ -149,9 +149,9 @@ public class UpgradeUI : MonoBehaviour
     }
     public void YourFloor()
     {
-        if (_upgrades.money >= 1000 && !_upgrades.yourFloorUnlocked)
+        if (_upgrades.money >= 700 && !_upgrades.yourFloorUnlocked)
         {
-            _upgrades.money -= 1000;
+            _upgrades.money -= 700;
             boughtAudioSource.Play();
             _upgrades.yourFloorUnlocked = true;
         }
@@ -162,9 +162,9 @@ public class UpgradeUI : MonoBehaviour
     }
     public void Projectilesize1()
     {
-        if (_upgrades.money >= 70 && !_upgrades.projectileSize1)
+        if (_upgrades.money >= 150 && !_upgrades.projectileSize1)
         {
-            _upgrades.money -= 70;
+            _upgrades.money -= 150;
             boughtAudioSource.Play();
             _upgrades.projectileSize1 = true;
         }
@@ -175,9 +175,9 @@ public class UpgradeUI : MonoBehaviour
     }
     public void PlayerlightUpgrade()
     {
-        if (_upgrades.money >= 50 && !_upgrades.projectileSize1)
+        if (_upgrades.money >= 200 && !_upgrades.projectileSize1)
         {
-            _upgrades.money -= 50;
+            _upgrades.money -= 200;
             boughtAudioSource.Play();
             _upgrades.biglight = true;
         }
