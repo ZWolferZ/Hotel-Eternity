@@ -9,7 +9,7 @@ public class TopDownCharacterController : MonoBehaviour
 {
     #region Framework Stuff
     //Reference to attached animator
-    private Animator _animator;
+    public Animator _animator;
 
     //Reference to attached rigid body 2D
     private Rigidbody2D _rb;
@@ -129,7 +129,7 @@ public class TopDownCharacterController : MonoBehaviour
         }
         
         
-        if(SceneManager.GetSceneByName("StartingHotelLobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded)
+        if(SceneManager.GetSceneByName("StartingHotelLobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded || SceneManager.GetSceneByName("YourFloor").isLoaded)
         {
             healthBar.SetActive(false);
             bulletTextHolder.SetActive(false);
@@ -142,7 +142,7 @@ public class TopDownCharacterController : MonoBehaviour
             _shadowCaster2D.castsShadows = true;
         }
         
-        else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false || SceneManager.GetSceneByName("Hotel Lobby").isLoaded == false || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded == false)
+        else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false || SceneManager.GetSceneByName("Hotel Lobby").isLoaded == false || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded == false || SceneManager.GetSceneByName("YourFloor").isLoaded == false)
         {
             healthBar.SetActive(true);
             bulletTextHolder.SetActive(true);
@@ -225,12 +225,12 @@ public class TopDownCharacterController : MonoBehaviour
         if (!Input.GetButtonDown("Fire1") || mStartingBullets <= 0 || nofire  || dead ||
             SceneManager.GetSceneByName("StartingHotelLobby").isLoaded  ||
             SceneManager.GetSceneByName("Hotel Lobby").isLoaded  ||
-            SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded ) return;
+            SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded ||
+            SceneManager.GetSceneByName("YourFloor").isLoaded) return;
         if (_upgrades.projectileSize1)
         {
             FireSize1();
         }
-
         if (!_upgrades.projectileSize1)
         {
             Fire();  
