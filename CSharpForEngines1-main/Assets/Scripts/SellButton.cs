@@ -1,26 +1,28 @@
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 public class SellButton : MonoBehaviour
 {
+    // Initialising variables
     private InvManager _invManager;
     private Upgrades _upgrades;
     [SerializeField] private AudioSource sellSound;
     
-    // Start is called before the first frame update
+    // Gather scripts
     private void Start()
     {
         _invManager = FindObjectOfType<InvManager>();
         _upgrades = FindObjectOfType<Upgrades>();
     }
 
-    // Update is called once per frame
+   // On button click, play the sell noise
     public void Sell()
     {
 
         var items = _invManager.itemName;
         sellSound.Play();
 
+        // For each item in inventory, add money and discard the item
         foreach (var loot in items)
         {
             switch (loot)

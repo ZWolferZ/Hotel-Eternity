@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class InventoryUpdown : MonoBehaviour
 {
+    // Initialising variables
     private const float TransitionSpeed = 10f;
     private bool _isMoving;
     private RectTransform _rectTransform;
 
+    // Yoink component
     private void Awake()
     {
-        //Yoink
+        
         _rectTransform = GetComponent<RectTransform>();
     }
 
@@ -22,12 +24,14 @@ public class InventoryUpdown : MonoBehaviour
         // You could probably get away with just clamping the position when the player presses E instead of every frame, but im not smart enough to figure that out
         ClampPosition();
 
+        // If "E" is down move inventory upwards
         if (Input.GetKeyDown(KeyCode.E) && _isMoving == false)
         {
 
             StartCoroutine(MoveInventory(200));
 
         }
+        // If "E" is up move inventory downwards
         if (Input.GetKeyUp(KeyCode.E) && _isMoving == false)
         {
             StartCoroutine(MoveInventory(-200));
@@ -35,6 +39,7 @@ public class InventoryUpdown : MonoBehaviour
         
     }
 
+    // Spam protection (Kinda Works)
     private void ClampPosition()
     {
         Vector3 currentPosition = _rectTransform.anchoredPosition;
@@ -43,6 +48,7 @@ public class InventoryUpdown : MonoBehaviour
         _rectTransform.anchoredPosition = currentPosition;
     }
 
+    // Lerp inventory Up or downwards depending on the Y input
     private IEnumerator MoveInventory(float y)
     {
         _isMoving = true;

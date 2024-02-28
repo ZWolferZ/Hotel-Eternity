@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class LevelSwitch : MonoBehaviour
 {
-    
+    // Initialising variables
     public  GameObject liftUI;
     readonly bool _started = false;
     private TopDownCharacterController _player;
@@ -28,6 +28,7 @@ public class LevelSwitch : MonoBehaviour
     private LiftValid _liftValid;
     
 
+    // Find needed scripts on awake
     private void Awake()
     {
         _player = FindAnyObjectByType<TopDownCharacterController>();
@@ -35,6 +36,7 @@ public class LevelSwitch : MonoBehaviour
         _liftValid = FindObjectOfType<LiftValid>();
     }
 
+    // Set lift button colour depending if unlocked
     private void FixedUpdate()
     {
         floor2Button.color = _upgrades.floor2Unlocked ? Color.green : Color.red;
@@ -45,12 +47,14 @@ public class LevelSwitch : MonoBehaviour
 
         yourFloor.color = _upgrades.yourFloorUnlocked ? Color.green : Color.red;
 
+        // Bool logic
         if (_liftValid.steppedOut)
         {
             _player.returning = false;
         }
     }
 
+    // On trigger enter, switch on lift UI
     private void OnTriggerEnter2D(Collider2D other)
     {
         
@@ -62,6 +66,7 @@ public class LevelSwitch : MonoBehaviour
         }
     }
 
+    // On trigger exit, switch off lift UI
     private void OnTriggerExit2D(Collider2D other)
     {
 
@@ -73,6 +78,7 @@ public class LevelSwitch : MonoBehaviour
         }
     }
 
+    // On button press,Travel to floor one
     public void Floor1()
     {
         if (_started) return;
@@ -93,6 +99,8 @@ public class LevelSwitch : MonoBehaviour
         yield return new WaitForSeconds(time);
         SceneManager.LoadScene("Floor 1");
     }
+    
+    // On button press, Travel to your floor 
     public void YourFloorButton()
     {
         if (_started == false && _upgrades.yourFloorUnlocked)
@@ -118,6 +126,8 @@ public class LevelSwitch : MonoBehaviour
         yield return new WaitForSeconds(time);
         SceneManager.LoadScene("YourFloor");
     }
+    
+    // On button press, Travel to floor two
     public void Floor2()
     {
         if (_started == false && _upgrades.floor2Unlocked)
@@ -145,6 +155,7 @@ public class LevelSwitch : MonoBehaviour
         SceneManager.LoadScene("Floor 2");
     }
 
+    // On button press, Travel to floor three
     public void Floor3()
     {
         if (_started == false && _upgrades.floor3Unlocked)

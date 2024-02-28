@@ -27,7 +27,7 @@ public class TopDownCharacterController : MonoBehaviour
     #endregion
     
    
-
+// Initialising LOTS OF variables
     [FormerlySerializedAs("m_bulletPrefab")] [SerializeField]
     private GameObject mBulletPrefab;
     [FormerlySerializedAs("m_firePoint")] [SerializeField]
@@ -40,7 +40,6 @@ public class TopDownCharacterController : MonoBehaviour
     [FormerlySerializedAs("BulletText")] public TMPro.TextMeshProUGUI bulletText;
     private static SpriteRenderer _sprite;
     private PlayerWeight _playerWeight;
-    
     public GameObject pauseMenuUI;
     [FormerlySerializedAs("Paused")] public bool paused;
     public HoverUI hoverUI1;
@@ -56,7 +55,6 @@ public class TopDownCharacterController : MonoBehaviour
     [FormerlySerializedAs("HealthBar")] public GameObject healthBar;
     public GameObject bulletTextHolder;
     public GameObject weightTextHolder;
-   
     [FormerlySerializedAs("Health")] public Health health;
     [FormerlySerializedAs("GameOVER")] public GameObject gameOver;
     [FormerlySerializedAs("_light2D")] public GameObject light2D;
@@ -69,6 +67,7 @@ public class TopDownCharacterController : MonoBehaviour
     private Upgrades _upgrades;
     public bool End;
     [SerializeField] private AudioSource fireAudioSource;
+    [FormerlySerializedAs("Left")] public  bool left;
     
    public bool dead;
     /// <summary>
@@ -87,6 +86,7 @@ public class TopDownCharacterController : MonoBehaviour
 
     }
     
+    // // Initialising text
     private void Start()
     {
         bulletText.text = "Projectiles: " + mStartingBullets;
@@ -107,17 +107,17 @@ public class TopDownCharacterController : MonoBehaviour
             mStartingBullets = 5;
         }
     }
-
-    /// When the update loop is called, it runs every frame, ca run more or less frequently depending on performance. Used to catch changes in variables or input.
-    [FormerlySerializedAs("Left")] public  bool left;
-
+    
+    // ID-ing animator trigger names
     private static readonly int Dead = Animator.StringToHash("Dead");
     private static readonly int Horizontal = Animator.StringToHash("Horizontal");
     private static readonly int Vertical = Animator.StringToHash("Vertical");
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
 
+    /// When the update loop is called, it runs every frame, ca run more or less frequently depending on performance. Used to catch changes in variables or input.
     private void Update()
     {
+        // If bool, speed = true , speed = false
         switch (End)
         {
             case true:
@@ -129,6 +129,7 @@ public class TopDownCharacterController : MonoBehaviour
         }
         
         
+        // If in some scenes switch off some combat stuff, full heal the player
         if(SceneManager.GetSceneByName("StartingHotelLobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby").isLoaded || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded || SceneManager.GetSceneByName("YourFloor").isLoaded)
         {
             healthBar.SetActive(false);
@@ -142,6 +143,7 @@ public class TopDownCharacterController : MonoBehaviour
             _shadowCaster2D.castsShadows = true;
         }
         
+        // If in some scenes switch on some combat stuff, check light upgrade
         else if (SceneManager.GetSceneByName("StartingHotelLobby").isLoaded == false || SceneManager.GetSceneByName("Hotel Lobby").isLoaded == false || SceneManager.GetSceneByName("Hotel Lobby Death").isLoaded == false || SceneManager.GetSceneByName("YourFloor").isLoaded == false)
         {
             healthBar.SetActive(true);
@@ -179,6 +181,7 @@ public class TopDownCharacterController : MonoBehaviour
         playerDirection.x = Input.GetAxis("Horizontal");
         playerDirection.y = Input.GetAxis("Vertical");
         
+        // If health = 0, start death sequence
         if (health.health <= 0)
         {
             _animator.SetBool(Dead, true);
@@ -193,6 +196,7 @@ public class TopDownCharacterController : MonoBehaviour
             
         }
         
+        // If escape pressed, pause game, open pause menu
         if (Input.GetKeyDown(KeyCode.Escape) && dead == false)
         {
             TogglePauseMenu();
@@ -200,6 +204,7 @@ public class TopDownCharacterController : MonoBehaviour
 
         if (dead == false)
         {
+            // Flip sprite based on direction
             _sprite.flipX = playerDirection.x switch
             {
                 < -0.01f => true,
@@ -222,6 +227,7 @@ public class TopDownCharacterController : MonoBehaviour
         }
 
 
+        // Toggle fire on/off based on scene loaded
         if (!Input.GetButtonDown("Fire1") || mStartingBullets <= 0 || nofire  || dead ||
             SceneManager.GetSceneByName("StartingHotelLobby").isLoaded  ||
             SceneManager.GetSceneByName("Hotel Lobby").isLoaded  ||
@@ -237,6 +243,8 @@ public class TopDownCharacterController : MonoBehaviour
         }
 
     }
+    
+    // If hit by enemy, play hit sequence
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.gameObject.CompareTag("Enemy") || _particleCooldown) return;
@@ -245,6 +253,8 @@ public class TopDownCharacterController : MonoBehaviour
 
     }
 
+    
+    // Projectile fire sequence
     private void Fire()
     {
         switch (dead)
@@ -256,10 +266,15 @@ public class TopDownCharacterController : MonoBehaviour
 
                 Vector2 direction = mousePos - transform.position;
 
+                // Decrease Bullet counter
                 mStartingBullets = mStartingBullets - 1;
                 bulletText.text = "Projectiles: " + mStartingBullets;
+                
+                // Play sound
                 fireAudioSource.Play();
                 var bulletToSpawn = Instantiate(mBulletPrefab, mFirePoint.position, Quaternion.identity);
+                
+                // Play fire particles
                 if (_fireParticleCooldown == false) 
                 {
                     StartCoroutine(PlayFireParticles());
@@ -277,6 +292,8 @@ public class TopDownCharacterController : MonoBehaviour
                 break;
         }
     }
+    
+    // Projectile fire sequence (Bigger projectile)
     private void FireSize1()
     {
         switch (dead)
@@ -310,6 +327,7 @@ public class TopDownCharacterController : MonoBehaviour
         }
     }
 
+    // Toggle pause UI based on bool
     private void TogglePauseMenu()
     {
         switch (paused)

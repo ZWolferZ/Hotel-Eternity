@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class LiftOpen : MonoBehaviour
 { 
+    // Initialising variables
     private bool _liftopen;
   [SerializeField] private GameObject liftDoorOpen1; 
   [SerializeField] private GameObject liftDoorOpen2;
@@ -13,6 +14,7 @@ public class LiftOpen : MonoBehaviour
   [SerializeField] private string triggerName;
   [SerializeField] private Animator animator;
 
+  // Check bool, if true start lift open sequence
    private void FixedUpdate()
    {
        if (_liftopen) return;

@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 
 public class MenuManager : MonoBehaviour
 {
+    // Initialising variables
     public GameObject player;
     public GameObject canvas;
     [FormerlySerializedAs("Upgrades")] public GameObject upgrades;
@@ -12,6 +13,8 @@ public class MenuManager : MonoBehaviour
     public GameObject mMainMenu;
     private bool _settingsAndControlsOpen;
 
+    // These functions are pretty self-explanatory 
+    
     public void OpenSettingsAndControls()
     {
         if (_settingsAndControlsOpen == false)

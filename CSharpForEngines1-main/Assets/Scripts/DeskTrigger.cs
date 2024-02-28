@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 public class DeskTrigger : MonoBehaviour
 {
-    
+    // Initialising variables
     public Animator animator;
     public Animator hotelguyAnimator;
     private bool _once;
@@ -22,12 +22,14 @@ public class DeskTrigger : MonoBehaviour
     private static readonly int Appear = Animator.StringToHash("Appear");
     private static readonly int Idle = Animator.StringToHash("Idle");
 
+    // Finding level switch script
     private void Awake()
     {
         _levelSwitch = FindObjectOfType<LevelSwitch>();
     }
 
 
+    // On trigger enter, raise camera and switch bool on
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
@@ -35,6 +37,7 @@ public class DeskTrigger : MonoBehaviour
         _intrigger = true;
     }
 
+    // On trigger exit, lower camera and switch bool off
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
@@ -45,8 +48,7 @@ public class DeskTrigger : MonoBehaviour
 
     private void Update()
     {
-        
-
+        // Open lift doors if the conversion is over
         if (_endconvo)
         {
             _levelSwitch.liftOpening.Play();
@@ -57,6 +59,7 @@ public class DeskTrigger : MonoBehaviour
             _endconvo = false;
         }
         
+        // Dialogue triggers
         if (_once == false && _intrigger)
         {
             
@@ -73,14 +76,14 @@ public class DeskTrigger : MonoBehaviour
          
             
         }
-        if (_continue2)
-        {
-            hotelguyAnimator.SetTrigger(Idle);
-            StartCoroutine(WaitText());
-            _continue2 = false;
-        }
+
+        if (!_continue2) return;
+        hotelguyAnimator.SetTrigger(Idle);
+        StartCoroutine(WaitText());
+        _continue2 = false;
     }
     
+    // Dialogue Coroutines
     private IEnumerator WaitContinue1(float time)
     {
         
@@ -96,6 +99,7 @@ public class DeskTrigger : MonoBehaviour
 
     }  
     
+    // For each text in the array, play sound and display text
     private IEnumerator WaitText()
     {
         const float waittime = 4f;
@@ -111,10 +115,5 @@ public class DeskTrigger : MonoBehaviour
         
         dialougebox.SetActive(false);
         _endconvo = true;
-        
-
-
-
-
     }
 }

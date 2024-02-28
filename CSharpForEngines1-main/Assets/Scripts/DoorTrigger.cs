@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DoorTrigger : MonoBehaviour
 {
+    // Initialising variables
     public GameObject door;
     private TopDownCharacterController _topDownCharacterController;
     private Animator _animator;
@@ -12,9 +13,12 @@ public class DoorTrigger : MonoBehaviour
     
     private bool _speed = true;
     private bool _once;
+    
+    // ID-ing trigger names
     private static readonly int On = Animator.StringToHash("On");
 
 
+    // Find player controller and camera animator 
     private void Awake()
     {
         _topDownCharacterController = FindObjectOfType<TopDownCharacterController>();
@@ -22,6 +26,7 @@ public class DoorTrigger : MonoBehaviour
 
     }
 
+    // When player is in the trigger, Stop the player, move the camera down, shut the doors
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player") || _once) return;
@@ -33,6 +38,7 @@ public class DoorTrigger : MonoBehaviour
         StartCoroutine(Wait());
     }
 
+    // Set player speed to 0
     private void Update()
     {
         if (!_speed)
@@ -42,6 +48,7 @@ public class DoorTrigger : MonoBehaviour
     }
 
 
+    // Wait for four seconds and them set a bool to true
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(4f);

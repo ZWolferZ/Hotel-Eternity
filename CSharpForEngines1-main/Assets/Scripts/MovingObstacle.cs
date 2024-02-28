@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
+// Moving obstacle script (UNUSED)
+
 public class MovingObstacle : MonoBehaviour
 {
 

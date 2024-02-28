@@ -4,11 +4,13 @@ using UnityEngine.Serialization;
 
 public class TestLoot : MonoBehaviour
 {
+    // Initialising variables
     [FormerlySerializedAs("LootPrefabTest")] public GameObject lootPrefabTest; 
     public PlayerWeight playerWeight;
     public TopDownCharacterController topDownCharacterController;
     public InvManager invManager;
 
+    // Gather scripts
     private void Awake()
     {
         topDownCharacterController = FindAnyObjectByType<TopDownCharacterController>();
@@ -16,6 +18,7 @@ public class TestLoot : MonoBehaviour
         playerWeight = FindAnyObjectByType<PlayerWeight>();
     }
 
+    // On trigger, Add item to inventory
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && invManager.inventoryFull == false)

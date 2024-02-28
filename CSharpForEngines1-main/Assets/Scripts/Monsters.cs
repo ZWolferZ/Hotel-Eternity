@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class Monsters : MonoBehaviour
 {
     
-
+// Data holder
     public abstract class MonsterTypes
     {
         public class MonsterTest 

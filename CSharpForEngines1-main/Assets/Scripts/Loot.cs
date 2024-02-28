@@ -2,6 +2,9 @@ using UnityEngine;
 
 public abstract class Loot : MonoBehaviour
 {
+    
+    // Data holder 
+    
     public abstract class LootTypes
     {
         public class TestLoot

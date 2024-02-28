@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class InvManager : MonoBehaviour
 {
+    // Initialising variables
     public GameObject[] inventorySlots;
     public bool[] inventorySlotOpen;
     public string[] itemName;
@@ -27,6 +28,7 @@ public class InvManager : MonoBehaviour
             lootgetSource.Play();
             newItem.transform.localPosition = Vector3.zero;
 
+            // Check name and rename to work with the detail script ( I know there is a better way to do this )
             if (newItem.name == "Test Loot Sprite(Clone)")
             {
                 newItem.name = "TestLoot";
@@ -86,6 +88,8 @@ public class InvManager : MonoBehaviour
 
         }
     }
+    
+    // On button click, Discard the object and set all logic to make the inventory slot open
     public void DiscardInvSlot1()
     {
         var child = inventorySlots[0].transform.GetChild(1).gameObject;
@@ -97,6 +101,8 @@ public class InvManager : MonoBehaviour
 
         Destroy(child);
     }
+    
+    // On button click, Discard the object and set all logic to make the inventory slot open
     public void DiscardInvSlot2()
     {
         var child = inventorySlots[1].transform.GetChild(1).gameObject;
@@ -108,6 +114,8 @@ public class InvManager : MonoBehaviour
         itemName[1] = "Empty";
         Destroy(child);
     }
+    
+    // On button click, Discard the object and set all logic to make the inventory slot open
     public void DiscardInvSlot3()
     {
         var child = inventorySlots[2].transform.GetChild(1).gameObject;
@@ -119,6 +127,8 @@ public class InvManager : MonoBehaviour
         itemName[2] = "Empty";
         Destroy(child);
     }
+    
+    // On button click, Discard the object and set all logic to make the inventory slot open
     public void DiscardInvSlot4()
     {
         var child = inventorySlots[3].transform.GetChild(1).gameObject;
@@ -130,6 +140,8 @@ public class InvManager : MonoBehaviour
         itemName[3] = "Empty";
         Destroy(child);
     }
+    
+    // On button click, Discard the object and set all logic to make the inventory slot open
     public void DiscardInvSlot5()
     {
         var child = inventorySlots[4].transform.GetChild(1).gameObject;
@@ -141,6 +153,8 @@ public class InvManager : MonoBehaviour
         itemName[4] = "Empty";
         Destroy(child);
     }
+    
+    // On button click, Discard the object and set all logic to make the inventory slot open
     public void DiscardInvSlot6()
     {
         var child = inventorySlots[5].transform.GetChild(1).gameObject;
@@ -154,6 +168,7 @@ public class InvManager : MonoBehaviour
     }
     private void Update()
     {
+        // Check slots to see if they are open and set a bool for each one
         for (var j = 0; j < inventorySlots.Length; j++)
         {
             if (inventorySlots[j].transform.childCount == 0)
@@ -162,17 +177,19 @@ public class InvManager : MonoBehaviour
             }
         }
 
+        // Check if slots are closed to set bool
         if (inventorySlotOpen[0] == false && inventorySlotOpen[1] == false && inventorySlotOpen[2] == false && inventorySlotOpen[3] == false && inventorySlotOpen[4] == false && inventorySlotOpen[5] == false)
         {
             inventoryFull = true;
             invFullUI.SetActive(true);
         }
-        if (inventorySlotOpen[0] || inventorySlotOpen[1] || inventorySlotOpen[2] || inventorySlotOpen[3] || inventorySlotOpen[4] || inventorySlotOpen[5])
-        {
-            inventoryFull = false;
-            invFullUI.SetActive(false);
-        }
-        
+
+        // Check if slots are open to set bool
+        if (!inventorySlotOpen[0] && !inventorySlotOpen[1] && !inventorySlotOpen[2] && !inventorySlotOpen[3] &&
+            !inventorySlotOpen[4] && !inventorySlotOpen[5]) return;
+        inventoryFull = false;
+        invFullUI.SetActive(false);
+
     }
 
    

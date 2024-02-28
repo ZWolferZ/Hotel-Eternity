@@ -3,10 +3,12 @@ using UnityEngine.Serialization;
 
 public class PlayerWeight : MonoBehaviour
 {
+    // Initialising variables
     public int weight;
     public float trueWeight;
     [FormerlySerializedAs("CarryWeight")] public TMPro.TextMeshProUGUI carryWeight;
 
+    // Initialising text
     private void Start()
     {
         carryWeight.text = "Carry Weight: " + weight;
@@ -14,6 +16,7 @@ public class PlayerWeight : MonoBehaviour
 
     private void Update()
     {
+        // Switch expression for weight conversion
         trueWeight = weight switch
         {
             0 => 10,

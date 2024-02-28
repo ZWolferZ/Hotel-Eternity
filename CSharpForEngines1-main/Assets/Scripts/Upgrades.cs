@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Upgrades : MonoBehaviour
 {
+    // Holds all player upgrades
     public  bool floor2Unlocked;
     public  bool floor3Unlocked;
     public  bool floor1Unlocked = true;
@@ -17,11 +18,13 @@ public class Upgrades : MonoBehaviour
 
    
 
+    // Initialising text
     private void Start()
     {
         _player.moneyLabel.text = "Money: " + money;
     }
 
+    // Apply upgrades to the current version of the player
     private void FixedUpdate()
     {
         

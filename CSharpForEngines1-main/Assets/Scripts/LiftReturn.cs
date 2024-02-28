@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LiftReturn : MonoBehaviour
 {
+    // Initialising variables
     private LiftValid _liftValid;
     [SerializeField] private GameObject liftUI;
     [SerializeField] private GameObject liftDoorOpen1; 
@@ -17,17 +18,22 @@ public class LiftReturn : MonoBehaviour
     [SerializeField] private Animator animator;
     private TopDownCharacterController _player;
     
+    // Find Scripts
     private void Start()
     {
         _player = FindObjectOfType<TopDownCharacterController>();
         _liftValid = FindObjectOfType<LiftValid>();
     }
+    
+    // On Trigger enter, turn on lift UI
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player") || !_liftValid.steppedOut) return;
         _player.nofire = true;
         liftUI.SetActive(true);
     }
+    
+    // On Trigger exit, turn off lift UI
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player") || !_liftValid.steppedOut) return;
@@ -35,6 +41,7 @@ public class LiftReturn : MonoBehaviour
         liftUI.SetActive(false);
     }
     
+    // On button click, Return to lobby
     public void LobbyButton()
     {
             Destroy(liftUI);

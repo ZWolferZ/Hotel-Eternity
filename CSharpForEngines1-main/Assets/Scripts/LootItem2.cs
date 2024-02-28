@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class LootItem2 : MonoBehaviour
 {
+    // Initialising variables
     public GameObject lootPrefab; 
     private PlayerWeight playerWeight;
     private InvManager invManager;
     
 
+    // Start script gather
     private void Awake()
     {
         StartCoroutine(Begin(0.1f));
@@ -17,6 +19,7 @@ public class LootItem2 : MonoBehaviour
         
     }
 
+    // On trigger, if inventory is not full, add to weight counter , add to inventory, destroy item
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player") || invManager.inventoryFull)
@@ -40,6 +43,7 @@ public class LootItem2 : MonoBehaviour
         }
     }
     
+    // Gather scripts after time
     private IEnumerator Begin(float time)
     {
         

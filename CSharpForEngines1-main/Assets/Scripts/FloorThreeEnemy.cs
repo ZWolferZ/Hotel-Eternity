@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 public class FloorThreeEnemy : MonoBehaviour
 {
-    #region Varibles
+    #region Variables
 
     // List of variables needed (You probably don't need half of these)
     private Health _health;
