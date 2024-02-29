@@ -9,8 +9,7 @@ public class BradLoot : MonoBehaviour
     protected int Value;
     protected int Weight;
     protected GameObject Item;
-    [SerializeField]
-    protected string Name;
+    [SerializeField] protected string Name;
 
     protected BradLoot(int value, int weight)
     {
